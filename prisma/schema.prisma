@@ -12,6 +12,37 @@ generator dbml {
   provider = "prisma-dbml-generator"
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
+enum SliceState {
+  //未切图或切图失败
+  PENDING
+  //切图中
+  SLICING
+  //切图并保存成功
+  SUCCESS
+}
+
+enum ScenicSpotType {
+  SHOP
+  FOOD
+  TOILET
+  PARK
+  SERVICE_CENTER
+  SPOT
+  HOTEL
+}
+
+enum Language {
+  CHINESE
+  ENGLISH
+  JAPANESE
+  KOREAN
+}
+
 model User {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
@@ -20,22 +51,62 @@ model User {
   password  String
   firstname String?
   lastname  String?
-  posts     Post[]
   role      Role
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean
-  title     String
-  content   String?
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
+model ScenicRegion {
+  id                      String     @id @default(cuid())
+  createdAt               DateTime   @default(now())
+  updatedAt               DateTime   @updatedAt
+  name                    String
+  latitude                Float
+  longitude               Float
+  handDrawingUri          String
+  handDrawingNE           String
+  handDrawingSW           String
+  vrUrl                   String
+  ticketUrl               String
+  zoom                    Int
+  minZoom                 Int
+  maxZoom                 Int
+  title                   String
+  layer                   String
+  layersDisplayName       String
+  enableNavigation        Boolean
+  enablePoiLanguageSwitch Boolean
+  lang                    Language
+  sliceState              SliceState @default(PENDING)
+
+  ScenicSpot   ScenicSpot[]
+  TouringRoute TouringRoute[]
 }
 
-enum Role {
-  ADMIN
-  USER
+model ScenicSpot {
+  id             String       @id @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  scenicRegionId String
+  scenicRegion   ScenicRegion @relation(fields: [scenicRegionId], references: [id])
+
+  name         String
+  type         ScenicSpotType
+  audioUri     String
+  imageUri     String
+  introduction String
+  lang         Language
+  iconUri      String
+  hidden       Boolean
+}
+
+model TouringRoute {
+  id             String       @id @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  scenicRegionId String
+  scenicRegion   ScenicRegion @relation(fields: [scenicRegionId], references: [id])
+
+  name    String
+  content String
+  lang    Language
+  realNav Boolean
 }
