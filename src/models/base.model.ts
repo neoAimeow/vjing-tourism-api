@@ -1,4 +1,16 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Field, ObjectType, ID, registerEnumType } from '@nestjs/graphql';
+
+export enum Language {
+  CHINESE = 'CHINESE',
+  ENGLISH = 'ENGLISH',
+  JAPANESE = 'JAPANESE',
+  KOREAN = 'KOREAN',
+}
+
+registerEnumType(Language, {
+  name: 'Language',
+  description: 'Language',
+});
 
 @ObjectType({ isAbstract: true })
 export abstract class BaseModel {

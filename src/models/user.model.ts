@@ -1,11 +1,7 @@
-import {
-  Field,
-  ObjectType,
-  registerEnumType,
-  HideField,
-} from '@nestjs/graphql';
-import { Post } from './post.model';
+import { ObjectType, registerEnumType, HideField } from '@nestjs/graphql';
 import { BaseModel } from './base.model';
+import { ScenicSpot } from './scenic-spot.model';
+import { TouringRoute } from './touring-route.model';
 
 export enum Role {
   ADMIN = 'ADMIN',
@@ -20,10 +16,11 @@ registerEnumType(Role, {
 @ObjectType()
 export class User extends BaseModel {
   email: string;
-  firstname?: string;
-  lastname?: string;
+  name: string;
   role: Role;
-  posts: Post[];
+  scenicSpots: ScenicSpot[];
+  touringRoutes: TouringRoute[];
+
   @HideField()
   password: string;
 }
