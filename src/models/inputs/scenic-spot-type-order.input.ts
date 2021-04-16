@@ -3,6 +3,7 @@ import { Order } from '../../common/order/order';
 
 export enum ScenicSpotTypeOrderField {
     id = 'id',
+    rank = 'rank',
 }
 
 registerEnumType(ScenicSpotTypeOrderField, {

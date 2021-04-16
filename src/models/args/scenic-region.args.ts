@@ -2,7 +2,7 @@ import { Field, ArgsType } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
 @ArgsType()
-export class ScenicSpotArgs {
+export class ScenicRegionIdArgs {
     @IsNotEmpty()
-    scenicSpotId: string;
+    scenicRegionId: string;
 }
