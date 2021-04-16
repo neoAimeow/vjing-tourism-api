@@ -26,16 +26,6 @@ enum SliceState {
   SUCCESS
 }
 
-enum ScenicSpotType {
-  SHOP
-  FOOD
-  TOILET
-  PARK
-  SERVICE_CENTER
-  SPOT
-  HOTEL
-}
-
 enum Language {
   CHINESE
   ENGLISH
@@ -44,7 +34,7 @@ enum Language {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String   @unique
@@ -54,12 +44,11 @@ model User {
 }
 
 model ScenicRegion {
-  id                      String     @id @default(cuid())
-  createdAt               DateTime   @default(now())
-  updatedAt               DateTime   @updatedAt
+  id                      String           @id @default(uuid())
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
   name                    String
-  latitude                Float
-  longitude               Float
+  location                String
   handDrawingUri          String
   handDrawingNE           String
   handDrawingSW           String
@@ -73,39 +62,49 @@ model ScenicRegion {
   layersDisplayName       String
   enableNavigation        Boolean
   enablePoiLanguageSwitch Boolean
-  lang                    Language
-  sliceState              SliceState @default(PENDING)
+  lang                    Language         @default(CHINESE)
+  sliceState              SliceState       @default(PENDING)
+  scenicSpots             ScenicSpot[]
+  touringRoutes           TouringRoute[]
+  scenicSpotTypes         ScenicSpotType[]
+}
 
-  scenicSpots   ScenicSpot[]
-  touringRoutes TouringRoute[]
+model ScenicSpotType {
+  id             String        @id @default(uuid())
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  name           String
+  rank           Int
+  lang           Language
+  ScenicRegion   ScenicRegion? @relation(fields: [scenicRegionId], references: [id])
+  scenicRegionId String?
+  ScenicSpot     ScenicSpot[]
 }
 
 model ScenicSpot {
-  id             String       @id @default(cuid())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  scenicRegionId String
-  scenicRegion   ScenicRegion @relation(fields: [scenicRegionId], references: [id])
-
-  name         String
-  type         ScenicSpotType
-  audioUri     String
-  imageUri     String
-  introduction String
-  lang         Language
-  iconUri      String
-  hidden       Boolean
+  id               String         @id @default(uuid())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  scenicRegionId   String
+  scenicRegion     ScenicRegion   @relation(fields: [scenicRegionId], references: [id])
+  name             String
+  scenicSpotTypeId String
+  scenicSpotType   ScenicSpotType @relation(fields: [scenicSpotTypeId], references: [id])
+  introduction     String
+  iconUri          String
+  audioUri         String
+  imageUri         String
+  lang             Language       @default(CHINESE)
+  hidden           Boolean
 }
 
 model TouringRoute {
-  id             String       @id @default(cuid())
+  id             String       @id @default(uuid())
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   scenicRegionId String
   scenicRegion   ScenicRegion @relation(fields: [scenicRegionId], references: [id])
-
-  name    String
-  content String
-  lang    Language
-  realNav Boolean
+  title          String
+  content        String
+  lang           Language     @default(CHINESE)
 }

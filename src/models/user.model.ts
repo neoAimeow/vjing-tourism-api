@@ -18,8 +18,6 @@ export class User extends BaseModel {
   email: string;
   name: string;
   role: Role;
-  scenicSpots: ScenicSpot[];
-  touringRoutes: TouringRoute[];
 
   @HideField()
   password: string;

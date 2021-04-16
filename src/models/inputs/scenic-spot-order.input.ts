@@ -1,21 +1,18 @@
 import { InputType, registerEnumType } from '@nestjs/graphql';
 import { Order } from '../../common/order/order';
 
-export enum PostOrderField {
+export enum ScenicSpotOrderField {
   id = 'id',
   createdAt = 'createdAt',
   updatedAt = 'updatedAt',
-  published = 'published',
-  title = 'title',
-  content = 'content',
 }
 
-registerEnumType(PostOrderField, {
-  name: 'PostOrderField',
+registerEnumType(ScenicSpotOrderField, {
+  name: 'ScenicSpotOrderField',
   description: 'Properties by which post connections can be ordered.',
 });
 
 @InputType()
-export class PostOrder extends Order {
-  field: PostOrderField;
+export class ScenicSpotOrder extends Order {
+  field: ScenicSpotOrderField;
 }
