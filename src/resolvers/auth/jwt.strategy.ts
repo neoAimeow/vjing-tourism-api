@@ -8,21 +8,21 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private readonly authService: AuthService,
-    readonly configService: ConfigService
-  ) {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get('JWT_SECRET'),
-    });
-  }
-
-  async validate(payload: JwtDto): Promise<User> {
-    const user = await this.authService.validateUser(payload.userId);
-    if (!user) {
-      throw new UnauthorizedException();
+    constructor(
+        private readonly authService: AuthService,
+        readonly configService: ConfigService
+    ) {
+        super({
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: configService.get('JWT_SECRET'),
+        });
     }
-    return user;
-  }
+
+    async validate(payload: JwtDto): Promise<User> {
+        const user = await this.authService.validateUser(payload.userId);
+        if (!user) {
+            throw new UnauthorizedException();
+        }
+        return user;
+    }
 }

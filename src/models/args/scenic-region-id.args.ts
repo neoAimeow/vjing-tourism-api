@@ -3,6 +3,6 @@ import { IsNotEmpty } from 'class-validator';
 
 @ArgsType()
 export class ScenicRegionArgs {
-  @IsNotEmpty()
-  scenicRegionId: string;
+    @IsNotEmpty()
+    scenicRegionId: string;
 }

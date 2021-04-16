@@ -5,9 +5,9 @@ import { BaseModel, Language } from './base.model';
 
 @ObjectType()
 export class ScenicSpotType extends BaseModel {
-  scenicRegionId: string;
-  scenicRegion: ScenicRegion;
-  name: string;
-  rank: number;
-  lang: Language;
+    scenicRegionId: string;
+    scenicRegion: ScenicRegion;
+    name: string;
+    rank: number;
+    lang: Language;
 }

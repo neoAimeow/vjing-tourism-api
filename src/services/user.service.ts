@@ -6,43 +6,43 @@ import { UpdateUserInput } from '../resolvers/user/dto/update-user.input';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private prisma: PrismaService,
-    private passwordService: PasswordService
-  ) {}
+    constructor(
+        private prisma: PrismaService,
+        private passwordService: PasswordService
+    ) {}
 
-  updateUser(userId: string, newUserData: UpdateUserInput) {
-    return this.prisma.user.update({
-      data: newUserData,
-      where: {
-        id: userId,
-      },
-    });
-  }
-
-  async changePassword(
-    userId: string,
-    userPassword: string,
-    changePassword: ChangePasswordInput
-  ) {
-    const passwordValid = await this.passwordService.validatePassword(
-      changePassword.oldPassword,
-      userPassword
-    );
-
-    if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
+    updateUser(userId: string, newUserData: UpdateUserInput) {
+        return this.prisma.user.update({
+            data: newUserData,
+            where: {
+                id: userId,
+            },
+        });
     }
 
-    const hashedPassword = await this.passwordService.hashPassword(
-      changePassword.newPassword
-    );
+    async changePassword(
+        userId: string,
+        userPassword: string,
+        changePassword: ChangePasswordInput
+    ) {
+        const passwordValid = await this.passwordService.validatePassword(
+            changePassword.oldPassword,
+            userPassword
+        );
 
-    return this.prisma.user.update({
-      data: {
-        password: hashedPassword,
-      },
-      where: { id: userId },
-    });
-  }
+        if (!passwordValid) {
+            throw new BadRequestException('Invalid password');
+        }
+
+        const hashedPassword = await this.passwordService.hashPassword(
+            changePassword.newPassword
+        );
+
+        return this.prisma.user.update({
+            data: {
+                password: hashedPassword,
+            },
+            where: { id: userId },
+        });
+    }
 }

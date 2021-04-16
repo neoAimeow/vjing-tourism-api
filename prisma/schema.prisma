@@ -47,26 +47,32 @@ model ScenicRegion {
   id                      String           @id @default(uuid())
   createdAt               DateTime         @default(now())
   updatedAt               DateTime         @updatedAt
-  name                    String
   location                String
-  handDrawingUri          String
-  handDrawingNE           String
-  handDrawingSW           String
-  vrUrl                   String
-  ticketUrl               String
   zoom                    Int
   minZoom                 Int
   maxZoom                 Int
-  title                   String
-  layer                   String
-  layersDisplayName       String
   enableNavigation        Boolean
   enablePoiLanguageSwitch Boolean
-  lang                    Language         @default(CHINESE)
   sliceState              SliceState       @default(PENDING)
   scenicSpots             ScenicSpot[]
   touringRoutes           TouringRoute[]
   scenicSpotTypes         ScenicSpotType[]
+}
+
+model ScenicRegionInfo {
+  id                String   @id @default(uuid())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  name              String
+  title             String
+  layer             String
+  layersDisplayName String
+  vrUrl             String
+  ticketUrl         String
+  handDrawingUri    String
+  handDrawingNE     String
+  handDrawingSW     String
+  lang              Language @default(CHINESE)
 }
 
 model ScenicSpotType {
@@ -75,10 +81,11 @@ model ScenicSpotType {
   updatedAt      DateTime      @updatedAt
   name           String
   rank           Int
-  lang           Language
   ScenicRegion   ScenicRegion? @relation(fields: [scenicRegionId], references: [id])
   scenicRegionId String?
   ScenicSpot     ScenicSpot[]
+  lang           Language
+
 }
 
 model ScenicSpot {
@@ -94,8 +101,8 @@ model ScenicSpot {
   iconUri          String
   audioUri         String
   imageUri         String
-  lang             Language       @default(CHINESE)
   hidden           Boolean
+  lang             Language       @default(CHINESE)
 }
 
 model TouringRoute {

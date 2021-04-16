@@ -3,6 +3,6 @@ import { OrderDirection } from './order-direction';
 
 @InputType({ isAbstract: true })
 export abstract class Order {
-  @Field((type) => OrderDirection)
-  direction: OrderDirection;
+    @Field((type) => OrderDirection)
+    direction: OrderDirection;
 }
