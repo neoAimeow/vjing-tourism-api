@@ -28,7 +28,7 @@ export class ScenicRegion extends BaseModel {
     @Field()
     enablePoiLanguageSwitch: boolean;
     @Field()
-    SliceState: SliceState;
+    sliceState: SliceState;
     @Field()
     name: string;
     @Field({ nullable: true })
@@ -57,7 +57,7 @@ export class ScenicRegionBase extends BaseModel {
     maxZoom: number;
     enableNavigation: boolean;
     enablePoiLanguageSwitch: boolean;
-    SliceState: SliceState;
+    sliceState: SliceState;
     scenicRegions: ScenicRegionInfo[];
 }
 
@@ -73,6 +73,6 @@ export class ScenicRegionInfo extends BaseModel {
     ticketUrl: string;
     title: string;
     layer: string;
-    layerDisplayName: string;
+    layersDisplayName: string;
     lang: Language;
 }
