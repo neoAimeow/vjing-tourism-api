@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ObjectType, ID, registerEnumType } from '@nestjs/graphql';
 
 export enum Language {

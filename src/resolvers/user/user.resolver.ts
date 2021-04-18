@@ -1,4 +1,5 @@
-import { PrismaService } from './../../services/prisma.service';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { PrismaService } from './../../services/common/prisma.service';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
 import {
     Resolver,
@@ -50,10 +51,10 @@ export class UserResolver {
         );
     }
 
-    @ResolveField('posts')
-    posts(@Parent() author: User) {
-        return this.prisma.user
-            .findUnique({ where: { id: author.id } })
-            .posts();
-    }
+    // @ResolveField('posts')
+    // posts(@Parent() author: User) {
+    //     return this.prisma.user
+    //         .findUnique({ where: { id: author.id } })
+    //         .posts();
+    // }
 }

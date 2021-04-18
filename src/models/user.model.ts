@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ObjectType, registerEnumType, HideField } from '@nestjs/graphql';
 import { BaseModel } from './base.model';
 import { ScenicSpot } from './scenic-spot.model';

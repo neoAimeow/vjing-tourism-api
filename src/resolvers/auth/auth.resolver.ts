@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Auth } from '../../models/auth.model';
 import { Token } from '../../models/token.model';
 import { LoginInput } from './dto/login.input';
@@ -8,7 +9,7 @@ import {
     Parent,
     ResolveField,
 } from '@nestjs/graphql';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/admin/auth.service';
 import { SignupInput } from './dto/signup.input';
 
 @Resolver((of) => Auth)

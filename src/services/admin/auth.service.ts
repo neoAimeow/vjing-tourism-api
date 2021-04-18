@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     Injectable,
     NotFoundException,
@@ -7,10 +8,10 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from './password.service';
-import { SignupInput } from '../resolvers/auth/dto/signup.input';
-import { PrismaService } from './prisma.service';
+import { SignupInput } from '../../resolvers/auth/dto/signup.input';
+import { PrismaService } from '../common/prisma.service';
 import { Prisma, User } from '@prisma/client';
-import { Token } from '../models/token.model';
+import { Token } from '../../models/token.model';
 import { ConfigService } from '@nestjs/config';
 import { SecurityConfig } from 'src/configs/config.interface';
 
@@ -31,7 +32,8 @@ export class AuthService {
         try {
             const user = await this.prisma.user.create({
                 data: {
-                    ...payload,
+                    name: payload.name,
+                    email: payload.email,
                     password: hashedPassword,
                     role: 'USER',
                 },
