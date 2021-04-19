@@ -16,6 +16,7 @@ export class TouringRoute extends BaseModel {
 export class TouringRouteBase extends BaseModel {
     scenicRegionId: string;
     scenicRegion: ScenicRegion;
+    touringRouteInfos: TouringRouteInfo[];
 }
 
 @ObjectType()

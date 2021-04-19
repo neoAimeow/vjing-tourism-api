@@ -27,6 +27,7 @@ export class ScenicSpotBase extends BaseModel {
     scenicSpotTypeId: string;
     scenicSpotType: ScenicSpotType;
     hidden: boolean;
+    scenicSpotInfos: ScenicSpotInfo[];
 }
 @ObjectType()
 export class ScenicSpotInfo extends BaseModel {
