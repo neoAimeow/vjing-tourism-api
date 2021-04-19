@@ -7,6 +7,7 @@ export class UpdateScenicSpotTypeInput {
     rank?: number;
     @Field({ nullable: true })
     name?: string;
+    @Field()
     @IsNotEmpty()
     lang: Language;
 }
