@@ -26,7 +26,7 @@ Table ScenicRegion {
   scenicSpots ScenicSpot [not null]
   touringRoutes TouringRoute [not null]
   scenicSpotTypes ScenicSpotType [not null]
-  ScenicRegionInfo ScenicRegionInfo [not null]
+  scenicRegionInfos ScenicRegionInfo [not null]
 }
 
 Table ScenicRegionInfo {

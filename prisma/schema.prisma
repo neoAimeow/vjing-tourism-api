@@ -57,7 +57,7 @@ model ScenicRegion {
   scenicSpots             ScenicSpot[]
   touringRoutes           TouringRoute[]
   scenicSpotTypes         ScenicSpotType[]
-  ScenicRegionInfo        ScenicRegionInfo[]
+  scenicRegionInfos       ScenicRegionInfo[]
 }
 
 model ScenicRegionInfo {

@@ -3,9 +3,9 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { BaseModel, Language } from './base.model';
 
 export enum SliceState {
-    PENDING = 0,
-    SLICING = 1,
-    SUCCESS = 2,
+    PENDING = 'PENDING',
+    SLICING = 'SLICING',
+    SUCCESS = 'SUCCESS',
 }
 
 registerEnumType(SliceState, {
@@ -58,7 +58,7 @@ export class ScenicRegionBase extends BaseModel {
     enableNavigation: boolean;
     enablePoiLanguageSwitch: boolean;
     sliceState: SliceState;
-    scenicRegions: ScenicRegionInfo[];
+    scenicRegionInfos: ScenicRegionInfo[];
 }
 
 @ObjectType()
