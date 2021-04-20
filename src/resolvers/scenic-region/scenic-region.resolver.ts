@@ -1,7 +1,8 @@
+import { ScenicRegionInfo } from './../../models/scenic-region.model';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
-import { CreateScenicRegionInput } from './dto/update-scenic-region.input';
+import { CreateScenicRegionInput } from './dto/create-scenic-region.input';
 import { ScenicRegionService } from './../../services/biz/scenic-region.service';
 import { ScenicRegion } from './../../models/scenic-region.model';
 import { PrismaService } from '../../services/common/prisma.service';
@@ -24,9 +25,15 @@ export class ScenicRegionResolver {
     ) {}
     @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicRegion)
-    async createScenicRegionService(
+    async createScenicRegion(@Args('data') data: CreateScenicRegionInput) {
+        return await this.scenicRegionService.createScenicRegion(data);
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => ScenicRegionInfo)
+    async createScenicRegionInfoWithLang(
         @Args('data') data: CreateScenicRegionInput
     ) {
-        return await this.scenicRegionService.createScenicRegion(data);
+        return await this.scenicRegionService.createScenicRegionWithLang(data);
     }
 }

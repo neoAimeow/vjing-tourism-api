@@ -3,8 +3,7 @@ import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 @InputType()
 export class CreateScenicSpotInput {
-    @Field()
-    @IsNotEmpty()
+    @Field({ nullable: true })
     scenicRegionId: string;
     @Field({ nullable: true })
     scenicSpotTypeId?: string;

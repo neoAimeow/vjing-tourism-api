@@ -6,25 +6,26 @@ import { PrismaService } from '../common/prisma.service';
 export class ScenicSpotService {
     constructor(private prisma: PrismaService) {}
 
-    async createScenicSpot(createScenicSpotInput: CreateScenicSpotInput) {
+    async createScenicSpot(input: CreateScenicSpotInput) {
         return this.prisma.scenicSpot.create({
             data: {
-                scenicRegionId: createScenicSpotInput.scenicRegionId,
-                scenicSpotTypeId: createScenicSpotInput.scenicSpotTypeId,
-                hidden: createScenicSpotInput.hidden,
+                scenicRegionId: input.scenicRegionId,
+                scenicSpotTypeId: input.scenicSpotTypeId,
+                hidden: input.hidden,
                 scenicSpotInfos: {
                     create: [
                         {
-                            name: createScenicSpotInput.name,
-                            introduction: createScenicSpotInput.introduction,
-                            iconUri: createScenicSpotInput.iconUri,
-                            audioUri: createScenicSpotInput.audioUri,
-                            imageUri: createScenicSpotInput.imageUri,
-                            lang: createScenicSpotInput.lang,
+                            name: input.name,
+                            introduction: input.introduction,
+                            iconUri: input.iconUri,
+                            audioUri: input.audioUri,
+                            imageUri: input.imageUri,
+                            lang: input.lang,
                         },
                     ],
                 },
             },
         });
     }
+    async createScenicSpotWithLang(input: CreateScenicSpotInput) {}
 }

@@ -7,34 +7,29 @@ export class ScenicRegionService {
     constructor(private prisma: PrismaService) {}
 
     //还没有景区时，创建第一个景区
-    async createScenicRegion(createScenicRegionInput: CreateScenicRegionInput) {
+    async createScenicRegion(input: CreateScenicRegionInput) {
         return this.prisma.scenicRegion.create({
             data: {
-                location: createScenicRegionInput.location,
-                zoom: createScenicRegionInput.zoom,
-                minZoom: createScenicRegionInput.minZoom,
-                maxZoom: createScenicRegionInput.maxZoom,
-                enableNavigation: createScenicRegionInput.enableNavigation,
-                enablePoiLanguageSwitch:
-                    createScenicRegionInput.enablePoiLanguageSwitch,
-                sliceState: createScenicRegionInput.sliceState,
+                location: input.location,
+                zoom: input.zoom,
+                minZoom: input.minZoom,
+                maxZoom: input.maxZoom,
+                enableNavigation: input.enableNavigation,
+                enablePoiLanguageSwitch: input.enablePoiLanguageSwitch,
+                sliceState: input.sliceState,
                 scenicRegionInfos: {
                     create: [
                         {
-                            name: createScenicRegionInput.name,
-                            handDrawingUri:
-                                createScenicRegionInput.handDrawingUri,
-                            handDrawingNE:
-                                createScenicRegionInput.handDrawingNE,
-                            handDrawingSW:
-                                createScenicRegionInput.handDrawingSW,
-                            vrUrl: createScenicRegionInput.vrUrl,
-                            ticketUrl: createScenicRegionInput.ticketUrl,
-                            title: createScenicRegionInput.title,
-                            layer: createScenicRegionInput.layer,
-                            layersDisplayName:
-                                createScenicRegionInput.layerDisplayName,
-                            lang: createScenicRegionInput.lang,
+                            name: input.name,
+                            handDrawingUri: input.handDrawingUri,
+                            handDrawingNE: input.handDrawingNE,
+                            handDrawingSW: input.handDrawingSW,
+                            vrUrl: input.vrUrl,
+                            ticketUrl: input.ticketUrl,
+                            title: input.title,
+                            layer: input.layer,
+                            layersDisplayName: input.layerDisplayName,
+                            lang: input.lang,
                         },
                     ],
                 },
@@ -43,17 +38,15 @@ export class ScenicRegionService {
     }
 
     //还没有景区时，创建第一个景区
-    async createScenicRegionWithLang(
-        createScenicRegionInput: CreateScenicRegionInput
-    ) {
-        if (!createScenicRegionInput.scenicRegionId) {
+    async createScenicRegionWithLang(input: CreateScenicRegionInput) {
+        if (!input.scenicRegionId) {
             throw new BadRequestException('scenicRegionId can not be null');
         }
         //先查询该语种的数据是否存在。
         const result = this.prisma.scenicRegionInfo.findFirst({
             where: {
-                scenicRegionId: createScenicRegionInput.scenicRegionId,
-                lang: createScenicRegionInput.lang,
+                scenicRegionId: input.scenicRegionId,
+                lang: input.lang,
             },
         });
 
@@ -64,17 +57,17 @@ export class ScenicRegionService {
         //如果该语种不存在就创建国际化数据。
         return this.prisma.scenicRegionInfo.create({
             data: {
-                scenicRegionId: createScenicRegionInput.scenicRegionId,
-                name: createScenicRegionInput.name,
-                handDrawingUri: createScenicRegionInput.handDrawingUri,
-                handDrawingNE: createScenicRegionInput.handDrawingNE,
-                handDrawingSW: createScenicRegionInput.handDrawingSW,
-                vrUrl: createScenicRegionInput.vrUrl,
-                ticketUrl: createScenicRegionInput.ticketUrl,
-                title: createScenicRegionInput.title,
-                layer: createScenicRegionInput.layer,
-                layersDisplayName: createScenicRegionInput.layerDisplayName,
-                lang: createScenicRegionInput.lang,
+                scenicRegionId: input.scenicRegionId,
+                name: input.name,
+                handDrawingUri: input.handDrawingUri,
+                handDrawingNE: input.handDrawingNE,
+                handDrawingSW: input.handDrawingSW,
+                vrUrl: input.vrUrl,
+                ticketUrl: input.ticketUrl,
+                title: input.title,
+                layer: input.layer,
+                layersDisplayName: input.layerDisplayName,
+                lang: input.lang,
             },
         });
     }
