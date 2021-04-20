@@ -46,8 +46,20 @@ export class ScenicRegionService {
     async createScenicRegionWithLang(
         createScenicRegionInput: CreateScenicRegionInput
     ) {
-        //先查询该语种是否存在。
-        // const data = this.prisma.scenicRegion.findUnique
+        if (!createScenicRegionInput.scenicRegionId) {
+            throw new BadRequestException('scenicRegionId can not be null');
+        }
+        //先查询该语种的数据是否存在。
+        const result = this.prisma.scenicRegionInfo.findFirst({
+            where: {
+                scenicRegionId: createScenicRegionInput.scenicRegionId,
+                lang: createScenicRegionInput.lang,
+            },
+        });
+
+        if (result) {
+            throw new BadRequestException('lang data already exist');
+        }
 
         //如果该语种不存在就创建国际化数据。
         return this.prisma.scenicRegionInfo.create({

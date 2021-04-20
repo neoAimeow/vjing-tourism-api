@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ScenicSpotType } from './../../models/scenic-spot-type.model';
 import { PrismaService } from '../../services/common/prisma.service';
 import { PaginationArgs } from '../../common/pagination/pagination.args';
