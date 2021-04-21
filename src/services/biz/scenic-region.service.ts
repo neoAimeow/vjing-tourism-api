@@ -1,4 +1,7 @@
-import { CreateScenicRegionInput } from './../../resolvers/scenic-region/dto/create-scenic-region.input';
+import {
+    CreateScenicRegionInput,
+    CreateScenicRegionInfoInput,
+} from './../../resolvers/scenic-region/dto/create-scenic-region.input';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
 
@@ -38,10 +41,7 @@ export class ScenicRegionService {
     }
 
     //还没有景区时，创建第一个景区
-    async createScenicRegionWithLang(input: CreateScenicRegionInput) {
-        if (!input.scenicRegionId) {
-            throw new BadRequestException('scenicRegionId can not be null');
-        }
+    async createScenicRegionWithLang(input: CreateScenicRegionInfoInput) {
         //先查询该语种的数据是否存在。
         const result = this.prisma.scenicRegionInfo.findFirst({
             where: {

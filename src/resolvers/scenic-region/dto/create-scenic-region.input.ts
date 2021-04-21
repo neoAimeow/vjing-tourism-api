@@ -4,8 +4,6 @@ import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 @InputType()
 export class CreateScenicRegionInput {
-    @Field({ nullable: true })
-    scenicRegionId?: string;
     @Field()
     @IsNotEmpty()
     name: string;
@@ -23,6 +21,35 @@ export class CreateScenicRegionInput {
     enablePoiLanguageSwitch?: boolean;
     @Field({ nullable: true })
     sliceState?: SliceState;
+    @Field({ nullable: true })
+    handDrawingUri?: string;
+    @Field({ nullable: true })
+    handDrawingNE?: string;
+    @Field({ nullable: true })
+    handDrawingSW?: string;
+    @Field({ nullable: true })
+    vrUrl?: string;
+    @Field({ nullable: true })
+    ticketUrl?: string;
+    @Field({ nullable: true })
+    title?: string;
+    @Field({ nullable: true })
+    layer?: string;
+    @Field({ nullable: true })
+    layerDisplayName?: string;
+    @Field()
+    @IsNotEmpty()
+    lang: Language;
+}
+
+@InputType()
+export class CreateScenicRegionInfoInput {
+    @Field()
+    @IsNotEmpty()
+    scenicRegionId?: string;
+    @Field()
+    @IsNotEmpty()
+    name: string;
     @Field({ nullable: true })
     handDrawingUri?: string;
     @Field({ nullable: true })
