@@ -14,14 +14,15 @@ registerEnumType(SliceState, {
 });
 
 //由ScenicRegionBase和ScenicRegionInfo
+@ObjectType()
 export class ScenicRegion extends BaseModel {
     @Field({ description: '景点的位置坐标，json字符串' })
     location: string;
-    @Field({ description: '景点初始缩放倍数' })
+    @Field({ description: '景点缩放' })
     zoom: number;
-    @Field({ description: '景点最小缩放倍数' })
+    @Field({ description: '最小缩放倍数' })
     minZoom: number;
-    @Field({ description: '景点最大缩放倍数' })
+    @Field({ description: '最大缩放倍数' })
     maxZoom: number;
     @Field()
     enableNavigation: boolean;
@@ -47,6 +48,7 @@ export class ScenicRegion extends BaseModel {
     layer: string;
     @Field({ nullable: true })
     layerDisplayName: string;
+    @Field()
     lang: Language;
 }
 @ObjectType()

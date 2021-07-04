@@ -1,3 +1,4 @@
+import { ScenicRegionModule } from './resolvers/scenic-region/scenic-region.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
@@ -35,6 +36,7 @@ import { GraphqlConfig } from './configs/config.interface';
         }),
         AuthModule,
         UserModule,
+        ScenicRegionModule,
     ],
     controllers: [AppController],
     providers: [AppService, AppResolver, DateScalar],
