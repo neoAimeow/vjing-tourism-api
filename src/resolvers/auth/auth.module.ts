@@ -1,7 +1,7 @@
-import { PrismaService } from './../../services/prisma.service';
-import { PasswordService } from './../../services/password.service';
+import { PrismaService } from 'src/services/common/prisma.service';
+import { PasswordService } from 'src/services/admin/password.service';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from 'src/services/admin/auth.service';
 import { AuthResolver } from './auth.resolver';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';

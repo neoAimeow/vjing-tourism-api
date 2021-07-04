@@ -1,8 +1,8 @@
+import { AuthService } from './../../services/admin/auth.service';
 import { JwtDto } from './dto/jwt.dto';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '../../services/auth.service';
 import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 
