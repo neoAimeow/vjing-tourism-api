@@ -3,182 +3,352 @@
 # ------------------------------------------------------
 
 type Auth {
-  """JWT access token"""
-  accessToken: String!
+    """
+    JWT access token
+    """
+    accessToken: String!
 
-  """JWT refresh token"""
-  refreshToken: String!
-  user: User!
+    """
+    JWT refresh token
+    """
+    refreshToken: String!
+    user: User!
 }
 
 input ChangePasswordInput {
-  newPassword: String!
-  oldPassword: String!
+    newPassword: String!
+    oldPassword: String!
 }
 
 input CreateScenicRegionInput {
-  enableNavigation: Boolean
-  enablePoiLanguageSwitch: Boolean
-  handDrawingNE: String
-  handDrawingSW: String
-  handDrawingUri: String
-  lang: String!
-  layer: String
-  layerDisplayName: String
-  location: String
-  maxZoom: Int
-  minZoom: Int
-  name: String!
-  sliceState: String
-  ticketUrl: String
-  title: String
-  vrUrl: String
-  zoom: Int
+    enableNavigation: Boolean
+    enablePoiLanguageSwitch: Boolean
+    handDrawingNE: String
+    handDrawingSW: String
+    handDrawingUri: String
+    lang: String!
+    layer: String
+    layerDisplayName: String
+    location: String
+    maxZoom: Int
+    minZoom: Int
+    name: String!
+    sliceState: String
+    ticketUrl: String
+    title: String
+    vrUrl: String
+    zoom: Int
 }
 
-"""Date custom scalar type"""
+"""
+Date custom scalar type
+"""
 scalar Date
 
-"""Language"""
+"""
+Language
+"""
 enum Language {
-  CHINESE
-  ENGLISH
-  JAPANESE
-  KOREAN
+    CHINESE
+    ENGLISH
+    JAPANESE
+    KOREAN
 }
 
 input LoginInput {
-  email: String!
-  password: String!
+    email: String!
+    password: String!
 }
 
 type Mutation {
-  changePassword(data: ChangePasswordInput!): User!
-  createScenicRegion(input: CreateScenicRegionInput!): ScenicRegion!
-  createScenicRegionInfoWithLang(data: CreateScenicRegionInput!): ScenicRegionInfo!
-  login(data: LoginInput!): Auth!
-  refreshToken(token: String!): Token!
-  signup(data: SignupInput!): Auth!
-  updateUser(data: UpdateUserInput!): User!
+    changePassword(data: ChangePasswordInput!): User!
+    createScenicRegion(input: CreateScenicRegionInput!): ScenicRegion!
+    createScenicRegionInfoWithLang(
+        data: CreateScenicRegionInput!
+    ): ScenicRegionInfo!
+    login(data: LoginInput!): Auth!
+    refreshToken(token: String!): Token!
+    signup(data: SignupInput!): Auth!
+    updateUser(data: UpdateUserInput!): User!
 }
 
 type Query {
-  hello(name: String!): String!
-  helloWorld: String!
-  me: User!
+    hello(name: String!): String!
+    helloWorld: String!
+    me: User!
 }
 
-"""User role"""
+"""
+User role
+"""
 enum Role {
-  ADMIN
-  USER
+    ADMIN
+    USER
 }
 
 type ScenicRegion {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  enableNavigation: Boolean!
-  enablePoiLanguageSwitch: Boolean!
-  handDrawingNE: String
-  handDrawingSW: String
-  handDrawingUri: String
-  id: ID!
-  lang: String!
-  layer: String
-  layerDisplayName: String
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    enableNavigation: Boolean!
+    enablePoiLanguageSwitch: Boolean!
+    handDrawingNE: String
+    handDrawingSW: String
+    handDrawingUri: String
+    id: ID!
+    lang: String!
+    layer: String
+    layerDisplayName: String
 
-  """景点的位置坐标，json字符串"""
-  location: String!
+    """
+    景点的位置坐标，json字符串
+    """
+    location: String!
 
-  """最大缩放倍数"""
-  maxZoom: Int!
+    """
+    最大缩放倍数
+    """
+    maxZoom: Int!
 
-  """最小缩放倍数"""
-  minZoom: Int!
-  name: String!
-  sliceState: String!
-  ticketUrl: String
-  title: String
+    """
+    最小缩放倍数
+    """
+    minZoom: Int!
+    name: String!
+    sliceState: String!
+    ticketUrl: String
+    title: String
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-  vrUrl: String
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+    vrUrl: String
 
-  """景点缩放"""
-  zoom: Int!
+    """
+    景点缩放
+    """
+    zoom: Int!
 }
 
 type ScenicRegionBase {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  enableNavigation: Boolean!
-  enablePoiLanguageSwitch: Boolean!
-  id: ID!
-  location: String!
-  maxZoom: Int!
-  minZoom: Int!
-  scenicRegionInfos: [ScenicRegionInfo!]!
-  sliceState: SliceState!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    enableNavigation: Boolean!
+    enablePoiLanguageSwitch: Boolean!
+    id: ID!
+    location: String!
+    maxZoom: Int!
+    minZoom: Int!
+    scenicRegionInfos: [ScenicRegionInfo!]!
+    sliceState: SliceState!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-  zoom: Int!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+    zoom: Int!
 }
 
 type ScenicRegionInfo {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  handDrawingNE: String!
-  handDrawingSW: String!
-  handDrawingUri: String!
-  id: ID!
-  lang: Language!
-  layer: String!
-  layersDisplayName: String!
-  name: String!
-  scenicRegion: ScenicRegionBase!
-  scenicRegionId: String!
-  ticketUrl: String!
-  title: String!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    handDrawingNE: String!
+    handDrawingSW: String!
+    handDrawingUri: String!
+    id: ID!
+    lang: Language!
+    layer: String!
+    layersDisplayName: String!
+    name: String!
+    scenicRegion: ScenicRegionBase!
+    scenicRegionId: String!
+    ticketUrl: String!
+    title: String!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-  vrUrl: String!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+    vrUrl: String!
+}
+
+type ScenicSpotBase {
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    hidden: Boolean!
+    id: ID!
+    scenicRegion: ScenicRegion!
+    scenicRegionId: String!
+    scenicSpotInfos: [ScenicSpotInfo!]!
+    scenicSpotType: ScenicSpotType!
+    scenicSpotTypeId: String!
+
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+}
+
+type ScenicSpotInfo {
+    audioUri: String!
+
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    iconUri: String!
+    id: ID!
+    imageUri: String!
+    introduction: String!
+    lang: Language!
+    name: String!
+    scenicSpot: ScenicSpotBase!
+    scenicSpotId: String!
+
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+}
+
+type ScenicSpotType {
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    id: ID!
+    lang: Language!
+    name: String!
+    rank: Int!
+    scenicRegion: ScenicRegion!
+    scenicRegionId: String!
+
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+}
+
+type ScenicSpotTypeBase {
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    id: ID!
+    rank: Int!
+    scenicRegion: ScenicRegion!
+    scenicRegionId: String!
+    scenicSpotTypeInfos: [ScenicSpotTypeInfo!]!
+
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+}
+
+type ScenicSpotTypeInfo {
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    id: ID!
+    lang: Language!
+    name: String!
+    scenicSpotType: ScenicSpotTypeBase!
+    scenicSpotTypeId: String!
+
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 input SignupInput {
-  email: String!
-  name: String
-  password: String!
+    email: String!
+    name: String
+    password: String!
 }
 
-"""ScenicRegion SliceState"""
+"""
+ScenicRegion SliceState
+"""
 enum SliceState {
-  PENDING
-  SLICING
-  SUCCESS
+    PENDING
+    SLICING
+    SUCCESS
 }
 
 type Token {
-  """JWT access token"""
-  accessToken: String!
+    """
+    JWT access token
+    """
+    accessToken: String!
 
-  """JWT refresh token"""
-  refreshToken: String!
+    """
+    JWT refresh token
+    """
+    refreshToken: String!
+}
+
+type TouringRouteBase {
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    id: ID!
+    scenicRegion: ScenicRegion!
+    scenicRegionId: String!
+    touringRouteInfos: [TouringRouteInfo!]!
+
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+}
+
+type TouringRouteInfo {
+    content: String!
+
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    id: ID!
+    lang: Language!
+    title: String!
+    touringRoute: TouringRouteBase!
+    touringRouteId: String!
+
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 input UpdateUserInput {
-  name: String
+    name: String
 }
 
 type User {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  email: String!
-  id: ID!
-  name: String!
-  role: Role!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    email: String!
+    id: ID!
+    name: String!
+    role: Role!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }

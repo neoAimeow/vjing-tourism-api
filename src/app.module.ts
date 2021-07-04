@@ -1,3 +1,6 @@
+import { TouringRouteModule } from './resolvers/touring-route/touring-route.module';
+import { ScenicSpotTypeModule } from './resolvers/scenic-spot-type/scenic-spot-type.module';
+import { ScenicSpotModule } from './resolvers/scenic-spot/scenic-spot.module';
 import { ScenicRegionModule } from './resolvers/scenic-region/scenic-region.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
@@ -37,6 +40,9 @@ import { GraphqlConfig } from './configs/config.interface';
         AuthModule,
         UserModule,
         ScenicRegionModule,
+        ScenicSpotModule,
+        ScenicSpotTypeModule,
+        TouringRouteModule,
     ],
     controllers: [AppController],
     providers: [AppService, AppResolver, DateScalar],
