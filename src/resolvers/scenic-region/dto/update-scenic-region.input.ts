@@ -1,5 +1,5 @@
-import { SliceState } from './../../../models/scenic-region.model';
 import { InputType, Field } from '@nestjs/graphql';
+import { SliceState } from '@prisma/client';
 @InputType()
 export class CreateScenicRegionInput {
     @Field({ nullable: true })

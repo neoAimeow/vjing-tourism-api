@@ -1,6 +1,9 @@
 import { Language } from './../../models/base.model';
 import { CreateScenicSpotInfoInput } from './../scenic-spot/dto/create-scenic-spot.input';
-import { ScenicRegionInfo } from './../../models/scenic-region.model';
+import {
+    ScenicRegionInfo,
+    ScenicRegionBase,
+} from './../../models/scenic-region.model';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';

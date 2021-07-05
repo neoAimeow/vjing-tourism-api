@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { SliceState } from '@prisma/client';
 import { BaseModel, Language } from './base.model';
-
-export enum SliceState {
-    PENDING = 'PENDING',
-    SLICING = 'SLICING',
-    SUCCESS = 'SUCCESS',
-}
 
 registerEnumType(SliceState, {
     name: 'SliceState',
@@ -16,6 +11,8 @@ registerEnumType(SliceState, {
 //由ScenicRegionBase和ScenicRegionInfo
 @ObjectType()
 export class ScenicRegion extends BaseModel {
+    @Field()
+    unionName: string;
     @Field({ description: '景点的位置坐标，json字符串' })
     location: string;
     @Field({ description: '景点缩放' })
@@ -53,6 +50,7 @@ export class ScenicRegion extends BaseModel {
 }
 @ObjectType()
 export class ScenicRegionBase extends BaseModel {
+    unionName: string;
     location: string;
     zoom: number;
     minZoom: number;
@@ -60,13 +58,11 @@ export class ScenicRegionBase extends BaseModel {
     enableNavigation: boolean;
     enablePoiLanguageSwitch: boolean;
     sliceState: SliceState;
-    scenicRegionInfos: ScenicRegionInfo[];
 }
 
 @ObjectType()
 export class ScenicRegionInfo extends BaseModel {
     scenicRegionId: string;
-    scenicRegion: ScenicRegionBase;
     name: string;
     handDrawingUri: string;
     handDrawingNE: string;
