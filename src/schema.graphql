@@ -78,6 +78,7 @@ type ScenicRegionDTO {
   location: String!
   maxZoom: Int!
   minZoom: Int!
+  scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
   sliceState: String!
   unionName: String!
 
@@ -87,17 +88,20 @@ type ScenicRegionDTO {
 }
 
 type ScenicRegionInfoDTO {
+  """Identifies the date and time when the object was created."""
   createdAt: Date!
   handDrawingNE: String!
   handDrawingSW: String!
   handDrawingUri: String!
-  id: String!
+  id: ID!
   layer: String!
   layersDisplayName: String!
   name: String!
   scenicRegionId: String!
   ticketUrl: String!
   title: String!
+
+  """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
   vrUrl: String!
 }

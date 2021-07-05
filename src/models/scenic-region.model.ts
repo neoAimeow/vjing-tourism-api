@@ -26,18 +26,12 @@ export class ScenicRegionDTO extends BaseModel {
     enablePoiLanguageSwitch: boolean;
     @Field()
     sliceState: SliceState;
-    @Field()
+    @Field(() => [ScenicRegionInfoDTO])
     scenicRegionInfoDtos: ScenicRegionInfoDTO[];
 }
 
 @ObjectType()
 export class ScenicRegionInfoDTO extends BaseModel {
-    @Field()
-    id: string;
-    @Field()
-    createdAt: Date;
-    @Field()
-    updatedAt: Date;
     @Field()
     scenicRegionId: string;
     @Field()

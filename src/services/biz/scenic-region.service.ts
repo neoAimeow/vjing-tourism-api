@@ -20,7 +20,7 @@ export class ScenicRegionService {
         regionInfoInput: CreateScenicRegionInfoInput,
         lang: Language
     ): Promise<ScenicRegionDTO> {
-        const data = this.prisma.scenicRegion.create({
+        const data = await this.prisma.scenicRegion.create({
             data: {
                 unionName: regionInput.unionName,
                 location: regionInput.location || '',
@@ -51,7 +51,7 @@ export class ScenicRegionService {
                 },
             },
         });
-        console.warn(data);
+        console.warn(111, data);
         return new ScenicRegionDTO();
     }
 
@@ -153,6 +153,7 @@ export class ScenicRegionService {
         scenicRegionInfos.forEach((item) => {
             scenicRegionInfoDtos.push({ ...item });
         });
-        return { ...base, scenicRegionInfoDtos };
+        const data: ScenicRegionDTO = { ...base, scenicRegionInfoDtos };
+        return data;
     }
 }
