@@ -19,9 +19,8 @@ import { GraphqlConfig } from './configs/config.interface';
         ConfigModule.forRoot({ isGlobal: true, load: [config] }),
         GraphQLModule.forRootAsync({
             useFactory: async (configService: ConfigService) => {
-                const graphqlConfig = configService.get<GraphqlConfig>(
-                    'graphql'
-                );
+                const graphqlConfig =
+                    configService.get<GraphqlConfig>('graphql');
                 return {
                     buildSchemaOptions: {
                         numberScalarMode: 'integer',
@@ -40,9 +39,9 @@ import { GraphqlConfig } from './configs/config.interface';
         AuthModule,
         UserModule,
         ScenicRegionModule,
-        ScenicSpotModule,
-        ScenicSpotTypeModule,
-        TouringRouteModule,
+        // ScenicSpotModule,
+        // ScenicSpotTypeModule,
+        // TouringRouteModule,
     ],
     controllers: [AppController],
     providers: [AppService, AppResolver, DateScalar],

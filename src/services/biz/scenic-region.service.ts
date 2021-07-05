@@ -19,7 +19,7 @@ export class ScenicRegionService {
         regionInput: CreateScenicRegionInput,
         regionInfoInput: CreateScenicRegionInfoInput,
         lang: Language
-    ) {
+    ): Promise<ScenicRegionDTO> {
         const data = this.prisma.scenicRegion.create({
             data: {
                 unionName: regionInput.unionName,
@@ -51,8 +51,8 @@ export class ScenicRegionService {
                 },
             },
         });
-        console.warn(JSON.stringify(data));
-        return data;
+        console.warn(data);
+        return new ScenicRegionDTO();
     }
 
     //还没有景区时，创建第一个景区
@@ -92,7 +92,7 @@ export class ScenicRegionService {
         });
     }
 
-    async queryScenicRegions(id: string): Promise<ScenicRegion> {
+    async queryScenicRegions(id: string): Promise<ScenicRegionDTO> {
         const infos = await this.getScenicRegionInfos(id);
         const base = await this.getScenicRegionById(id);
         if (!base) {
@@ -153,7 +153,6 @@ export class ScenicRegionService {
         scenicRegionInfos.forEach((item) => {
             scenicRegionInfoDtos.push({ ...item });
         });
-        const data: ScenicRegionDTO = { ...base, scenicRegionInfoDtos };
-        return data;
+        return { ...base, scenicRegionInfoDtos };
     }
 }

@@ -42,14 +42,6 @@ input CreateScenicRegionInput {
 """Date custom scalar type"""
 scalar Date
 
-"""Language"""
-enum Language {
-  CHINESE
-  ENGLISH
-  JAPANESE
-  KOREAN
-}
-
 input LoginInput {
   email: String!
   password: String!
@@ -57,8 +49,8 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
-  createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionBase!
-  createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfo!
+  createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
+  createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   signup(data: SignupInput!): Auth!
@@ -77,42 +69,7 @@ enum Role {
   USER
 }
 
-type ScenicRegion {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  enableNavigation: Boolean!
-  enablePoiLanguageSwitch: Boolean!
-  handDrawingNE: String
-  handDrawingSW: String
-  handDrawingUri: String
-  id: ID!
-  lang: String!
-  layer: String
-  layerDisplayName: String
-
-  """景点的位置坐标，json字符串"""
-  location: String!
-
-  """最大缩放倍数"""
-  maxZoom: Int!
-
-  """最小缩放倍数"""
-  minZoom: Int!
-  name: String!
-  sliceState: String!
-  ticketUrl: String
-  title: String
-  unionName: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-  vrUrl: String
-
-  """景点缩放"""
-  zoom: Int!
-}
-
-type ScenicRegionBase {
+type ScenicRegionDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
   enableNavigation: Boolean!
@@ -129,97 +86,20 @@ type ScenicRegionBase {
   zoom: Int!
 }
 
-type ScenicRegionInfo {
-  """Identifies the date and time when the object was created."""
+type ScenicRegionInfoDTO {
   createdAt: Date!
   handDrawingNE: String!
   handDrawingSW: String!
   handDrawingUri: String!
-  id: ID!
-  lang: String!
+  id: String!
   layer: String!
   layersDisplayName: String!
   name: String!
   scenicRegionId: String!
   ticketUrl: String!
   title: String!
-
-  """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
   vrUrl: String!
-}
-
-type ScenicSpotBase {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  hidden: Boolean!
-  id: ID!
-  scenicRegion: ScenicRegion!
-  scenicRegionId: String!
-  scenicSpotInfos: [ScenicSpotInfo!]!
-  scenicSpotType: ScenicSpotType!
-  scenicSpotTypeId: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-}
-
-type ScenicSpotInfo {
-  audioUri: String!
-
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  iconUri: String!
-  id: ID!
-  imageUri: String!
-  introduction: String!
-  lang: Language!
-  name: String!
-  scenicSpot: ScenicSpotBase!
-  scenicSpotId: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-}
-
-type ScenicSpotType {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  lang: Language!
-  name: String!
-  rank: Int!
-  scenicRegion: ScenicRegion!
-  scenicRegionId: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-}
-
-type ScenicSpotTypeBase {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  rank: Int!
-  scenicRegion: ScenicRegion!
-  scenicRegionId: String!
-  scenicSpotTypeInfos: [ScenicSpotTypeInfo!]!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-}
-
-type ScenicSpotTypeInfo {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  lang: Language!
-  name: String!
-  scenicSpotType: ScenicSpotTypeBase!
-  scenicSpotTypeId: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
 }
 
 input SignupInput {
@@ -234,33 +114,6 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: String!
-}
-
-type TouringRouteBase {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  scenicRegion: ScenicRegion!
-  scenicRegionId: String!
-  touringRouteInfos: [TouringRouteInfo!]!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-}
-
-type TouringRouteInfo {
-  content: String!
-
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  lang: Language!
-  title: String!
-  touringRoute: TouringRouteBase!
-  touringRouteId: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
 }
 
 input UpdateUserInput {
