@@ -39,16 +39,6 @@ input CreateScenicRegionInput {
   zoom: Int
 }
 
-input CreateScenicSpotInfoInput {
-  audioUri: String
-  iconUri: String
-  imageUri: String
-  introduction: String
-  lang: String!
-  name: String!
-  scenicSpotId: String!
-}
-
 """Date custom scalar type"""
 scalar Date
 
@@ -67,7 +57,7 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
-  createScenicRegion(lang: String!, regionInfoInput: CreateScenicSpotInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegion!
+  createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionBase!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfo!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
@@ -122,6 +112,23 @@ type ScenicRegion {
   zoom: Int!
 }
 
+type ScenicRegionBase {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  enableNavigation: Boolean!
+  enablePoiLanguageSwitch: Boolean!
+  id: ID!
+  location: String!
+  maxZoom: Int!
+  minZoom: Int!
+  sliceState: String!
+  unionName: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+  zoom: Int!
+}
+
 type ScenicRegionInfo {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
@@ -129,7 +136,7 @@ type ScenicRegionInfo {
   handDrawingSW: String!
   handDrawingUri: String!
   id: ID!
-  lang: Language!
+  lang: String!
   layer: String!
   layersDisplayName: String!
   name: String!

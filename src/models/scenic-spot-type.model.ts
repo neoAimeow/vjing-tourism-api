@@ -1,30 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ScenicRegion } from './scenic-region.model';
+import { ScenicRegionDTO } from './scenic-region.model';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { User } from './user.model';
-import { BaseModel, Language } from './base.model';
+import { BaseModel } from './base.model';
+import { Language } from '@prisma/client';
 
 @ObjectType()
-export class ScenicSpotType extends BaseModel {
+export class ScenicSpotTypeDTO extends BaseModel {
     scenicRegionId: string;
-    scenicRegion: ScenicRegion;
+    scenicRegion: ScenicRegionDTO;
     rank: number;
-    name: string;
-    lang: Language;
+    scenicSpotTypeInfos: ScenicSpotTypeInfoDTO[];
 }
 
 @ObjectType()
-export class ScenicSpotTypeBase extends BaseModel {
-    scenicRegionId: string;
-    scenicRegion: ScenicRegion;
-    rank: number;
-    scenicSpotTypeInfos: ScenicSpotTypeInfo[];
-}
-
-@ObjectType()
-export class ScenicSpotTypeInfo extends BaseModel {
+export class ScenicSpotTypeInfoDTO extends BaseModel {
     scenicSpotTypeId: string;
-    scenicSpotType: ScenicSpotTypeBase;
     name: string;
     lang: Language;
 }

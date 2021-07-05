@@ -1,28 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ScenicRegion } from './scenic-region.model';
+import { ScenicRegionDTO } from './scenic-region.model';
 import { ObjectType } from '@nestjs/graphql';
-import { BaseModel, Language } from './base.model';
+import { BaseModel } from './base.model';
+import { Language } from '@prisma/client';
 
 @ObjectType()
-export class TouringRoute extends BaseModel {
+export class TouringRouteDTO extends BaseModel {
     scenicRegionId: string;
-    scenicRegion: ScenicRegion;
-    title: string;
-    content: string;
-    lang: Language;
+    scenicRegion: ScenicRegionDTO;
+    touringRouteInfoDtos: TouringRouteInfoDTO[];
 }
 
 @ObjectType()
-export class TouringRouteBase extends BaseModel {
-    scenicRegionId: string;
-    scenicRegion: ScenicRegion;
-    touringRouteInfos: TouringRouteInfo[];
-}
-
-@ObjectType()
-export class TouringRouteInfo extends BaseModel {
+export class TouringRouteInfoDTO extends BaseModel {
     touringRouteId: string;
-    touringRoute: TouringRouteBase;
+    touringRoute: TouringRouteDTO;
     title: string;
     content: string;
     lang: Language;

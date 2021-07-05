@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { SliceState } from '@prisma/client';
+// import { SliceState } from '@prisma/client';
 @InputType()
 export class CreateScenicRegionInput {
     @Field({ nullable: true })
@@ -14,8 +14,8 @@ export class CreateScenicRegionInput {
     enableNavigation?: boolean;
     @Field({ nullable: true })
     enablePoiLanguageSwitch?: boolean;
-    @Field({ nullable: true })
-    sliceState?: SliceState;
+    // @Field({ nullable: true })
+    // sliceState?: SliceState;
     @Field({ nullable: true })
     handDrawingUri?: string;
     @Field({ nullable: true })

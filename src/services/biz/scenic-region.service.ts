@@ -1,12 +1,14 @@
-import { Language } from './../../models/base.model';
 import {
     CreateScenicRegionInput,
     CreateScenicRegionInfoInput,
 } from './../../resolvers/scenic-region/dto/create-scenic-region.input';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
-import { ScenicRegion, ScenicRegionInfo } from '@prisma/client';
-import { ScenicRegionBase } from 'src/models/scenic-region.model';
+import { Language, ScenicRegion, ScenicRegionInfo } from '@prisma/client';
+import {
+    ScenicRegionDTO,
+    ScenicRegionInfoDTO,
+} from 'src/models/scenic-region.model';
 
 @Injectable()
 export class ScenicRegionService {
@@ -18,38 +20,43 @@ export class ScenicRegionService {
         regionInfoInput: CreateScenicRegionInfoInput,
         lang: Language
     ) {
-        return this.prisma.scenicRegion.create({
+        const data = this.prisma.scenicRegion.create({
             data: {
                 unionName: regionInput.unionName,
-                location: regionInput.location,
-                zoom: regionInput.zoom,
-                minZoom: regionInput.minZoom,
-                maxZoom: regionInput.maxZoom,
-                enableNavigation: regionInput.enableNavigation,
-                enablePoiLanguageSwitch: regionInput.enablePoiLanguageSwitch,
+                location: regionInput.location || '',
+                zoom: regionInput.zoom || 10,
+                minZoom: regionInput.minZoom || 5,
+                maxZoom: regionInput.maxZoom || 15,
+                enableNavigation: regionInput.enableNavigation || false,
+                enablePoiLanguageSwitch:
+                    regionInput.enablePoiLanguageSwitch || false,
                 sliceState: regionInput.sliceState,
                 scenicRegionInfos: {
                     create: [
                         {
                             name: regionInfoInput.name,
-                            handDrawingUri: regionInfoInput.handDrawingUri,
-                            handDrawingNE: regionInfoInput.handDrawingNE,
-                            handDrawingSW: regionInfoInput.handDrawingSW,
-                            vrUrl: regionInfoInput.vrUrl,
-                            ticketUrl: regionInfoInput.ticketUrl,
-                            title: regionInfoInput.title,
-                            layer: regionInfoInput.layer,
-                            layersDisplayName: regionInfoInput.layerDisplayName,
-                            lang: lang,
+                            handDrawingUri:
+                                regionInfoInput.handDrawingUri || '',
+                            handDrawingNE: regionInfoInput.handDrawingNE || '',
+                            handDrawingSW: regionInfoInput.handDrawingSW || '',
+                            vrUrl: regionInfoInput.vrUrl || '',
+                            ticketUrl: regionInfoInput.ticketUrl || '',
+                            title: regionInfoInput.title || '',
+                            layer: regionInfoInput.layer || '',
+                            layersDisplayName:
+                                regionInfoInput.layerDisplayName || '',
+                            lang: lang || Language.CHINESE,
                         },
                     ],
                 },
             },
         });
+        console.warn(JSON.stringify(data));
+        return data;
     }
 
     //还没有景区时，创建第一个景区
-    async createScenicRegionWithLang(
+    async createScenicRegionInfoWithLang(
         scenicRegionId: string,
         input: CreateScenicRegionInfoInput,
         lang: Language
@@ -85,26 +92,46 @@ export class ScenicRegionService {
         });
     }
 
-    async queryScenicRegion(id: string, lang: Language): Promise<ScenicRegion> {
-        const info = await this.getScenicRegionInfo(id, lang);
-        if (!info) {
-            throw new BadRequestException('没有查询到该景点详情');
-        }
-
+    async queryScenicRegions(id: string): Promise<ScenicRegion> {
+        const infos = await this.getScenicRegionInfos(id);
         const base = await this.getScenicRegionById(id);
         if (!base) {
             throw new BadRequestException('没有查询到该景点');
         }
-        return this.combineScenicRegion(base, info);
+        return this.combineScenicRegion(base, infos);
     }
 
-    private getScenicRegionById(id: string): Promise<ScenicRegionBase> {
+    async queryScenicRegionByLang(
+        id: string,
+        lang: Language
+    ): Promise<ScenicRegionDTO> {
+        const info: ScenicRegionInfo = await this.getScenicRegionInfo(id, lang);
+        if (!info) {
+            throw new BadRequestException('没有查询到该景点详情');
+        }
+
+        const base: ScenicRegion = await this.getScenicRegionById(id);
+        if (!base) {
+            throw new BadRequestException('没有查询到该景点');
+        }
+        return this.combineScenicRegion(base, [info]);
+    }
+
+    private async getScenicRegionById(id: string): Promise<ScenicRegion> {
         return this.prisma.scenicRegion.findUnique({ where: { id } });
     }
 
     private getScenicRegionInfoById(id: string): Promise<ScenicRegionInfo> {
         return this.prisma.scenicRegionInfo.findUnique({
             where: { id },
+        });
+    }
+
+    private getScenicRegionInfos(
+        scenicRegionId: string
+    ): Promise<ScenicRegionInfo[]> {
+        return this.prisma.scenicRegionInfo.findMany({
+            where: { scenicRegionId },
         });
     }
 
@@ -118,9 +145,15 @@ export class ScenicRegionService {
     }
 
     private combineScenicRegion(
-        base: ScenicRegionBase,
-        info: ScenicRegionInfo
-    ): ScenicRegion {
-        return null;
+        base: ScenicRegion,
+        scenicRegionInfos: ScenicRegionInfo[]
+    ): ScenicRegionDTO {
+        const scenicRegionInfoDtos: ScenicRegionInfoDTO[] = [];
+
+        scenicRegionInfos.forEach((item) => {
+            scenicRegionInfoDtos.push({ ...item });
+        });
+        const data: ScenicRegionDTO = { ...base, scenicRegionInfoDtos };
+        return data;
     }
 }

@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ObjectType, ID, registerEnumType } from '@nestjs/graphql';
-
-export enum Language {
-    CHINESE = 'CHINESE',
-    ENGLISH = 'ENGLISH',
-    JAPANESE = 'JAPANESE',
-    KOREAN = 'KOREAN',
-}
+import { Language } from '@prisma/client';
 
 registerEnumType(Language, {
     name: 'Language',

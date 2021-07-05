@@ -1,25 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { SliceState } from '@prisma/client';
-import { BaseModel, Language } from './base.model';
+import { Language, SliceState } from '@prisma/client';
+import { BaseModel } from './base.model';
 
 registerEnumType(SliceState, {
     name: 'SliceState',
     description: 'ScenicRegion SliceState',
 });
 
-//由ScenicRegionBase和ScenicRegionInfo
 @ObjectType()
-export class ScenicRegion extends BaseModel {
+export class ScenicRegionDTO extends BaseModel {
     @Field()
     unionName: string;
-    @Field({ description: '景点的位置坐标，json字符串' })
+    @Field()
     location: string;
-    @Field({ description: '景点缩放' })
+    @Field()
     zoom: number;
-    @Field({ description: '最小缩放倍数' })
+    @Field()
     minZoom: number;
-    @Field({ description: '最大缩放倍数' })
+    @Field()
     maxZoom: number;
     @Field()
     enableNavigation: boolean;
@@ -28,49 +27,37 @@ export class ScenicRegion extends BaseModel {
     @Field()
     sliceState: SliceState;
     @Field()
-    name: string;
-    @Field({ nullable: true })
-    handDrawingUri: string;
-    @Field({ nullable: true })
-    handDrawingNE: string;
-    @Field({ nullable: true })
-    handDrawingSW: string;
-    @Field({ nullable: true })
-    vrUrl: string;
-    @Field({ nullable: true })
-    ticketUrl: string;
-    @Field({ nullable: true })
-    title: string;
-    @Field({ nullable: true })
-    layer: string;
-    @Field({ nullable: true })
-    layerDisplayName: string;
-    @Field()
-    lang: Language;
-}
-@ObjectType()
-export class ScenicRegionBase extends BaseModel {
-    unionName: string;
-    location: string;
-    zoom: number;
-    minZoom: number;
-    maxZoom: number;
-    enableNavigation: boolean;
-    enablePoiLanguageSwitch: boolean;
-    sliceState: SliceState;
+    scenicRegionInfoDtos: ScenicRegionInfoDTO[];
 }
 
 @ObjectType()
-export class ScenicRegionInfo extends BaseModel {
+export class ScenicRegionInfoDTO extends BaseModel {
+    @Field()
+    id: string;
+    @Field()
+    createdAt: Date;
+    @Field()
+    updatedAt: Date;
+    @Field()
     scenicRegionId: string;
+    @Field()
     name: string;
-    handDrawingUri: string;
-    handDrawingNE: string;
-    handDrawingSW: string;
-    vrUrl: string;
-    ticketUrl: string;
+    @Field()
     title: string;
+    @Field()
     layer: string;
+    @Field()
     layersDisplayName: string;
+    @Field()
+    vrUrl: string;
+    @Field()
+    ticketUrl: string;
+    @Field()
+    handDrawingUri: string;
+    @Field()
+    handDrawingNE: string;
+    @Field()
+    handDrawingSW: string;
+    @Field()
     lang: Language;
 }

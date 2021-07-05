@@ -1,9 +1,5 @@
-import { Language } from './../../models/base.model';
 import { CreateScenicSpotInfoInput } from './../scenic-spot/dto/create-scenic-spot.input';
-import {
-    ScenicRegionInfo,
-    ScenicRegionBase,
-} from './../../models/scenic-region.model';
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
@@ -12,23 +8,27 @@ import {
     CreateScenicRegionInput,
 } from './dto/create-scenic-region.input';
 import { ScenicRegionService } from './../../services/biz/scenic-region.service';
-import { ScenicRegion } from './../../models/scenic-region.model';
+import {
+    ScenicRegionDTO,
+    ScenicRegionInfoDTO,
+} from './../../models/scenic-region.model';
 import { PrismaService } from '../../services/common/prisma.service';
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Language } from '@prisma/client';
 
-@Resolver((of) => ScenicRegion)
-@UseGuards(GqlAuthGuard)
+@Resolver((of) => ScenicRegionDTO)
+// @UseGuards(GqlAuthGuard)
 export class ScenicRegionResolver {
     constructor(
         private prisma: PrismaService,
         private readonly scenicRegionService: ScenicRegionService
     ) {}
 
-    @UseGuards(GqlAuthGuard)
-    @Mutation((returns) => ScenicRegion)
+    // @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => ScenicRegionDTO)
     async createScenicRegion(
         @Args('regionInput') regionInput: CreateScenicRegionInput,
-        @Args('regionInfoInput') regionInfoInput: CreateScenicSpotInfoInput,
+        @Args('regionInfoInput') regionInfoInput: CreateScenicRegionInfoInput,
         @Args('lang') lang: Language
     ) {
         return await this.scenicRegionService.createScenicRegion(
@@ -38,14 +38,14 @@ export class ScenicRegionResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
-    @Mutation((returns) => ScenicRegionInfo)
+    // @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => ScenicRegionInfoDTO)
     async createScenicRegionInfoWithLang(
         @Args('scenicRegionId') scenicRegionId: string,
         @Args('regionInfoInput') regionInfoInput: CreateScenicRegionInfoInput,
         @Args('lang') lang: Language
     ) {
-        return await this.scenicRegionService.createScenicRegionWithLang(
+        return await this.scenicRegionService.createScenicRegionInfoWithLang(
             scenicRegionId,
             regionInfoInput,
             lang

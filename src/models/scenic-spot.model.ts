@@ -1,38 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ScenicSpotType } from './scenic-spot-type.model';
-import { ScenicRegion } from './scenic-region.model';
+import { ScenicSpotTypeDTO } from './scenic-spot-type.model';
+import { ScenicRegionDTO } from './scenic-region.model';
 import { ObjectType } from '@nestjs/graphql';
-import { BaseModel, Language } from './base.model';
+import { BaseModel } from './base.model';
+import { Language } from '@prisma/client';
 
 @ObjectType()
-export class ScenicSpot extends BaseModel {
+export class ScenicSpotDTO extends BaseModel {
     scenicRegionId: string;
-    scenicRegion: ScenicRegion;
+    scenicRegion: ScenicRegionDTO;
     scenicSpotTypeId: string;
-    scenicSpotType: ScenicSpotType;
+    scenicSpotType: ScenicSpotTypeDTO;
     hidden: boolean;
-
-    name: string;
-    introduction: string;
-    iconUri: string;
-    audioUri: string;
-    imageUri: string;
-    lang: Language;
-}
-
-@ObjectType()
-export class ScenicSpotBase extends BaseModel {
-    scenicRegionId: string;
-    scenicRegion: ScenicRegion;
-    scenicSpotTypeId: string;
-    scenicSpotType: ScenicSpotType;
-    hidden: boolean;
-    scenicSpotInfos: ScenicSpotInfo[];
+    scenicSpotInfos: ScenicSpotInfoDTO[];
 }
 @ObjectType()
-export class ScenicSpotInfo extends BaseModel {
+export class ScenicSpotInfoDTO extends BaseModel {
     scenicSpotId: string;
-    scenicSpot: ScenicSpotBase;
+    scenicSpot: ScenicSpotDTO;
     name: string;
     introduction: string;
     iconUri: string;

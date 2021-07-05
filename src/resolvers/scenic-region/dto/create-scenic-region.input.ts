@@ -1,10 +1,10 @@
-import { Language } from './../../../models/base.model';
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 import { SliceState } from '@prisma/client';
 @InputType()
 export class CreateScenicRegionInput {
     @Field()
+    @IsNotEmpty()
     unionName: string;
     @Field({ nullable: true })
     location?: string;
