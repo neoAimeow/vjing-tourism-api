@@ -33,15 +33,16 @@ export class ScenicSpotResolver {
         @Args('scenicRegionId') scenicRegionId: string,
         @Args('scenicSpotTypeId') scenicSpotTypeId: string,
         @Args('input') regionInput: CreateScenicSpotInput,
-        @Args('infoInput') regionInfoInput: CreateScenicSpotInfoInput,
-        @Args('lang') lang: Language
+        @Args('infoInput') regionInfoInput: CreateScenicSpotInfoInput
+        // @Args('lang') lang: Language
     ): Promise<ScenicSpotDTO> {
-        return this.scenicSpotService.createScenicSpot(
-            scenicRegionId,
-            scenicSpotTypeId,
-            regionInput,
-            regionInfoInput,
-            lang
-        );
+        return null;
+        // return this.scenicSpotService.createScenicSpot(
+        //     scenicRegionId,
+        //     scenicSpotTypeId,
+        //     regionInput,
+        //     regionInfoInput,
+        //     lang
+        // );
     }
 }

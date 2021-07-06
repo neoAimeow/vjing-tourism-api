@@ -39,6 +39,22 @@ input CreateScenicRegionInput {
   zoom: Int
 }
 
+input CreateScenicSpotInfoInput {
+  audioUri: String
+  iconUri: String
+  imageUri: String
+  introduction: String
+  name: String!
+  scenicSpotId: String!
+}
+
+input CreateScenicSpotInput {
+  hidden: Boolean
+  scenicRegionId: String!
+  scenicSpotTypeId: String!
+  unionName: String!
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -60,6 +76,7 @@ type Mutation {
   changePassword(data: ChangePasswordInput!): User!
   createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
+  createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, scenicRegionId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
   deleteScenicRegion(id: String!): Boolean!
   deleteScenicRegionInfo(id: String!): Boolean!
   login(data: LoginInput!): Auth!
@@ -163,6 +180,54 @@ enum ScenicRegionOrderField {
   id
   name
   updatedAt
+}
+
+type ScenicSpotDTO {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  hidden: Boolean
+  id: ID!
+  scenicRegionId: String!
+  scenicSpotInfoDtos: [ScenicSpotInfoDTO]
+  scenicSpotTypeId: String!
+  unionName: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+}
+
+type ScenicSpotDTOEdge {
+  cursor: String!
+  node: ScenicSpotDTO!
+}
+
+type ScenicSpotInfoDTO {
+  audioUri: String
+
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  iconUri: String
+  id: ID!
+  imageUri: String
+  introduction: String
+  lang: Language!
+  name: String
+  scenicSpotId: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+}
+
+type ScenicSpotTypeInfoDTO {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  id: ID!
+  lang: Language!
+  name: String!
+  scenicSpotTypeId: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
 }
 
 input SignupInput {

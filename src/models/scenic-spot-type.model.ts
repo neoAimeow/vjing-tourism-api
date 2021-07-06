@@ -7,15 +7,25 @@ import { Language } from '@prisma/client';
 
 @ObjectType()
 export class ScenicSpotTypeDTO extends BaseModel {
+    @Field()
     scenicRegionId: string;
-    scenicRegion: ScenicRegionDTO;
+    @Field()
+    unionName: string;
+    @Field()
     rank: number;
-    scenicSpotTypeInfos: ScenicSpotTypeInfoDTO[];
+    @Field((type) => [ScenicSpotTypeInfoDTO], {
+        nullable: 'itemsAndList',
+        defaultValue: [],
+    })
+    scenicSpotTypeInfoDtos: ScenicSpotTypeInfoDTO[];
 }
 
 @ObjectType()
 export class ScenicSpotTypeInfoDTO extends BaseModel {
+    @Field()
     scenicSpotTypeId: string;
+    @Field()
     name: string;
+    @Field((type) => Language)
     lang: Language;
 }

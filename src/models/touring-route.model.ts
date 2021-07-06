@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ScenicRegionDTO } from './scenic-region.model';
-import { ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseModel } from './base.model';
 import { Language } from '@prisma/client';
 
@@ -17,5 +17,6 @@ export class TouringRouteInfoDTO extends BaseModel {
     touringRoute: TouringRouteDTO;
     title: string;
     content: string;
+    @Field((type) => Language)
     lang: Language;
 }

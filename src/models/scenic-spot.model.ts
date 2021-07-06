@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ScenicSpotTypeDTO } from './scenic-spot-type.model';
-import { ScenicRegionDTO } from './scenic-region.model';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseModel } from './base.model';
 import { Language } from '@prisma/client';
