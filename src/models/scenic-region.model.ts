@@ -18,7 +18,10 @@ export class ScenicRegionDTO extends BaseModel {
     @Field() enableNavigation: boolean;
     @Field() enablePoiLanguageSwitch: boolean;
     @Field() sliceState: SliceState;
-    @Field((type) => [ScenicRegionInfoDTO], { nullable: 'items' })
+    @Field((type) => [ScenicRegionInfoDTO], {
+        nullable: 'itemsAndList',
+        defaultValue: [],
+    })
     scenicRegionInfoDtos?: ScenicRegionInfoDTO[];
 }
 

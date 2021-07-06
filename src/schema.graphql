@@ -80,7 +80,8 @@ type Query {
   scenicRegionByLang(id: String!, lang: String!): ScenicRegionDTO!
   scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
   scenicRegionInfos(scenicRegionId: String!): ScenicRegionInfoDTO!
-  scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, query: String, skip: Int): ScenicRegionConnection!
+  scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, skip: Int): ScenicRegionConnection!
+  scenicRegionsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, skip: Int): ScenicRegionConnection!
 }
 
 """User role"""
@@ -104,7 +105,7 @@ type ScenicRegionDTO {
   location: String!
   maxZoom: Int!
   minZoom: Int!
-  scenicRegionInfoDtos: [ScenicRegionInfoDTO]!
+  scenicRegionInfoDtos: [ScenicRegionInfoDTO]
   sliceState: String!
   unionName: String!
 

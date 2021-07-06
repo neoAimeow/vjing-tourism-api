@@ -1,3 +1,4 @@
+import { ScenicRegionConnection } from './../../models/pagination/scenic-region-connection.model';
 import {
     CreateScenicRegionInput,
     CreateScenicRegionInfoInput,
@@ -9,6 +10,13 @@ import {
     ScenicRegionDTO,
     ScenicRegionInfoDTO,
 } from 'src/models/scenic-region.model';
+import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
+import { PaginationArgs } from 'src/common/pagination/pagination.args';
+import {
+    ScenicRegionOrder,
+    ScenicRegionOrderField,
+} from 'src/models/inputs/scenic-region-order.input';
+import { OrderDirection } from 'src/common/order/order-direction';
 
 @Injectable()
 export class ScenicRegionService {
@@ -115,6 +123,48 @@ export class ScenicRegionService {
             throw new BadRequestException('没有查询到该景点');
         }
         return this.combineScenicRegion(base, [info]);
+    }
+
+    async queryScenicRegions(
+        { skip, after, before, first, last }: PaginationArgs,
+        orderBy: ScenicRegionOrder
+    ): Promise<ScenicRegionConnection> {
+        const orderByDefault: ScenicRegionOrder = {
+            field: ScenicRegionOrderField.createdAt,
+            direction: OrderDirection.asc,
+        };
+
+        const a = await findManyCursorConnection(
+            (args) =>
+                this.prisma.scenicRegion.findMany({
+                    orderBy: orderBy
+                        ? { [orderBy.field]: orderBy.direction }
+                        : { [orderByDefault.field]: orderByDefault.direction },
+                    ...args,
+                }),
+            () => this.prisma.scenicRegion.count(),
+            { first, last, before, after }
+        );
+        return a;
+    }
+
+    async queryScenicRegionsHasAllInfo(
+        args: PaginationArgs,
+        orderBy: ScenicRegionOrder
+    ): Promise<ScenicRegionConnection> {
+        const scenicRegionConnection: ScenicRegionConnection =
+            await this.queryScenicRegions(args, orderBy);
+        const { edges } = scenicRegionConnection || {};
+        await Promise.all(
+            edges.map(async (item) => {
+                const { node } = item;
+                const { id } = node;
+                const arrays: ScenicRegionInfoDTO[] =
+                    await this.queryScenicRegionInfosByScenicRegionId(id);
+                node.scenicRegionInfoDtos = arrays;
+            })
+        );
+        return scenicRegionConnection;
     }
 
     /********************************************  query ScenicRegionInfo  *******************************************************************/

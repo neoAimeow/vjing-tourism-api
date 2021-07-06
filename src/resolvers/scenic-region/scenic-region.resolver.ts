@@ -80,18 +80,31 @@ export class ScenicRegionResolver {
 
     @Query((returns) => ScenicRegionConnection)
     async scenicRegions(
-        @Args() { skip, after, before, first, last }: PaginationArgs,
-        @Args({ name: 'query', type: () => String, nullable: true })
-        query: string,
+        @Args() args: PaginationArgs,
         @Args({
             name: 'orderBy',
             type: () => ScenicRegionOrder,
             nullable: true,
         })
         orderBy: ScenicRegionOrder
-    ): Promise<ScenicRegionDTO> {
-        return null;
-        // return this.scenicRegionService.queryScenicRegionById(id);
+    ): Promise<ScenicRegionConnection> {
+        return this.scenicRegionService.queryScenicRegions(args, orderBy);
+    }
+
+    @Query((returns) => ScenicRegionConnection)
+    async scenicRegionsHasAllInfo(
+        @Args() args: PaginationArgs,
+        @Args({
+            name: 'orderBy',
+            type: () => ScenicRegionOrder,
+            nullable: true,
+        })
+        orderBy: ScenicRegionOrder
+    ): Promise<ScenicRegionConnection> {
+        return this.scenicRegionService.queryScenicRegionsHasAllInfo(
+            args,
+            orderBy
+        );
     }
 
     @Query((returns) => ScenicRegionInfoDTO)
