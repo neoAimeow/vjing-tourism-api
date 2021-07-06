@@ -55,6 +55,28 @@ input CreateScenicSpotInput {
   unionName: String!
 }
 
+input CreateScenicSpotTypeInfoInput {
+  name: String
+}
+
+input CreateScenicSpotTypeInput {
+  rank: Int
+  scenicRegionId: String!
+  unionName: String
+}
+
+input CreateTouringRouteInfoInput {
+  content: String!
+  lang: Language!
+  title: String!
+  touringRouteId: String!
+}
+
+input CreateTouringRouteInput {
+  scenicRegionId: String!
+  unionName: String!
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -74,20 +96,32 @@ input LoginInput {
 type Mutation {
   UpdateScenicRegionInfoInput(id: String!, regionInfoInput: UpdateScenicRegionInfoInput!): ScenicRegionInfoDTO!
   UpdateScenicSpotInfoInput(id: String!, spotInfoInput: UpdateScenicSpotInfoInput!): ScenicSpotInfoDTO!
+  UpdateScenicSpotTypeInfoInput(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
+  UpdateTouringRouteInfoInput(id: String!, infoInput: UpdateTouringRouteInfoInput!): TouringRouteInfoDTO!
   changePassword(data: ChangePasswordInput!): User!
   createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
   createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, lang: String!, scenicSpotId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
   createScenicSpotInfoWithLang(lang: String!, scenicSpotId: String!, spotInfoInput: CreateScenicSpotInfoInput!): ScenicSpotInfoDTO!
+  createScenicSpotType(lang: String!, scenicRegionId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!, spotTypeInput: CreateScenicSpotTypeInput!): ScenicSpotTypeDTO!
+  createScenicSpotTypeInfoWithLang(lang: String!, scenicSpotTypeId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
+  createTouringRoute(infoInput: CreateTouringRouteInfoInput!, input: CreateTouringRouteInput!, lang: String!, scenicRegionId: String!): TouringRouteDTO!
+  createTouringRouteInfoWithLang(input: CreateTouringRouteInfoInput!, lang: String!, touringRouteId: String!): TouringRouteInfoDTO!
   deleteScenicRegion(id: String!): Boolean!
   deleteScenicRegionInfo(id: String!): Boolean!
   deleteScenicSpot(id: String!): Boolean!
   deleteScenicSpotInfo(id: String!): Boolean!
+  deleteScenicSpotType(id: String!): Boolean!
+  deleteScenicSpotTypeInfo(id: String!): Boolean!
+  deleteTouringRoute(id: String!): Boolean!
+  deleteTouringRouteInfo(id: String!): Boolean!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   signup(data: SignupInput!): Auth!
   updateScenicRegion(id: String!, regionInfoInput: UpdateScenicRegionInput!): ScenicRegionDTO!
   updateScenicSpot(id: String!, scenicSpotTypeId: String!, spotInfoInput: UpdateScenicSpotInput!): ScenicSpotDTO!
+  updateScenicSpotType(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInput!): ScenicSpotTypeDTO!
+  updateTouringRoute(id: String!, input: UpdateTouringRouteInput!): TouringRouteDTO!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -107,6 +141,10 @@ type PageInfo {
 }
 
 type Query {
+  TouringRoute(id: String!): TouringRouteDTO!
+  TouringRouteByLang(id: String!, lang: String!): TouringRouteDTO!
+  TouringRouteInfo(id: String!): TouringRouteInfoDTO!
+  TouringRouteInfos(TouringRouteId: String!): TouringRouteInfoDTO!
   hello(name: String!): String!
   helloWorld: String!
   me: User!
@@ -120,6 +158,10 @@ type Query {
   scenicSpotByLang(id: String!, lang: String!): ScenicSpotDTO!
   scenicSpotInfo(id: String!): ScenicSpotInfoDTO!
   scenicSpotInfos(scenicSpotId: String!): ScenicSpotInfoDTO!
+  scenicSpotType(id: String!): ScenicSpotTypeDTO!
+  scenicSpotTypeByLang(id: String!, lang: String!): ScenicSpotTypeDTO!
+  scenicSpotTypeInfo(id: String!): ScenicSpotTypeInfoDTO!
+  scenicSpotTypeInfos(scenicSpotTypeId: String!): ScenicSpotTypeInfoDTO!
   scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
   scenicSpotsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
 }
@@ -247,6 +289,19 @@ enum ScenicSpotOrderField {
   updatedAt
 }
 
+type ScenicSpotTypeDTO {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  id: ID!
+  rank: Int!
+  scenicRegionId: String!
+  scenicSpotTypeInfoDtos: [ScenicSpotTypeInfoDTO]
+  unionName: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+}
+
 type ScenicSpotTypeInfoDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
@@ -271,6 +326,32 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: String!
+}
+
+type TouringRouteDTO {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  id: ID!
+  scenicRegionId: String!
+  touringRouteInfoDtos: [TouringRouteInfoDTO]
+  unionName: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+}
+
+type TouringRouteInfoDTO {
+  content: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  id: ID!
+  lang: Language!
+  title: String!
+  touringRouteId: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
 }
 
 input UpdateScenicRegionInfoInput {
@@ -309,6 +390,26 @@ input UpdateScenicSpotInput {
   hidden: Boolean!
   scenicRegionId: String!
   scenicSpotTypeId: String!
+  unionName: String!
+}
+
+input UpdateScenicSpotTypeInfoInput {
+  name: String
+}
+
+input UpdateScenicSpotTypeInput {
+  rank: Int
+  unionName: String
+}
+
+input UpdateTouringRouteInfoInput {
+  content: String!
+  lang: Language!
+  title: String!
+}
+
+input UpdateTouringRouteInput {
+  scenicRegionId: String!
   unionName: String!
 }
 
