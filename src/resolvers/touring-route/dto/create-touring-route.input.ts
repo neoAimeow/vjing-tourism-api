@@ -7,11 +7,17 @@ export class CreateTouringRouteInput {
     @IsNotEmpty()
     scenicRegionId: string;
     @Field()
-    @IsNotEmpty()
-    title: string;
-    @Field({ nullable: true })
-    content: string;
+    unionName: string;
+}
+
+@InputType()
+export class CreateTouringRouteInfoInput {
     @Field()
-    @IsNotEmpty()
+    touringRouteId: string;
+    @Field()
+    title: string;
+    @Field()
+    content: string;
+    @Field((type) => Language)
     lang: Language;
 }

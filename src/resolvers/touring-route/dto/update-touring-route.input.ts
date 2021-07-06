@@ -3,11 +3,18 @@ import { InputType, Field } from '@nestjs/graphql';
 import { Language } from '@prisma/client';
 @InputType()
 export class UpdateTouringRouteInput {
-    @Field({ nullable: true })
-    title?: string;
-    @Field({ nullable: true })
-    content?: string;
     @Field()
-    @IsNotEmpty()
+    scenicRegionId: string;
+    @Field()
+    unionName: string;
+}
+
+@InputType()
+export class UpdateTouringRouteInfoInput {
+    @Field()
+    title: string;
+    @Field()
+    content: string;
+    @Field((type) => Language)
     lang: Language;
 }

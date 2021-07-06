@@ -4,16 +4,7 @@ import {
     ScenicSpotTypeInfoDTO,
 } from './../../models/scenic-spot-type.model';
 import { PrismaService } from '../../services/common/prisma.service';
-import { PaginationArgs } from '../../common/pagination/pagination.args';
-import {
-    Resolver,
-    Query,
-    Parent,
-    Args,
-    ResolveField,
-    Mutation,
-} from '@nestjs/graphql';
-import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/guards/gql-auth.guard';
 import { ScenicSpotTypeService } from 'src/services/biz/scenic-spot-type.service';
@@ -22,7 +13,6 @@ import {
     CreateScenicSpotTypeInfoInput,
     CreateScenicSpotTypeInput,
 } from './dto/create-scenic-spot-type.input';
-import { ScenicSpotTypeOrder } from 'src/models/inputs/scenic-spot-type-order.input';
 import {
     UpdateScenicSpotTypeInput,
     UpdateScenicSpotTypeInfoInput,

@@ -9,7 +9,9 @@ export class TouringRouteDTO extends BaseModel {
     @Field()
     scenicRegionId: string;
     @Field()
-    touringRouteInfoDtos: TouringRouteInfoDTO[];
+    unionName: string;
+    @Field()
+    touringRouteInfoDtos?: TouringRouteInfoDTO[];
 }
 
 @ObjectType()
