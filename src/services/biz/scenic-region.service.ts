@@ -17,6 +17,10 @@ import {
     ScenicRegionOrderField,
 } from 'src/models/inputs/scenic-region-order.input';
 import { OrderDirection } from 'src/common/order/order-direction';
+import {
+    UpdateScenicRegionInfoInput,
+    UpdateScenicRegionInput,
+} from 'src/resolvers/scenic-region/dto/update-scenic-region.input';
 
 @Injectable()
 export class ScenicRegionService {
@@ -102,6 +106,57 @@ export class ScenicRegionService {
         }
     }
 
+    async updateScenicRegion(
+        id: string,
+        regionInput: UpdateScenicRegionInput
+    ): Promise<ScenicRegionDTO> {
+        try {
+            const data = await this.prisma.scenicRegion.update({
+                where: { id },
+                data: {
+                    unionName: regionInput.unionName,
+                    location: regionInput.location || '',
+                    zoom: regionInput.zoom || 10,
+                    minZoom: regionInput.minZoom || 5,
+                    maxZoom: regionInput.maxZoom || 15,
+                    enableNavigation: regionInput.enableNavigation || false,
+                    enablePoiLanguageSwitch:
+                        regionInput.enablePoiLanguageSwitch || false,
+                    sliceState: regionInput.sliceState,
+                },
+            });
+
+            return { ...data };
+        } catch (ex) {
+            return null;
+        }
+    }
+
+    async updateScenicRegionInfo(
+        id: string,
+        regionInput: UpdateScenicRegionInfoInput
+    ): Promise<ScenicRegionInfoDTO> {
+        try {
+            const data = await this.prisma.scenicRegionInfo.update({
+                where: { id },
+                data: {
+                    name: regionInput.name,
+                    handDrawingUri: regionInput.handDrawingUri || '',
+                    handDrawingNE: regionInput.handDrawingNE || '',
+                    handDrawingSW: regionInput.handDrawingSW || '',
+                    vrUrl: regionInput.vrUrl || '',
+                    ticketUrl: regionInput.ticketUrl || '',
+                    title: regionInput.title || '',
+                    layer: regionInput.layer || '',
+                    layersDisplayName: regionInput.layerDisplayName || '',
+                },
+            });
+
+            return { ...data };
+        } catch (ex) {
+            return null;
+        }
+    }
     /********************************************  query ScenicRegion  *******************************************************************/
 
     async queryScenicRegionInfoById(id: string): Promise<ScenicRegionInfoDTO> {

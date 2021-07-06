@@ -48,12 +48,14 @@ input LoginInput {
 }
 
 type Mutation {
+  UpdateScenicRegionInfoInput(id: String!, lang: String!, regionInfoInput: UpdateScenicRegionInfoInput!): ScenicRegionInfoDTO!
   changePassword(data: ChangePasswordInput!): User!
   createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   signup(data: SignupInput!): Auth!
+  updateScenicRegion(id: String!, regionInfoInput: UpdateScenicRegionInput!): ScenicRegionDTO!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -165,6 +167,29 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: String!
+}
+
+input UpdateScenicRegionInfoInput {
+  handDrawingNE: String
+  handDrawingSW: String
+  handDrawingUri: String
+  layer: String
+  layerDisplayName: String
+  name: String
+  ticketUrl: String
+  title: String
+  vrUrl: String
+}
+
+input UpdateScenicRegionInput {
+  enableNavigation: Boolean
+  enablePoiLanguageSwitch: Boolean
+  location: String
+  maxZoom: Int
+  minZoom: Int
+  sliceState: String
+  unionName: String
+  zoom: Int
 }
 
 input UpdateUserInput {
