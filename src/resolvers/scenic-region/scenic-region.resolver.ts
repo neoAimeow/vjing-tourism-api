@@ -83,8 +83,7 @@ export class ScenicRegionResolver {
     @Mutation((returns) => ScenicRegionInfoDTO)
     async UpdateScenicRegionInfoInput(
         @Args('id') id: string,
-        @Args('regionInfoInput') regionInfoInput: UpdateScenicRegionInfoInput,
-        @Args('lang') lang: Language
+        @Args('regionInfoInput') regionInfoInput: UpdateScenicRegionInfoInput
     ): Promise<ScenicRegionInfoDTO> {
         return await this.scenicRegionService.updateScenicRegionInfo(
             id,

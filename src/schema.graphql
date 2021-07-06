@@ -72,17 +72,22 @@ input LoginInput {
 }
 
 type Mutation {
-  UpdateScenicRegionInfoInput(id: String!, lang: String!, regionInfoInput: UpdateScenicRegionInfoInput!): ScenicRegionInfoDTO!
+  UpdateScenicRegionInfoInput(id: String!, regionInfoInput: UpdateScenicRegionInfoInput!): ScenicRegionInfoDTO!
+  UpdateScenicSpotInfoInput(id: String!, spotInfoInput: UpdateScenicSpotInfoInput!): ScenicSpotInfoDTO!
   changePassword(data: ChangePasswordInput!): User!
   createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
-  createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, scenicRegionId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
+  createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, lang: String!, scenicSpotId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
+  createScenicSpotInfoWithLang(lang: String!, scenicSpotId: String!, spotInfoInput: CreateScenicSpotInfoInput!): ScenicSpotInfoDTO!
   deleteScenicRegion(id: String!): Boolean!
   deleteScenicRegionInfo(id: String!): Boolean!
+  deleteScenicSpot(id: String!): Boolean!
+  deleteScenicSpotInfo(id: String!): Boolean!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   signup(data: SignupInput!): Auth!
   updateScenicRegion(id: String!, regionInfoInput: UpdateScenicRegionInput!): ScenicRegionDTO!
+  updateScenicSpot(id: String!, scenicSpotTypeId: String!, spotInfoInput: UpdateScenicSpotInput!): ScenicSpotDTO!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -111,6 +116,12 @@ type Query {
   scenicRegionInfos(scenicRegionId: String!): ScenicRegionInfoDTO!
   scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, skip: Int): ScenicRegionConnection!
   scenicRegionsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, skip: Int): ScenicRegionConnection!
+  scenicSpot(id: String!): ScenicSpotDTO!
+  scenicSpotByLang(id: String!, lang: String!): ScenicSpotDTO!
+  scenicSpotInfo(id: String!): ScenicSpotInfoDTO!
+  scenicSpotInfos(scenicSpotId: String!): ScenicSpotInfoDTO!
+  scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
+  scenicSpotsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
 }
 
 """User role"""
@@ -182,6 +193,12 @@ enum ScenicRegionOrderField {
   updatedAt
 }
 
+type ScenicSpotConnection {
+  edges: [ScenicSpotDTOEdge!]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
 type ScenicSpotDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
@@ -216,6 +233,18 @@ type ScenicSpotInfoDTO {
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
+}
+
+input ScenicSpotOrder {
+  direction: OrderDirection!
+  field: ScenicSpotOrderField!
+}
+
+"""Properties by which post connections can be ordered."""
+enum ScenicSpotOrderField {
+  createdAt
+  id
+  updatedAt
 }
 
 type ScenicSpotTypeInfoDTO {
@@ -265,6 +294,22 @@ input UpdateScenicRegionInput {
   sliceState: String
   unionName: String
   zoom: Int
+}
+
+input UpdateScenicSpotInfoInput {
+  audioUri: String!
+  iconUri: String!
+  imageUri: String!
+  introduction: String!
+  name: String!
+  scenicSpotId: String!
+}
+
+input UpdateScenicSpotInput {
+  hidden: Boolean!
+  scenicRegionId: String!
+  scenicSpotTypeId: String!
+  unionName: String!
 }
 
 input UpdateUserInput {

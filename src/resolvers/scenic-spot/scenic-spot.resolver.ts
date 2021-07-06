@@ -1,4 +1,7 @@
-import { ScenicSpotDTO } from './../../models/scenic-spot.model';
+import {
+    ScenicSpotDTO,
+    ScenicSpotInfoDTO,
+} from './../../models/scenic-spot.model';
 import { PrismaService } from '../../services/common/prisma.service';
 import { PaginationArgs } from '../../common/pagination/pagination.args';
 import {
@@ -18,6 +21,12 @@ import {
 } from './dto/create-scenic-spot.input';
 import { Language } from '@prisma/client';
 import { ScenicSpotService } from 'src/services/biz/scenic-spot.service';
+import {
+    UpdateScenicSpotInfoInput,
+    UpdateScenicSpotInput,
+} from './dto/update-scenic-spot.input';
+import { ScenicSpotConnection } from 'src/models/pagination/scenic-spot-connection.model';
+import { ScenicSpotOrder } from 'src/models/inputs/scenic-spot-order.input';
 
 @Resolver((of) => ScenicSpotDTO)
 @UseGuards(GqlAuthGuard)
@@ -30,19 +39,127 @@ export class ScenicSpotResolver {
     @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotDTO)
     async createScenicSpot(
-        @Args('scenicRegionId') scenicRegionId: string,
+        @Args('scenicSpotId') scenicSpotId: string,
         @Args('scenicSpotTypeId') scenicSpotTypeId: string,
-        @Args('input') regionInput: CreateScenicSpotInput,
-        @Args('infoInput') regionInfoInput: CreateScenicSpotInfoInput
-        // @Args('lang') lang: Language
+        @Args('input') SpotInput: CreateScenicSpotInput,
+        @Args('infoInput') SpotInfoInput: CreateScenicSpotInfoInput,
+        @Args('lang') lang: Language
     ): Promise<ScenicSpotDTO> {
-        return null;
-        // return this.scenicSpotService.createScenicSpot(
-        //     scenicRegionId,
-        //     scenicSpotTypeId,
-        //     regionInput,
-        //     regionInfoInput,
-        //     lang
-        // );
+        return this.scenicSpotService.createScenicSpot(
+            scenicSpotId,
+            scenicSpotTypeId,
+            SpotInput,
+            SpotInfoInput,
+            lang
+        );
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => ScenicSpotInfoDTO)
+    async createScenicSpotInfoWithLang(
+        @Args('scenicSpotId') scenicSpotId: string,
+        @Args('spotInfoInput') spotInfoInput: CreateScenicSpotInfoInput,
+        @Args('lang') lang: Language
+    ): Promise<ScenicSpotInfoDTO> {
+        return await this.scenicSpotService.createScenicSpotInfoWithLang(
+            scenicSpotId,
+            spotInfoInput,
+            lang
+        );
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => ScenicSpotDTO)
+    async updateScenicSpot(
+        @Args('id') id: string,
+        @Args('scenicSpotTypeId') scenicSpotTypeId: string,
+        @Args('spotInfoInput') spotInput: UpdateScenicSpotInput
+    ): Promise<ScenicSpotDTO> {
+        return await this.scenicSpotService.updateScenicSpot(
+            id,
+            scenicSpotTypeId,
+            spotInput
+        );
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => ScenicSpotInfoDTO)
+    async UpdateScenicSpotInfoInput(
+        @Args('id') id: string,
+        @Args('spotInfoInput') spotInfoInput: UpdateScenicSpotInfoInput
+    ): Promise<ScenicSpotInfoDTO> {
+        return await this.scenicSpotService.updateScenicSpotInfo(
+            id,
+            spotInfoInput
+        );
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => Boolean)
+    async deleteScenicSpot(@Args('id') id: string): Promise<boolean> {
+        return await this.scenicSpotService.deleteScenicSpot(id);
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => Boolean)
+    async deleteScenicSpotInfo(@Args('id') id: string): Promise<boolean> {
+        return await this.scenicSpotService.deleteScenicSpotInfo(id);
+    }
+
+    @Query((returns) => ScenicSpotDTO)
+    async scenicSpot(
+        @Args('id', { type: () => String }) id: string
+    ): Promise<ScenicSpotDTO> {
+        return this.scenicSpotService.queryScenicSpotById(id);
+    }
+
+    @Query((returns) => ScenicSpotDTO)
+    async scenicSpotByLang(
+        @Args('id', { type: () => String }) id: string,
+        @Args('lang') lang: Language
+    ): Promise<ScenicSpotDTO> {
+        return this.scenicSpotService.queryScenicSpotByLang(id, lang);
+    }
+
+    @Query((returns) => ScenicSpotConnection)
+    async scenicSpots(
+        @Args() args: PaginationArgs,
+        @Args({
+            name: 'orderBy',
+            type: () => ScenicSpotOrder,
+            nullable: true,
+        })
+        orderBy: ScenicSpotOrder
+    ): Promise<ScenicSpotConnection> {
+        return this.scenicSpotService.queryScenicSpots(args, orderBy);
+    }
+
+    @Query((returns) => ScenicSpotConnection)
+    async scenicSpotsHasAllInfo(
+        @Args() args: PaginationArgs,
+        @Args({
+            name: 'orderBy',
+            type: () => ScenicSpotOrder,
+            nullable: true,
+        })
+        orderBy: ScenicSpotOrder
+    ): Promise<ScenicSpotConnection> {
+        return this.scenicSpotService.queryScenicSpotsHasAllInfo(args, orderBy);
+    }
+
+    @Query((returns) => ScenicSpotInfoDTO)
+    async scenicSpotInfo(
+        @Args('id', { type: () => String }) id: string
+    ): Promise<ScenicSpotDTO> {
+        return this.scenicSpotService.queryScenicSpotById(id);
+    }
+
+    @Query((returns) => ScenicSpotInfoDTO)
+    async scenicSpotInfos(
+        @Args('scenicSpotId', { type: () => String }) scenicSpotId: string
+    ): Promise<ScenicSpotInfoDTO[]> {
+        return this.scenicSpotService.queryScenicSpotInfosByScenicSpotId(
+            scenicSpotId
+        );
     }
 }

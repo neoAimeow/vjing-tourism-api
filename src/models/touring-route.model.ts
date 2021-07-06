@@ -6,16 +6,19 @@ import { Language } from '@prisma/client';
 
 @ObjectType()
 export class TouringRouteDTO extends BaseModel {
+    @Field()
     scenicRegionId: string;
-    scenicRegion: ScenicRegionDTO;
+    @Field()
     touringRouteInfoDtos: TouringRouteInfoDTO[];
 }
 
 @ObjectType()
 export class TouringRouteInfoDTO extends BaseModel {
+    @Field()
     touringRouteId: string;
-    touringRoute: TouringRouteDTO;
+    @Field()
     title: string;
+    @Field()
     content: string;
     @Field((type) => Language)
     lang: Language;
