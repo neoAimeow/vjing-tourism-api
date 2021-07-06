@@ -1,5 +1,5 @@
 import { ScenicSpotTypeService } from './../../services/biz/scenic-spot-type.service';
-import { ScenicSpotTypeResolver } from './scenic-spot.resolver';
+import { ScenicSpotTypeResolver } from './scenic-spot-type.resolver';
 import { Module } from '@nestjs/common';
 import { PrismaService } from '../../services/common/prisma.service';
 
