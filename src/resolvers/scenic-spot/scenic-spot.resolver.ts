@@ -36,7 +36,7 @@ export class ScenicSpotResolver {
         @Args('infoInput') regionInfoInput: CreateScenicSpotInfoInput,
         @Args('lang') lang: Language
     ): Promise<ScenicSpotDTO> {
-        return await this.scenicSpotService.createScenicSpot(
+        return this.scenicSpotService.createScenicSpot(
             scenicRegionId,
             scenicSpotTypeId,
             regionInput,
