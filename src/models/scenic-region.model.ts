@@ -10,46 +10,30 @@ registerEnumType(SliceState, {
 
 @ObjectType()
 export class ScenicRegionDTO extends BaseModel {
-    @Field()
-    unionName: string;
-    @Field()
-    location: string;
-    @Field()
-    zoom: number;
-    @Field()
-    minZoom: number;
-    @Field()
-    maxZoom: number;
-    @Field()
-    enableNavigation: boolean;
-    @Field()
-    enablePoiLanguageSwitch: boolean;
-    @Field()
-    sliceState: SliceState;
-    @Field(() => [ScenicRegionInfoDTO])
-    scenicRegionInfoDtos: ScenicRegionInfoDTO[];
+    @Field() unionName: string;
+    @Field() location: string;
+    @Field() zoom: number;
+    @Field() minZoom: number;
+    @Field() maxZoom: number;
+    @Field() enableNavigation: boolean;
+    @Field() enablePoiLanguageSwitch: boolean;
+    @Field() sliceState: SliceState;
+    @Field((type) => [ScenicRegionInfoDTO], { nullable: 'items' })
+    scenicRegionInfoDtos?: ScenicRegionInfoDTO[];
 }
 
 @ObjectType()
 export class ScenicRegionInfoDTO extends BaseModel {
-    @Field()
-    scenicRegionId: string;
-    @Field()
-    name: string;
-    @Field()
-    title: string;
-    @Field()
-    layer: string;
-    @Field()
-    layersDisplayName: string;
-    @Field()
-    vrUrl: string;
-    @Field()
-    ticketUrl: string;
-    @Field()
-    handDrawingUri: string;
-    @Field()
-    handDrawingNE: string;
-    @Field()
-    handDrawingSW: string;
+    @Field() scenicRegionId: string;
+    @Field() scenicRegion?: ScenicRegionDTO;
+    @Field() name: string;
+    @Field() title: string;
+    @Field() layer: string;
+    @Field() layersDisplayName: string;
+    @Field() vrUrl: string;
+    @Field() ticketUrl: string;
+    @Field() handDrawingUri: string;
+    @Field() handDrawingNE: string;
+    @Field() handDrawingSW: string;
+    @Field() lang: Language;
 }

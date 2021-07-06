@@ -57,16 +57,42 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
 }
 
+"""
+Possible directions in which to order a list of items when provided an `orderBy` argument.
+"""
+enum OrderDirection {
+  asc
+  desc
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
 type Query {
   hello(name: String!): String!
   helloWorld: String!
   me: User!
+  scenicRegion(id: String!): ScenicRegionDTO!
+  scenicRegionByLang(id: String!, lang: String!): ScenicRegionDTO!
+  scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
+  scenicRegionInfos(scenicRegionId: String!): ScenicRegionInfoDTO!
+  scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, query: String, skip: Int): ScenicRegionConnection!
 }
 
 """User role"""
 enum Role {
   ADMIN
   USER
+}
+
+type ScenicRegionConnection {
+  edges: [ScenicRegionDTOEdge!]
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
 type ScenicRegionDTO {
@@ -78,13 +104,18 @@ type ScenicRegionDTO {
   location: String!
   maxZoom: Int!
   minZoom: Int!
-  scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
+  scenicRegionInfoDtos: [ScenicRegionInfoDTO]!
   sliceState: String!
   unionName: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
   zoom: Int!
+}
+
+type ScenicRegionDTOEdge {
+  cursor: String!
+  node: ScenicRegionDTO!
 }
 
 type ScenicRegionInfoDTO {
@@ -94,9 +125,11 @@ type ScenicRegionInfoDTO {
   handDrawingSW: String!
   handDrawingUri: String!
   id: ID!
+  lang: String!
   layer: String!
   layersDisplayName: String!
   name: String!
+  scenicRegion: ScenicRegionDTO
   scenicRegionId: String!
   ticketUrl: String!
   title: String!
@@ -104,6 +137,19 @@ type ScenicRegionInfoDTO {
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
   vrUrl: String!
+}
+
+input ScenicRegionOrder {
+  direction: OrderDirection!
+  field: ScenicRegionOrderField!
+}
+
+"""Properties by which post connections can be ordered."""
+enum ScenicRegionOrderField {
+  createdAt
+  id
+  name
+  updatedAt
 }
 
 input SignupInput {
