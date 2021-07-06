@@ -92,6 +92,18 @@ export class ScenicRegionResolver {
         );
     }
 
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => Boolean)
+    async deleteScenicRegion(@Args('id') id: string): Promise<boolean> {
+        return await this.scenicRegionService.deleteScenicRegion(id);
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => Boolean)
+    async deleteScenicRegionInfo(@Args('id') id: string): Promise<boolean> {
+        return await this.scenicRegionService.deleteScenicRegionInfo(id);
+    }
+
     @Query((returns) => ScenicRegionDTO)
     async scenicRegion(
         @Args('id', { type: () => String }) id: string
@@ -151,10 +163,4 @@ export class ScenicRegionResolver {
             scenicRegionId
         );
     }
-
-    // @ResolveField()
-    // async scenicRegions(@Parent() scenicRegion: ScenicRegionDTO) {
-    //     const { id } = scenicRegion;
-    //     return this.scenicRegionService.queryScenicRegions(id);
-    // }
 }

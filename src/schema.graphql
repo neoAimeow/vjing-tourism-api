@@ -52,6 +52,8 @@ type Mutation {
   changePassword(data: ChangePasswordInput!): User!
   createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
+  deleteScenicRegion(id: String!): Boolean!
+  deleteScenicRegionInfo(id: String!): Boolean!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   signup(data: SignupInput!): Auth!

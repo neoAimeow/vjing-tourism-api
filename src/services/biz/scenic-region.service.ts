@@ -26,6 +26,8 @@ import {
 export class ScenicRegionService {
     constructor(private prisma: PrismaService) {}
 
+    /********************************************  create ScenicRegion  *******************************************************************/
+
     async createScenicRegion(
         regionInput: CreateScenicRegionInput,
         regionInfoInput: CreateScenicRegionInfoInput,
@@ -106,6 +108,8 @@ export class ScenicRegionService {
         }
     }
 
+    /********************************************  update ScenicRegion  *******************************************************************/
+
     async updateScenicRegion(
         id: string,
         regionInput: UpdateScenicRegionInput
@@ -157,6 +161,39 @@ export class ScenicRegionService {
             return null;
         }
     }
+
+    /********************************************  delete ScenicRegion  *******************************************************************/
+
+    async deleteScenicRegion(id: string): Promise<boolean> {
+        try {
+            const deleteFather = this.prisma.scenicRegion.delete({
+                where: { id },
+            });
+            const deleteChildren = this.prisma.scenicRegionInfo.deleteMany({
+                where: { scenicRegionId: id },
+            });
+            //add transaction，avoid delete failed
+            const result = await this.prisma.$transaction([
+                deleteFather,
+                deleteChildren,
+            ]);
+            return result === null;
+        } catch (ex) {
+            return null;
+        }
+    }
+
+    async deleteScenicRegionInfo(id: string): Promise<boolean> {
+        try {
+            const result = await this.prisma.scenicRegionInfo.delete({
+                where: { id },
+            });
+            return result === null;
+        } catch (ex) {
+            return null;
+        }
+    }
+
     /********************************************  query ScenicRegion  *******************************************************************/
 
     async queryScenicRegionInfoById(id: string): Promise<ScenicRegionInfoDTO> {
