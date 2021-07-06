@@ -79,6 +79,7 @@ model ScenicSpotType {
   id                  String               @id @default(uuid())
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
+  unionName           String
   rank                Int
   ScenicRegion        ScenicRegion?        @relation(fields: [scenicRegionId], references: [id])
   scenicRegionId      String?
@@ -127,6 +128,7 @@ model TouringRoute {
   id                String             @id @default(uuid())
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
+  unionName         String
   scenicRegionId    String
   scenicRegion      ScenicRegion       @relation(fields: [scenicRegionId], references: [id])
   touringRouteInfos TouringRouteInfo[]

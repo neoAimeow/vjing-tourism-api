@@ -17,7 +17,7 @@ export class ScenicSpotTypeDTO extends BaseModel {
         nullable: 'itemsAndList',
         defaultValue: [],
     })
-    scenicSpotTypeInfoDtos: ScenicSpotTypeInfoDTO[];
+    scenicSpotTypeInfoDtos?: ScenicSpotTypeInfoDTO[];
 }
 
 @ObjectType()

@@ -6,8 +6,11 @@ export class UpdateScenicSpotTypeInput {
     @Field({ nullable: true })
     rank?: number;
     @Field({ nullable: true })
+    unionName?: string;
+}
+
+@InputType()
+export class UpdateScenicSpotTypeInfoInput {
+    @Field({ nullable: true })
     name?: string;
-    @Field()
-    @IsNotEmpty()
-    lang: Language;
 }

@@ -9,8 +9,11 @@ export class CreateScenicSpotTypeInput {
     @Field({ nullable: true })
     rank?: number;
     @Field({ nullable: true })
+    unionName?: string;
+}
+
+@InputType()
+export class CreateScenicSpotTypeInfoInput {
+    @Field({ nullable: true })
     name?: string;
-    @Field()
-    @IsNotEmpty()
-    lang: Language;
 }
