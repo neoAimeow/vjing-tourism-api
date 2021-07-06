@@ -3,21 +3,27 @@ import { InputType, Field } from '@nestjs/graphql';
 import { Language } from '@prisma/client';
 @InputType()
 export class UpdateScenicSpotInput {
-    @Field({ nullable: true })
-    scenicSpotTypeId?: string;
-    @Field({ nullable: true })
-    hidden?: boolean;
-    @Field({ nullable: true })
-    name?: string;
-    @Field({ nullable: true })
-    introduction?: string;
-    @Field({ nullable: true })
-    iconUri?: string;
-    @Field({ nullable: true })
-    audioUri?: string;
-    @Field({ nullable: true })
-    imageUri?: string;
     @Field()
-    @IsNotEmpty()
-    lang: Language;
+    scenicRegionId: string;
+    @Field()
+    unionName: string;
+    @Field()
+    scenicSpotTypeId: string;
+    @Field()
+    hidden: boolean;
+}
+@InputType()
+export class UpdateScenicSpotInfoInput {
+    @Field()
+    scenicSpotId: string;
+    @Field()
+    name: string;
+    @Field()
+    introduction: string;
+    @Field()
+    iconUri: string;
+    @Field()
+    audioUri: string;
+    @Field()
+    imageUri: string;
 }

@@ -47,13 +47,12 @@ export class ScenicRegionService {
                     sliceState: regionInput.sliceState,
                 },
             });
-            const scenicRegionInfoDto: ScenicRegionInfoDTO = {
-                ...(await this.createScenicRegionInfoWithLang(
+            const scenicRegionInfoDto: ScenicRegionInfoDTO =
+                await this.createScenicRegionInfoWithLang(
                     data.id,
                     regionInfoInput,
                     lang
-                )),
-            };
+                );
 
             return {
                 ...data,
@@ -68,7 +67,7 @@ export class ScenicRegionService {
         scenicRegionId: string,
         input: CreateScenicRegionInfoInput,
         lang: Language
-    ): Promise<ScenicRegionInfo> {
+    ): Promise<ScenicRegionInfoDTO> {
         try {
             const hasDataResult = await this.getScenicRegionById(
                 scenicRegionId
@@ -87,8 +86,7 @@ export class ScenicRegionService {
                 throw new BadRequestException('该景区已经存在这个语言的信息');
             }
 
-            //如果该语种不存在就创建国际化数据。
-            return this.prisma.scenicRegionInfo.create({
+            const data = await this.prisma.scenicRegionInfo.create({
                 data: {
                     scenicRegionId: scenicRegionId,
                     name: input.name,
@@ -103,6 +101,9 @@ export class ScenicRegionService {
                     lang: lang,
                 },
             });
+
+            //如果该语种不存在就创建国际化数据。
+            return { ...data };
         } catch (ex) {
             return null;
         }

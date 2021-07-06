@@ -42,6 +42,14 @@ input CreateScenicRegionInput {
 """Date custom scalar type"""
 scalar Date
 
+"""Language"""
+enum Language {
+  CHINESE
+  ENGLISH
+  JAPANESE
+  KOREAN
+}
+
 input LoginInput {
   email: String!
   password: String!
@@ -130,7 +138,7 @@ type ScenicRegionInfoDTO {
   handDrawingSW: String!
   handDrawingUri: String!
   id: ID!
-  lang: String!
+  lang: Language!
   layer: String!
   layersDisplayName: String!
   name: String!

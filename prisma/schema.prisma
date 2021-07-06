@@ -93,7 +93,7 @@ model ScenicSpotTypeInfo {
   scenicSpotTypeId String
   scenicSpotType   ScenicSpotType @relation(fields: [scenicSpotTypeId], references: [id])
   name             String
-  lang             Language
+  lang             Language       @default(CHINESE)
 }
 
 model ScenicSpot {
@@ -104,6 +104,7 @@ model ScenicSpot {
   scenicRegion     ScenicRegion     @relation(fields: [scenicRegionId], references: [id])
   scenicSpotTypeId String
   scenicSpotType   ScenicSpotType   @relation(fields: [scenicSpotTypeId], references: [id])
+  unionName        String
   hidden           Boolean
   scenicSpotInfos  ScenicSpotInfo[]
 }

@@ -39,7 +39,7 @@ import { GraphqlConfig } from './configs/config.interface';
         AuthModule,
         UserModule,
         ScenicRegionModule,
-        // ScenicSpotModule,
+        ScenicSpotModule,
         // ScenicSpotTypeModule,
         // TouringRouteModule,
     ],

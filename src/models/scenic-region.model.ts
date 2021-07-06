@@ -38,5 +38,6 @@ export class ScenicRegionInfoDTO extends BaseModel {
     @Field() handDrawingUri: string;
     @Field() handDrawingNE: string;
     @Field() handDrawingSW: string;
-    @Field() lang: Language;
+    @Field((type) => Language)
+    lang: Language;
 }
