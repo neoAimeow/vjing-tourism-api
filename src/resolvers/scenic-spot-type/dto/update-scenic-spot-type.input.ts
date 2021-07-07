@@ -6,7 +6,7 @@ export class UpdateScenicSpotTypeInput {
     @Field({ nullable: true })
     rank?: number;
     @Field({ nullable: true })
-    unionName?: string;
+    displayName?: string;
 }
 
 @InputType()

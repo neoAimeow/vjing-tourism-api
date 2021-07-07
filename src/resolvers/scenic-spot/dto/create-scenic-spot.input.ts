@@ -6,7 +6,7 @@ export class CreateScenicSpotInput {
     @Field()
     scenicRegionId: string;
     @Field()
-    unionName: string;
+    displayName: string;
     @Field()
     scenicSpotTypeId: string;
     @Field()

@@ -31,7 +31,7 @@ export class ScenicSpotTypeService {
             const data = await this.prisma.scenicSpotType.create({
                 data: {
                     scenicRegionId,
-                    unionName: spotTypeInput.unionName,
+                    displayName: spotTypeInput.displayName,
                     rank: spotTypeInput.rank || 0,
                 },
             });
@@ -98,7 +98,7 @@ export class ScenicSpotTypeService {
             const data = await this.prisma.scenicSpotType.update({
                 where: { id },
                 data: {
-                    unionName: spotTypeInput.unionName,
+                    displayName: spotTypeInput.displayName,
                     rank: spotTypeInput.rank || 0,
                 },
             });

@@ -36,11 +36,13 @@ export class ScenicRegionService {
         try {
             const data = await this.prisma.scenicRegion.create({
                 data: {
-                    unionName: regionInput.unionName,
+                    displayName: regionInput.displayName,
                     location: regionInput.location || '',
                     zoom: regionInput.zoom || 10,
                     minZoom: regionInput.minZoom || 5,
                     maxZoom: regionInput.maxZoom || 15,
+                    handDrawingNE: regionInput.handDrawingNE || '',
+                    handDrawingSW: regionInput.handDrawingSW || '',
                     enableNavigation: regionInput.enableNavigation || false,
                     enablePoiLanguageSwitch:
                         regionInput.enablePoiLanguageSwitch || false,
@@ -91,8 +93,7 @@ export class ScenicRegionService {
                     scenicRegionId: scenicRegionId,
                     name: input.name,
                     handDrawingUri: input.handDrawingUri || '',
-                    handDrawingNE: input.handDrawingNE || '',
-                    handDrawingSW: input.handDrawingSW || '',
+
                     vrUrl: input.vrUrl || '',
                     ticketUrl: input.ticketUrl || '',
                     title: input.title || '',
@@ -119,11 +120,13 @@ export class ScenicRegionService {
             const data = await this.prisma.scenicRegion.update({
                 where: { id },
                 data: {
-                    unionName: regionInput.unionName,
+                    displayName: regionInput.displayName,
                     location: regionInput.location || '',
                     zoom: regionInput.zoom || 10,
                     minZoom: regionInput.minZoom || 5,
                     maxZoom: regionInput.maxZoom || 15,
+                    handDrawingNE: regionInput.handDrawingNE || '',
+                    handDrawingSW: regionInput.handDrawingSW || '',
                     enableNavigation: regionInput.enableNavigation || false,
                     enablePoiLanguageSwitch:
                         regionInput.enablePoiLanguageSwitch || false,
@@ -147,8 +150,6 @@ export class ScenicRegionService {
                 data: {
                     name: regionInput.name,
                     handDrawingUri: regionInput.handDrawingUri || '',
-                    handDrawingNE: regionInput.handDrawingNE || '',
-                    handDrawingSW: regionInput.handDrawingSW || '',
                     vrUrl: regionInput.vrUrl || '',
                     ticketUrl: regionInput.ticketUrl || '',
                     title: regionInput.title || '',

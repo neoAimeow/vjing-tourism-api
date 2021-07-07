@@ -5,7 +5,7 @@ import { SliceState } from '@prisma/client';
 export class CreateScenicRegionInput {
     @Field()
     @IsNotEmpty()
-    unionName: string;
+    displayName: string;
     @Field({ nullable: true })
     location?: string;
     @Field({ nullable: true })
@@ -14,6 +14,10 @@ export class CreateScenicRegionInput {
     minZoom?: number;
     @Field({ nullable: true })
     maxZoom?: number;
+    @Field({ nullable: true })
+    handDrawingNE?: string;
+    @Field({ nullable: true })
+    handDrawingSW?: string;
     @Field({ nullable: true })
     enableNavigation?: boolean;
     @Field({ nullable: true })
@@ -29,10 +33,6 @@ export class CreateScenicRegionInfoInput {
     name: string;
     @Field({ nullable: true })
     handDrawingUri?: string;
-    @Field({ nullable: true })
-    handDrawingNE?: string;
-    @Field({ nullable: true })
-    handDrawingSW?: string;
     @Field({ nullable: true })
     vrUrl?: string;
     @Field({ nullable: true })

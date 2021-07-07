@@ -6,7 +6,7 @@ export class UpdateTouringRouteInput {
     @Field()
     scenicRegionId: string;
     @Field()
-    unionName: string;
+    displayName: string;
 }
 
 @InputType()

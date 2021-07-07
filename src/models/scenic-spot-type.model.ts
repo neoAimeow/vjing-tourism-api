@@ -10,7 +10,7 @@ export class ScenicSpotTypeDTO extends BaseModel {
     @Field()
     scenicRegionId: string;
     @Field()
-    unionName: string;
+    displayName: string;
     @Field()
     rank: number;
     @Field((type) => [ScenicSpotTypeInfoDTO], {

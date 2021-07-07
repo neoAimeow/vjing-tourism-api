@@ -17,8 +17,6 @@ input ChangePasswordInput {
 }
 
 input CreateScenicRegionInfoInput {
-  handDrawingNE: String
-  handDrawingSW: String
   handDrawingUri: String
   layer: String
   layerDisplayName: String
@@ -29,13 +27,15 @@ input CreateScenicRegionInfoInput {
 }
 
 input CreateScenicRegionInput {
+  displayName: String!
   enableNavigation: Boolean
   enablePoiLanguageSwitch: Boolean
+  handDrawingNE: String
+  handDrawingSW: String
   location: String
   maxZoom: Int
   minZoom: Int
   sliceState: String
-  unionName: String!
   zoom: Int
 }
 
@@ -49,10 +49,10 @@ input CreateScenicSpotInfoInput {
 }
 
 input CreateScenicSpotInput {
+  displayName: String!
   hidden: Boolean
   scenicRegionId: String!
   scenicSpotTypeId: String!
-  unionName: String!
 }
 
 input CreateScenicSpotTypeInfoInput {
@@ -60,9 +60,9 @@ input CreateScenicSpotTypeInfoInput {
 }
 
 input CreateScenicSpotTypeInput {
+  displayName: String
   rank: Int
   scenicRegionId: String!
-  unionName: String
 }
 
 input CreateTouringRouteInfoInput {
@@ -73,8 +73,8 @@ input CreateTouringRouteInfoInput {
 }
 
 input CreateTouringRouteInput {
+  displayName: String!
   scenicRegionId: String!
-  unionName: String!
 }
 
 """Date custom scalar type"""
@@ -181,15 +181,17 @@ type ScenicRegionConnection {
 type ScenicRegionDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
+  displayName: String!
   enableNavigation: Boolean!
   enablePoiLanguageSwitch: Boolean!
+  handDrawingNE: String!
+  handDrawingSW: String!
   id: ID!
   location: String!
   maxZoom: Int!
   minZoom: Int!
   scenicRegionInfoDtos: [ScenicRegionInfoDTO]
   sliceState: String!
-  unionName: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
@@ -204,8 +206,6 @@ type ScenicRegionDTOEdge {
 type ScenicRegionInfoDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
-  handDrawingNE: String!
-  handDrawingSW: String!
   handDrawingUri: String!
   id: ID!
   lang: Language!
@@ -244,12 +244,12 @@ type ScenicSpotConnection {
 type ScenicSpotDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
+  displayName: String!
   hidden: Boolean
   id: ID!
   scenicRegionId: String!
   scenicSpotInfoDtos: [ScenicSpotInfoDTO]
   scenicSpotTypeId: String!
-  unionName: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
@@ -292,11 +292,11 @@ enum ScenicSpotOrderField {
 type ScenicSpotTypeDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
+  displayName: String!
   id: ID!
   rank: Int!
   scenicRegionId: String!
   scenicSpotTypeInfoDtos: [ScenicSpotTypeInfoDTO]
-  unionName: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
@@ -331,10 +331,10 @@ type Token {
 type TouringRouteDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
+  displayName: String!
   id: ID!
   scenicRegionId: String!
   touringRouteInfoDtos: [TouringRouteInfoDTO]
-  unionName: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
@@ -355,8 +355,6 @@ type TouringRouteInfoDTO {
 }
 
 input UpdateScenicRegionInfoInput {
-  handDrawingNE: String
-  handDrawingSW: String
   handDrawingUri: String
   layer: String
   layerDisplayName: String
@@ -367,13 +365,15 @@ input UpdateScenicRegionInfoInput {
 }
 
 input UpdateScenicRegionInput {
+  displayName: String
   enableNavigation: Boolean
   enablePoiLanguageSwitch: Boolean
+  handDrawingNE: String
+  handDrawingSW: String
   location: String
   maxZoom: Int
   minZoom: Int
   sliceState: String
-  unionName: String
   zoom: Int
 }
 
@@ -387,10 +387,10 @@ input UpdateScenicSpotInfoInput {
 }
 
 input UpdateScenicSpotInput {
+  displayName: String!
   hidden: Boolean!
   scenicRegionId: String!
   scenicSpotTypeId: String!
-  unionName: String!
 }
 
 input UpdateScenicSpotTypeInfoInput {
@@ -398,8 +398,8 @@ input UpdateScenicSpotTypeInfoInput {
 }
 
 input UpdateScenicSpotTypeInput {
+  displayName: String
   rank: Int
-  unionName: String
 }
 
 input UpdateTouringRouteInfoInput {
@@ -409,8 +409,8 @@ input UpdateTouringRouteInfoInput {
 }
 
 input UpdateTouringRouteInput {
+  displayName: String!
   scenicRegionId: String!
-  unionName: String!
 }
 
 input UpdateUserInput {

@@ -36,7 +36,7 @@ export class ScenicSpotService {
         try {
             const data = await this.prisma.scenicSpot.create({
                 data: {
-                    unionName: input.unionName,
+                    displayName: input.displayName,
                     scenicRegionId,
                     scenicSpotTypeId,
                     hidden: input.hidden || false,
@@ -106,7 +106,7 @@ export class ScenicSpotService {
             const data = await this.prisma.scenicSpot.update({
                 where: { id },
                 data: {
-                    unionName: spotInput.unionName,
+                    displayName: spotInput.displayName,
                     scenicSpotTypeId,
                     hidden: spotInput.hidden || false,
                 },

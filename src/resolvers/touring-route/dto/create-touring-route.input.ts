@@ -7,7 +7,7 @@ export class CreateTouringRouteInput {
     @IsNotEmpty()
     scenicRegionId: string;
     @Field()
-    unionName: string;
+    displayName: string;
 }
 
 @InputType()

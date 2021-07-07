@@ -43,11 +43,13 @@ model ScenicRegion {
   id                      String             @id @default(uuid())
   createdAt               DateTime           @default(now())
   updatedAt               DateTime           @updatedAt
-  unionName               String
+  displayName             String
   location                String
   zoom                    Int
   minZoom                 Int
   maxZoom                 Int
+  handDrawingNE           String
+  handDrawingSW           String
   enableNavigation        Boolean
   enablePoiLanguageSwitch Boolean
   sliceState              SliceState         @default(PENDING)
@@ -70,8 +72,6 @@ model ScenicRegionInfo {
   vrUrl             String
   ticketUrl         String
   handDrawingUri    String
-  handDrawingNE     String
-  handDrawingSW     String
   lang              Language     @default(CHINESE)
 }
 
@@ -79,7 +79,7 @@ model ScenicSpotType {
   id                  String               @id @default(uuid())
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
-  unionName           String
+  displayName         String
   rank                Int
   ScenicRegion        ScenicRegion?        @relation(fields: [scenicRegionId], references: [id])
   scenicRegionId      String?
@@ -105,7 +105,7 @@ model ScenicSpot {
   scenicRegion     ScenicRegion     @relation(fields: [scenicRegionId], references: [id])
   scenicSpotTypeId String
   scenicSpotType   ScenicSpotType   @relation(fields: [scenicSpotTypeId], references: [id])
-  unionName        String
+  displayName      String
   hidden           Boolean
   scenicSpotInfos  ScenicSpotInfo[]
 }
@@ -128,7 +128,7 @@ model TouringRoute {
   id                String             @id @default(uuid())
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
-  unionName         String
+  displayName       String
   scenicRegionId    String
   scenicRegion      ScenicRegion       @relation(fields: [scenicRegionId], references: [id])
   touringRouteInfos TouringRouteInfo[]

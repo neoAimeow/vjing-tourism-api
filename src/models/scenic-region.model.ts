@@ -10,12 +10,14 @@ registerEnumType(SliceState, {
 
 @ObjectType()
 export class ScenicRegionDTO extends BaseModel {
-    @Field() unionName: string;
+    @Field() displayName: string;
     @Field() location: string;
     @Field() zoom: number;
     @Field() minZoom: number;
     @Field() maxZoom: number;
     @Field() enableNavigation: boolean;
+    @Field() handDrawingNE: string;
+    @Field() handDrawingSW: string;
     @Field() enablePoiLanguageSwitch: boolean;
     @Field() sliceState: SliceState;
     @Field((type) => [ScenicRegionInfoDTO], {
@@ -36,8 +38,6 @@ export class ScenicRegionInfoDTO extends BaseModel {
     @Field() vrUrl: string;
     @Field() ticketUrl: string;
     @Field() handDrawingUri: string;
-    @Field() handDrawingNE: string;
-    @Field() handDrawingSW: string;
     @Field((type) => Language)
     lang: Language;
 }

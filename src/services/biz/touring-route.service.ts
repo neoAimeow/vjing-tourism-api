@@ -30,7 +30,7 @@ export class TouringRouteService {
             const data = await this.prisma.touringRoute.create({
                 data: {
                     scenicRegionId,
-                    unionName: spotTypeInput.unionName,
+                    displayName: spotTypeInput.displayName,
                 },
             });
             const TouringRouteInfoDto: TouringRouteInfoDTO =
@@ -97,7 +97,7 @@ export class TouringRouteService {
             const data = await this.prisma.touringRoute.update({
                 where: { id },
                 data: {
-                    unionName: spotTypeInput.unionName,
+                    displayName: spotTypeInput.displayName,
                 },
             });
 
