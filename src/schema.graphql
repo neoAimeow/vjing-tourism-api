@@ -145,8 +145,6 @@ type Query {
   TouringRouteByLang(id: String!, lang: String!): TouringRouteDTO!
   TouringRouteInfo(id: String!): TouringRouteInfoDTO!
   TouringRouteInfos(TouringRouteId: String!): TouringRouteInfoDTO!
-  hello(name: String!): String!
-  helloWorld: String!
   me: UserDTO!
   scenicRegion(id: String!): ScenicRegionDTO!
   scenicRegionByLang(id: String!, lang: String!): ScenicRegionDTO!
