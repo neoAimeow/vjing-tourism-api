@@ -1,3 +1,4 @@
+import { UserConnection } from 'src/models/pagination/user-connection.model';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Resolver, Query, Args } from '@nestjs/graphql';
 

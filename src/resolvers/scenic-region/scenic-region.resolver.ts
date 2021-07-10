@@ -32,14 +32,13 @@ import {
 } from './dto/update-scenic-region.input';
 
 @Resolver((of) => ScenicRegionDTO)
-@UseGuards(GqlAuthGuard)
 export class ScenicRegionResolver {
     constructor(
         private prisma: PrismaService,
         private readonly scenicRegionService: ScenicRegionService
     ) {}
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicRegionDTO)
     async createScenicRegion(
         @Args('regionInput') regionInput: CreateScenicRegionInput,
@@ -53,7 +52,7 @@ export class ScenicRegionResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicRegionInfoDTO)
     async createScenicRegionInfoWithLang(
         @Args('scenicRegionId') scenicRegionId: string,
@@ -67,7 +66,7 @@ export class ScenicRegionResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicRegionDTO)
     async updateScenicRegion(
         @Args('id') id: string,
@@ -79,7 +78,7 @@ export class ScenicRegionResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicRegionInfoDTO)
     async UpdateScenicRegionInfoInput(
         @Args('id') id: string,
@@ -91,13 +90,13 @@ export class ScenicRegionResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => Boolean)
     async deleteScenicRegion(@Args('id') id: string): Promise<boolean> {
         return await this.scenicRegionService.deleteScenicRegion(id);
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => Boolean)
     async deleteScenicRegionInfo(@Args('id') id: string): Promise<boolean> {
         return await this.scenicRegionService.deleteScenicRegionInfo(id);

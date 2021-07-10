@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ScenicRegionDTO } from './scenic-region.model';
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { User } from './user.model';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseModel } from './base.model';
 import { Language } from '@prisma/client';
 

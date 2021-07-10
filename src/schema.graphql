@@ -8,7 +8,7 @@ type Auth {
 
   """JWT refresh token"""
   refreshToken: String!
-  user: User!
+  user: UserDTO!
 }
 
 input ChangePasswordInput {
@@ -98,7 +98,7 @@ type Mutation {
   UpdateScenicSpotInfoInput(id: String!, spotInfoInput: UpdateScenicSpotInfoInput!): ScenicSpotInfoDTO!
   UpdateScenicSpotTypeInfoInput(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
   UpdateTouringRouteInfoInput(id: String!, infoInput: UpdateTouringRouteInfoInput!): TouringRouteInfoDTO!
-  changePassword(data: ChangePasswordInput!): User!
+  changePassword(data: ChangePasswordInput!): UserDTO!
   createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
   createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, lang: String!, scenicSpotId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
@@ -107,6 +107,7 @@ type Mutation {
   createScenicSpotTypeInfoWithLang(lang: String!, scenicSpotTypeId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
   createTouringRoute(infoInput: CreateTouringRouteInfoInput!, input: CreateTouringRouteInput!, lang: String!, scenicRegionId: String!): TouringRouteDTO!
   createTouringRouteInfoWithLang(input: CreateTouringRouteInfoInput!, lang: String!, touringRouteId: String!): TouringRouteInfoDTO!
+  createUser(data: SignupInput!): UserDTO!
   deleteScenicRegion(id: String!): Boolean!
   deleteScenicRegionInfo(id: String!): Boolean!
   deleteScenicSpot(id: String!): Boolean!
@@ -117,12 +118,11 @@ type Mutation {
   deleteTouringRouteInfo(id: String!): Boolean!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
-  signup(data: SignupInput!): Auth!
   updateScenicRegion(id: String!, regionInfoInput: UpdateScenicRegionInput!): ScenicRegionDTO!
   updateScenicSpot(id: String!, scenicSpotTypeId: String!, spotInfoInput: UpdateScenicSpotInput!): ScenicSpotDTO!
   updateScenicSpotType(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInput!): ScenicSpotTypeDTO!
   updateTouringRoute(id: String!, input: UpdateTouringRouteInput!): TouringRouteDTO!
-  updateUser(data: UpdateUserInput!): User!
+  updateUser(data: UpdateUserInput!): UserDTO!
 }
 
 """
@@ -147,7 +147,7 @@ type Query {
   TouringRouteInfos(TouringRouteId: String!): TouringRouteInfoDTO!
   hello(name: String!): String!
   helloWorld: String!
-  me: User!
+  me: UserDTO!
   scenicRegion(id: String!): ScenicRegionDTO!
   scenicRegionByLang(id: String!, lang: String!): ScenicRegionDTO!
   scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
@@ -164,6 +164,7 @@ type Query {
   scenicSpotTypeInfos(scenicSpotTypeId: String!): ScenicSpotTypeInfoDTO!
   scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
   scenicSpotsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
+  users(after: String, before: String, first: Int, last: Int, orderBy: UserOrder, skip: Int): UserConnection!
 }
 
 """User role"""
@@ -316,8 +317,9 @@ type ScenicSpotTypeInfoDTO {
 
 input SignupInput {
   email: String!
-  name: String
+  name: String!
   password: String!
+  role: Role
 }
 
 type Token {
@@ -417,7 +419,13 @@ input UpdateUserInput {
   name: String
 }
 
-type User {
+type UserConnection {
+  edges: [UserDTOEdge!]
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserDTO {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
   email: String!
@@ -427,4 +435,23 @@ type User {
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
+}
+
+type UserDTOEdge {
+  cursor: String!
+  node: UserDTO!
+}
+
+input UserOrder {
+  direction: OrderDirection!
+  field: UserOrderField!
+}
+
+"""Properties by which post connections can be ordered."""
+enum UserOrderField {
+  createdAt
+  email
+  id
+  name
+  updatedAt
 }

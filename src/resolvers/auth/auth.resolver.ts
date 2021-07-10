@@ -1,3 +1,4 @@
+import { UserDTO } from './../../models/user.model';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Auth } from '../../models/auth.model';
 import { Token } from '../../models/token.model';
@@ -8,22 +9,27 @@ import {
     Args,
     Parent,
     ResolveField,
+    Query,
 } from '@nestjs/graphql';
 import { AuthService } from '../../services/admin/auth.service';
 import { SignupInput } from './dto/signup.input';
+import { GqlAuthGuard } from 'src/guards/gql-auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { UserEntity } from 'src/decorators/user.decorator';
+import { UpdateUserInput } from './dto/update-user.input';
+import { ChangePasswordInput } from './dto/change-password.input';
+import { UserConnection } from 'src/models/pagination/user-connection.model';
+import { PaginationArgs } from 'src/common/pagination/pagination.args';
+import { UserOrder } from 'src/models/inputs/user-order.input';
 
 @Resolver((of) => Auth)
 export class AuthResolver {
     constructor(private readonly auth: AuthService) {}
 
-    @Mutation((returns) => Auth)
-    async signup(@Args('data') data: SignupInput) {
+    @Mutation((returns) => UserDTO)
+    async createUser(@Args('data') data: SignupInput): Promise<UserDTO> {
         data.email = data.email.toLowerCase();
-        const { accessToken, refreshToken } = await this.auth.createUser(data);
-        return {
-            accessToken,
-            refreshToken,
-        };
+        return this.auth.createUser(data);
     }
 
     @Mutation((returns) => Auth)
@@ -42,6 +48,42 @@ export class AuthResolver {
     @Mutation((returns) => Token)
     async refreshToken(@Args('token') token: string) {
         return this.auth.refreshToken(token);
+    }
+
+    @Query((returns) => UserDTO)
+    async me(@UserEntity() user: UserDTO): Promise<UserDTO> {
+        return user;
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => UserDTO)
+    async updateUser(
+        @UserEntity() user: UserDTO,
+        @Args('data') newUserData: UpdateUserInput
+    ) {
+        return this.auth.updateUser(user.id, newUserData);
+    }
+
+    @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => UserDTO)
+    async changePassword(
+        @UserEntity() user: UserDTO,
+        @Args('data') changePassword: ChangePasswordInput
+    ) {
+        return this.auth.changePassword(user.id, user.password, changePassword);
+    }
+
+    @Query((returns) => UserConnection)
+    async users(
+        @Args() args: PaginationArgs,
+        @Args({
+            name: 'orderBy',
+            type: () => UserOrder,
+            nullable: true,
+        })
+        orderBy: UserOrder
+    ): Promise<UserConnection> {
+        return this.auth.queryUsers(args, orderBy);
     }
 
     @ResolveField('user')

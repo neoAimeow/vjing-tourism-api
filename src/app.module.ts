@@ -7,7 +7,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
 import { AuthModule } from './resolvers/auth/auth.module';
-import { UserModule } from './resolvers/user/user.module';
 import { AppResolver } from './resolvers/app.resolver';
 import { DateScalar } from './common/scalars/date.scalar';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -37,7 +36,6 @@ import { GraphqlConfig } from './configs/config.interface';
             inject: [ConfigService],
         }),
         AuthModule,
-        UserModule,
         ScenicRegionModule,
         ScenicSpotModule,
         ScenicSpotTypeModule,

@@ -1,11 +1,12 @@
+import { Role } from '@prisma/client';
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ObjectType, registerEnumType, HideField } from '@nestjs/graphql';
+import {
+    ObjectType,
+    registerEnumType,
+    HideField,
+    Field,
+} from '@nestjs/graphql';
 import { BaseModel } from './base.model';
-
-export enum Role {
-    ADMIN = 'ADMIN',
-    USER = 'USER',
-}
 
 registerEnumType(Role, {
     name: 'Role',
@@ -13,11 +14,13 @@ registerEnumType(Role, {
 });
 
 @ObjectType()
-export class User extends BaseModel {
+export class UserDTO extends BaseModel {
+    @Field()
     email: string;
+    @Field()
     name: string;
+    @Field((type) => Role)
     role: Role;
-
     @HideField()
     password: string;
 }

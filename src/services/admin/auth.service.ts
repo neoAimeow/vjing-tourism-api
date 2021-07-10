@@ -1,3 +1,4 @@
+import { UserDTO } from './../../models/user.model';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     Injectable,
@@ -14,6 +15,13 @@ import { Prisma, User } from '@prisma/client';
 import { Token } from '../../models/token.model';
 import { ConfigService } from '@nestjs/config';
 import { SecurityConfig } from 'src/configs/config.interface';
+import { PaginationArgs } from 'src/common/pagination/pagination.args';
+import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
+import { OrderDirection } from 'src/common/order/order-direction';
+import { UserOrder, UserOrderField } from 'src/models/inputs/user-order.input';
+import { UserConnection } from 'src/models/pagination/user-connection.model';
+import { UpdateUserInput } from 'src/resolvers/auth/dto/update-user.input';
+import { ChangePasswordInput } from 'src/resolvers/auth/dto/change-password.input';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +32,7 @@ export class AuthService {
         private readonly configService: ConfigService
     ) {}
 
-    async createUser(payload: SignupInput): Promise<Token> {
+    async createUser(payload: SignupInput): Promise<UserDTO> {
         const hashedPassword = await this.passwordService.hashPassword(
             payload.password
         );
@@ -35,13 +43,11 @@ export class AuthService {
                     name: payload.name,
                     email: payload.email,
                     password: hashedPassword,
-                    role: 'USER',
+                    role: payload.role || 'USER',
                 },
             });
 
-            return this.generateToken({
-                userId: user.id,
-            });
+            return user;
         } catch (e) {
             if (
                 e instanceof Prisma.PrismaClientKnownRequestError &&
@@ -89,9 +95,8 @@ export class AuthService {
     generateToken(payload: { userId: string }): Token {
         const accessToken = this.jwtService.sign(payload);
 
-        const securityConfig = this.configService.get<SecurityConfig>(
-            'security'
-        );
+        const securityConfig =
+            this.configService.get<SecurityConfig>('security');
         const refreshToken = this.jwtService.sign(payload, {
             expiresIn: securityConfig.refreshIn,
         });
@@ -112,5 +117,63 @@ export class AuthService {
         } catch (e) {
             throw new UnauthorizedException();
         }
+    }
+
+    updateUser(userId: string, newUserData: UpdateUserInput) {
+        return this.prisma.user.update({
+            data: newUserData,
+            where: {
+                id: userId,
+            },
+        });
+    }
+
+    async queryUsers(
+        { skip, after, before, first, last }: PaginationArgs,
+        orderBy: UserOrder
+    ): Promise<UserConnection> {
+        const orderByDefault: UserOrder = {
+            field: UserOrderField.createdAt,
+            direction: OrderDirection.asc,
+        };
+
+        const a = await findManyCursorConnection(
+            (args) =>
+                this.prisma.user.findMany({
+                    orderBy: orderBy
+                        ? { [orderBy.field]: orderBy.direction }
+                        : { [orderByDefault.field]: orderByDefault.direction },
+                    ...args,
+                }),
+            () => this.prisma.user.count(),
+            { first, last, before, after }
+        );
+        return a;
+    }
+
+    async changePassword(
+        userId: string,
+        userPassword: string,
+        changePassword: ChangePasswordInput
+    ) {
+        const passwordValid = await this.passwordService.validatePassword(
+            changePassword.oldPassword,
+            userPassword
+        );
+
+        if (!passwordValid) {
+            throw new BadRequestException('Invalid password');
+        }
+
+        const hashedPassword = await this.passwordService.hashPassword(
+            changePassword.newPassword
+        );
+
+        return this.prisma.user.update({
+            data: {
+                password: hashedPassword,
+            },
+            where: { id: userId },
+        });
     }
 }
