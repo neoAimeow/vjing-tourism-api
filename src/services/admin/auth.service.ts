@@ -22,6 +22,7 @@ import { UserOrder, UserOrderField } from 'src/models/inputs/user-order.input';
 import { UserConnection } from 'src/models/pagination/user-connection.model';
 import { UpdateUserInput } from 'src/resolvers/auth/dto/update-user.input';
 import { ChangePasswordInput } from 'src/resolvers/auth/dto/change-password.input';
+import { Auth } from 'src/models/auth.model';
 
 @Injectable()
 export class AuthService {
@@ -62,7 +63,7 @@ export class AuthService {
         }
     }
 
-    async login(email: string, password: string): Promise<Token> {
+    async login(email: string, password: string): Promise<Auth> {
         const user = await this.prisma.user.findUnique({ where: { email } });
 
         if (!user) {
@@ -78,9 +79,12 @@ export class AuthService {
             throw new BadRequestException('Invalid password');
         }
 
-        return this.generateToken({
-            userId: user.id,
-        });
+        return {
+            ...this.generateToken({
+                userId: user.id,
+            }),
+            user: user,
+        };
     }
 
     validateUser(userId: string): Promise<User> {
@@ -175,5 +179,17 @@ export class AuthService {
             },
             where: { id: userId },
         });
+    }
+
+    async deleteUser(id: string): Promise<UserDTO> {
+        try {
+            const result = await this.prisma.user.delete({
+                where: { id },
+            });
+            console.warn(result);
+            return result;
+        } catch (ex) {
+            return null;
+        }
     }
 }

@@ -33,16 +33,8 @@ export class AuthResolver {
     }
 
     @Mutation((returns) => Auth)
-    async login(@Args('data') { email, password }: LoginInput) {
-        const { accessToken, refreshToken } = await this.auth.login(
-            email.toLowerCase(),
-            password
-        );
-
-        return {
-            accessToken,
-            refreshToken,
-        };
+    async login(@Args('data') { email, password }: LoginInput): Promise<Auth> {
+        return await this.auth.login(email.toLowerCase(), password);
     }
 
     @Mutation((returns) => Token)
@@ -89,5 +81,11 @@ export class AuthResolver {
     @ResolveField('user')
     async user(@Parent() auth: Auth) {
         return await this.auth.getUserFromToken(auth.accessToken);
+    }
+
+    // @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => UserDTO)
+    async deleteUser(@Args('id') id: string): Promise<UserDTO> {
+        return this.auth.deleteUser(id);
     }
 }

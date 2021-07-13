@@ -116,6 +116,7 @@ type Mutation {
   deleteScenicSpotTypeInfo(id: String!): Boolean!
   deleteTouringRoute(id: String!): Boolean!
   deleteTouringRouteInfo(id: String!): Boolean!
+  deleteUser(id: String!): UserDTO!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   updateScenicRegion(id: String!, regionInfoInput: UpdateScenicRegionInput!): ScenicRegionDTO!
