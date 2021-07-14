@@ -14,7 +14,7 @@ import {
 import { AuthService } from '../../services/admin/auth.service';
 import { SignupInput } from './dto/signup.input';
 import { GqlAuthGuard } from 'src/guards/gql-auth.guard';
-import { UseGuards } from '@nestjs/common';
+import { ConflictException, UseGuards } from '@nestjs/common';
 import { UserEntity } from 'src/decorators/user.decorator';
 import { UpdateUserInput } from './dto/update-user.input';
 import { ChangePasswordInput } from './dto/change-password.input';
@@ -28,8 +28,12 @@ export class AuthResolver {
 
     @Mutation((returns) => UserDTO)
     async createUser(@Args('data') data: SignupInput): Promise<UserDTO> {
-        data.email = data.email.toLowerCase();
-        return this.auth.createUser(data);
+        try {
+            data.email = data.email.toLowerCase();
+            return this.auth.createUser(data);
+        } catch (ex) {
+            throw new ConflictException(ex);
+        }
     }
 
     @Mutation((returns) => Auth)
@@ -52,7 +56,7 @@ export class AuthResolver {
     async updateUser(
         @UserEntity() user: UserDTO,
         @Args('data') newUserData: UpdateUserInput
-    ) {
+    ): Promise<UserDTO> {
         return this.auth.updateUser(user.id, newUserData);
     }
 

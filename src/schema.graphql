@@ -416,6 +416,7 @@ input UpdateTouringRouteInput {
 
 input UpdateUserInput {
   name: String
+  role: Role
 }
 
 type UserConnection {
