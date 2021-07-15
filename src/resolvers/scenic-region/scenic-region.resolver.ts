@@ -30,6 +30,7 @@ import {
     UpdateScenicRegionInfoInput,
     UpdateScenicRegionInput,
 } from './dto/update-scenic-region.input';
+import { Result } from 'src/models/common/result.model';
 
 @Resolver((of) => ScenicRegionDTO)
 export class ScenicRegionResolver {
@@ -91,9 +92,11 @@ export class ScenicRegionResolver {
     }
 
     // @UseGuards(GqlAuthGuard)
-    @Mutation((returns) => Boolean)
-    async deleteScenicRegion(@Args('id') id: string): Promise<boolean> {
-        return await this.scenicRegionService.deleteScenicRegion(id);
+    @Mutation((returns) => Result)
+    async deleteScenicRegion(@Args('id') id: string): Promise<Result> {
+        return {
+            isSuccess: await this.scenicRegionService.deleteScenicRegion(id),
+        };
     }
 
     // @UseGuards(GqlAuthGuard)

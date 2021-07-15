@@ -1,32 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
-  // previewFeatures = []
-}
-
-enum Role {
-  ADMIN
-  USER
-}
-
-enum SliceState {
-  //未切图或切图失败
-  PENDING
-  //切图中
-  SLICING
-  //切图并保存成功
-  SUCCESS
-}
-
-enum Language {
-  CHINESE
-  ENGLISH
-  JAPANESE
-  KOREAN
 }
 
 model User {
@@ -53,10 +31,10 @@ model ScenicRegion {
   enableNavigation        Boolean
   enablePoiLanguageSwitch Boolean
   sliceState              SliceState         @default(PENDING)
-  scenicSpots             ScenicSpot[]
-  touringRoutes           TouringRoute[]
-  scenicSpotTypes         ScenicSpotType[]
   scenicRegionInfos       ScenicRegionInfo[]
+  scenicSpots             ScenicSpot[]
+  scenicSpotTypes         ScenicSpotType[]
+  touringRoutes           TouringRoute[]
 }
 
 model ScenicRegionInfo {
@@ -64,7 +42,6 @@ model ScenicRegionInfo {
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
   scenicRegionId    String
-  scenicRegion      ScenicRegion @relation(fields: [scenicRegionId], references: [id])
   name              String
   title             String
   layer             String
@@ -73,6 +50,7 @@ model ScenicRegionInfo {
   ticketUrl         String
   handDrawingUri    String
   lang              Language     @default(CHINESE)
+  scenicRegion      ScenicRegion @relation(fields: [scenicRegionId], references: [id])
 }
 
 model ScenicSpotType {
@@ -81,8 +59,8 @@ model ScenicSpotType {
   updatedAt           DateTime             @updatedAt
   displayName         String
   rank                Int
-  ScenicRegion        ScenicRegion?        @relation(fields: [scenicRegionId], references: [id])
   scenicRegionId      String?
+  ScenicRegion        ScenicRegion?        @relation(fields: [scenicRegionId], references: [id])
   scenicSpots         ScenicSpot[]
   scenicSpotTypeInfos ScenicSpotTypeInfo[]
 }
@@ -92,9 +70,9 @@ model ScenicSpotTypeInfo {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   scenicSpotTypeId String
-  scenicSpotType   ScenicSpotType @relation(fields: [scenicSpotTypeId], references: [id])
   name             String
   lang             Language       @default(CHINESE)
+  scenicSpotType   ScenicSpotType @relation(fields: [scenicSpotTypeId], references: [id])
 }
 
 model ScenicSpot {
@@ -102,11 +80,11 @@ model ScenicSpot {
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   scenicRegionId   String
-  scenicRegion     ScenicRegion     @relation(fields: [scenicRegionId], references: [id])
   scenicSpotTypeId String
-  scenicSpotType   ScenicSpotType   @relation(fields: [scenicSpotTypeId], references: [id])
   displayName      String
   hidden           Boolean
+  scenicRegion     ScenicRegion     @relation(fields: [scenicRegionId], references: [id])
+  scenicSpotType   ScenicSpotType   @relation(fields: [scenicSpotTypeId], references: [id])
   scenicSpotInfos  ScenicSpotInfo[]
 }
 
@@ -115,13 +93,13 @@ model ScenicSpotInfo {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   scenicSpotId String
-  scenicSpot   ScenicSpot @relation(fields: [scenicSpotId], references: [id])
   name         String
   introduction String
   iconUri      String
   audioUri     String
   imageUri     String
   lang         Language   @default(CHINESE)
+  scenicSpot   ScenicSpot @relation(fields: [scenicSpotId], references: [id])
 }
 
 model TouringRoute {
@@ -139,8 +117,26 @@ model TouringRouteInfo {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   touringRouteId String
-  touringRoute   TouringRoute @relation(fields: [touringRouteId], references: [id])
   title          String
   content        String
   lang           Language     @default(CHINESE)
+  touringRoute   TouringRoute @relation(fields: [touringRouteId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum SliceState {
+  PENDING
+  SLICING
+  SUCCESS
+}
+
+enum Language {
+  CHINESE
+  ENGLISH
+  JAPANESE
+  KOREAN
 }

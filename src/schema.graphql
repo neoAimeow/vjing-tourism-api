@@ -108,7 +108,7 @@ type Mutation {
   createTouringRoute(infoInput: CreateTouringRouteInfoInput!, input: CreateTouringRouteInput!, lang: String!, scenicRegionId: String!): TouringRouteDTO!
   createTouringRouteInfoWithLang(input: CreateTouringRouteInfoInput!, lang: String!, touringRouteId: String!): TouringRouteInfoDTO!
   createUser(data: SignupInput!): UserDTO!
-  deleteScenicRegion(id: String!): Boolean!
+  deleteScenicRegion(id: String!): Result!
   deleteScenicRegionInfo(id: String!): Boolean!
   deleteScenicSpot(id: String!): Boolean!
   deleteScenicSpotInfo(id: String!): Boolean!
@@ -164,6 +164,11 @@ type Query {
   scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder): ScenicSpotConnection!
   scenicSpotsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder): ScenicSpotConnection!
   users(after: String, before: String, first: Int, last: Int, orderBy: UserOrder): UserConnection!
+}
+
+type Result {
+  """是否成功"""
+  isSuccess: Boolean
 }
 
 """User role"""

@@ -3,7 +3,11 @@ import {
     CreateScenicRegionInput,
     CreateScenicRegionInfoInput,
 } from './../../resolvers/scenic-region/dto/create-scenic-region.input';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+    Injectable,
+    BadRequestException,
+    ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
 import { Language, ScenicRegion, ScenicRegionInfo } from '@prisma/client';
 import {
@@ -179,9 +183,10 @@ export class ScenicRegionService {
                 deleteFather,
                 deleteChildren,
             ]);
-            return result === null;
+            return result !== null;
         } catch (ex) {
-            return null;
+            console.warn(ex);
+            throw new ConflictException(ex);
         }
     }
 
