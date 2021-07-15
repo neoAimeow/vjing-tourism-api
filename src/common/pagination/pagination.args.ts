@@ -2,11 +2,11 @@ import { Field, ArgsType, Int } from '@nestjs/graphql';
 
 @ArgsType()
 export class PaginationArgs {
-    after?: string;
+    after?: string | undefined;
 
-    before?: string;
+    before?: string | undefined;
 
-    first?: number;
+    first?: number | undefined;
 
-    last?: number;
+    last?: number | undefined;
 }
