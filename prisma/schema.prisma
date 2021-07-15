@@ -13,7 +13,7 @@ model User {
   updatedAt DateTime @updatedAt
   email     String   @unique
   password  String
-  name      String
+  name      String   @db.VarChar(32)
   role      Role
 }
 
@@ -21,13 +21,16 @@ model ScenicRegion {
   id                      String             @id @default(uuid())
   createdAt               DateTime           @default(now())
   updatedAt               DateTime           @updatedAt
-  displayName             String
-  location                String
+  displayName             String             @db.VarChar(32)
+  locationLat             Float              @db.DoublePrecision
+  locationLng             Float              @db.DoublePrecision
+  handDrawingNELat        Float              @db.DoublePrecision
+  handDrawingNELng        Float              @db.DoublePrecision
+  handDrawingSWLat        Float              @db.DoublePrecision
+  handDrawingSWLng        Float              @db.DoublePrecision
   zoom                    Int
   minZoom                 Int
   maxZoom                 Int
-  handDrawingNE           String
-  handDrawingSW           String
   enableNavigation        Boolean
   enablePoiLanguageSwitch Boolean
   sliceState              SliceState         @default(PENDING)
@@ -42,10 +45,10 @@ model ScenicRegionInfo {
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
   scenicRegionId    String
-  name              String
-  title             String
+  name              String       @db.VarChar(32)
+  title             String       @db.VarChar(32)
   layer             String
-  layersDisplayName String
+  layersDisplayName String       @db.VarChar(32)
   vrUrl             String
   ticketUrl         String
   handDrawingUri    String
@@ -57,7 +60,7 @@ model ScenicSpotType {
   id                  String               @id @default(uuid())
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
-  displayName         String
+  displayName         String               @db.VarChar(32)
   rank                Int
   scenicRegionId      String?
   ScenicRegion        ScenicRegion?        @relation(fields: [scenicRegionId], references: [id])
@@ -70,7 +73,7 @@ model ScenicSpotTypeInfo {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   scenicSpotTypeId String
-  name             String
+  name             String         @db.VarChar(32)
   lang             Language       @default(CHINESE)
   scenicSpotType   ScenicSpotType @relation(fields: [scenicSpotTypeId], references: [id])
 }

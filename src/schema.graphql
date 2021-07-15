@@ -30,9 +30,12 @@ input CreateScenicRegionInput {
   displayName: String!
   enableNavigation: Boolean
   enablePoiLanguageSwitch: Boolean
-  handDrawingNE: String
-  handDrawingSW: String
-  location: String
+  handDrawingNELat: Int
+  handDrawingNELng: Int
+  handDrawingSWLat: Int
+  handDrawingSWLng: Int
+  locationLat: Int
+  locationLng: Int
   maxZoom: Int
   minZoom: Int
   sliceState: String
@@ -189,10 +192,13 @@ type ScenicRegionDTO {
   displayName: String!
   enableNavigation: Boolean!
   enablePoiLanguageSwitch: Boolean!
-  handDrawingNE: String!
-  handDrawingSW: String!
+  handDrawingNELat: Int!
+  handDrawingNELng: Int!
+  handDrawingSWLat: Int!
+  handDrawingSWLng: Int!
   id: ID!
-  location: String!
+  locationLat: Int!
+  locationLng: Int!
   maxZoom: Int!
   minZoom: Int!
   scenicRegionInfoDtos: [ScenicRegionInfoDTO]
@@ -374,9 +380,12 @@ input UpdateScenicRegionInput {
   displayName: String
   enableNavigation: Boolean
   enablePoiLanguageSwitch: Boolean
-  handDrawingNE: String
-  handDrawingSW: String
-  location: String
+  handDrawingNELat: Int
+  handDrawingNELng: Int
+  handDrawingSWLat: Int
+  handDrawingSWLng: Int
+  locationLat: Int
+  locationLng: Int
   maxZoom: Int
   minZoom: Int
   sliceState: String

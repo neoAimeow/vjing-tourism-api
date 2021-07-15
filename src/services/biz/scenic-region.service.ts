@@ -41,12 +41,15 @@ export class ScenicRegionService {
             const data = await this.prisma.scenicRegion.create({
                 data: {
                     displayName: regionInput.displayName,
-                    location: regionInput.location || '',
                     zoom: regionInput.zoom || 10,
                     minZoom: regionInput.minZoom || 5,
                     maxZoom: regionInput.maxZoom || 15,
-                    handDrawingNE: regionInput.handDrawingNE || '',
-                    handDrawingSW: regionInput.handDrawingSW || '',
+                    locationLat: regionInput.locationLat || 0,
+                    locationLng: regionInput.locationLng || 0,
+                    handDrawingNELat: regionInput.handDrawingNELat || 0,
+                    handDrawingNELng: regionInput.handDrawingNELng || 0,
+                    handDrawingSWLat: regionInput.handDrawingSWLat || 0,
+                    handDrawingSWLng: regionInput.handDrawingSWLng || 0,
                     enableNavigation: regionInput.enableNavigation || false,
                     enablePoiLanguageSwitch:
                         regionInput.enablePoiLanguageSwitch || false,
@@ -125,12 +128,15 @@ export class ScenicRegionService {
                 where: { id },
                 data: {
                     displayName: regionInput.displayName,
-                    location: regionInput.location || '',
+                    locationLat: regionInput.locationLat || 0,
+                    locationLng: regionInput.locationLng || 0,
+                    handDrawingNELat: regionInput.handDrawingNELat || 0,
+                    handDrawingNELng: regionInput.handDrawingNELng || 0,
+                    handDrawingSWLat: regionInput.handDrawingSWLat || 0,
+                    handDrawingSWLng: regionInput.handDrawingSWLng || 0,
                     zoom: regionInput.zoom || 10,
                     minZoom: regionInput.minZoom || 5,
                     maxZoom: regionInput.maxZoom || 15,
-                    handDrawingNE: regionInput.handDrawingNE || '',
-                    handDrawingSW: regionInput.handDrawingSW || '',
                     enableNavigation: regionInput.enableNavigation || false,
                     enablePoiLanguageSwitch:
                         regionInput.enablePoiLanguageSwitch || false,

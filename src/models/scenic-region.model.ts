@@ -11,13 +11,16 @@ registerEnumType(SliceState, {
 @ObjectType()
 export class ScenicRegionDTO extends BaseModel {
     @Field() displayName: string;
-    @Field() location: string;
+    @Field() locationLat: number;
+    @Field() locationLng: number;
     @Field() zoom: number;
     @Field() minZoom: number;
     @Field() maxZoom: number;
     @Field() enableNavigation: boolean;
-    @Field() handDrawingNE: string;
-    @Field() handDrawingSW: string;
+    @Field() handDrawingNELat: number;
+    @Field() handDrawingNELng: number;
+    @Field() handDrawingSWLat: number;
+    @Field() handDrawingSWLng: number;
     @Field() enablePoiLanguageSwitch: boolean;
     @Field() sliceState: SliceState;
     @Field((type) => [ScenicRegionInfoDTO], {

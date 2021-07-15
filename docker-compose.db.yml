@@ -13,4 +13,4 @@ services:
 
 volumes:
     postgres:
-        name: nest-db-test
+        name: nest-db-testv1

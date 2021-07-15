@@ -6,8 +6,7 @@ export class CreateScenicRegionInput {
     @Field()
     @IsNotEmpty()
     displayName: string;
-    @Field({ nullable: true })
-    location?: string;
+
     @Field({ nullable: true })
     zoom?: number;
     @Field({ nullable: true })
@@ -15,9 +14,17 @@ export class CreateScenicRegionInput {
     @Field({ nullable: true })
     maxZoom?: number;
     @Field({ nullable: true })
-    handDrawingNE?: string;
+    locationLng?: number;
     @Field({ nullable: true })
-    handDrawingSW?: string;
+    locationLat?: number;
+    @Field({ nullable: true })
+    handDrawingNELat?: number;
+    @Field({ nullable: true })
+    handDrawingNELng?: number;
+    @Field({ nullable: true })
+    handDrawingSWLat?: number;
+    @Field({ nullable: true })
+    handDrawingSWLng?: number;
     @Field({ nullable: true })
     enableNavigation?: boolean;
     @Field({ nullable: true })
