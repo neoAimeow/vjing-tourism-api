@@ -1,3 +1,4 @@
+import { Float } from '@nestjs/graphql';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Language, SliceState } from '@prisma/client';
@@ -11,16 +12,16 @@ registerEnumType(SliceState, {
 @ObjectType()
 export class ScenicRegionDTO extends BaseModel {
     @Field() displayName: string;
-    @Field() locationLat: number;
-    @Field() locationLng: number;
     @Field() zoom: number;
     @Field() minZoom: number;
     @Field() maxZoom: number;
     @Field() enableNavigation: boolean;
-    @Field() handDrawingNELat: number;
-    @Field() handDrawingNELng: number;
-    @Field() handDrawingSWLat: number;
-    @Field() handDrawingSWLng: number;
+    @Field((type) => Float) locationLat: number;
+    @Field((type) => Float) locationLng: number;
+    @Field((type) => Float) handDrawingNELat: number;
+    @Field((type) => Float) handDrawingNELng: number;
+    @Field((type) => Float) handDrawingSWLat: number;
+    @Field((type) => Float) handDrawingSWLng: number;
     @Field() enablePoiLanguageSwitch: boolean;
     @Field() sliceState: SliceState;
     @Field((type) => [ScenicRegionInfoDTO], {

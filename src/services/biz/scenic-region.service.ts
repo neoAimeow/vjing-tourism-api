@@ -68,7 +68,7 @@ export class ScenicRegionService {
                 scenicRegionInfoDtos: [scenicRegionInfoDto],
             };
         } catch (ex) {
-            return null;
+            throw new ConflictException(ex);
         }
     }
 
@@ -113,7 +113,7 @@ export class ScenicRegionService {
             //如果该语种不存在就创建国际化数据。
             return { ...data };
         } catch (ex) {
-            return null;
+            throw new ConflictException(ex);
         }
     }
 
@@ -186,8 +186,8 @@ export class ScenicRegionService {
             });
             //add transaction，avoid delete failed
             const result = await this.prisma.$transaction([
-                deleteFather,
                 deleteChildren,
+                deleteFather,
             ]);
             return result !== null;
         } catch (ex) {
@@ -203,7 +203,7 @@ export class ScenicRegionService {
             });
             return result === null;
         } catch (ex) {
-            return null;
+            throw new ConflictException(ex);
         }
     }
 

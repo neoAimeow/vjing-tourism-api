@@ -1,4 +1,4 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Float } from '@nestjs/graphql';
 import { SliceState } from '@prisma/client';
 @InputType()
 export class UpdateScenicRegionInput {
@@ -8,17 +8,17 @@ export class UpdateScenicRegionInput {
     zoom?: number;
     @Field({ nullable: true })
     minZoom?: number;
-    @Field({ nullable: true })
+    @Field((type) => Float, { nullable: true })
     locationLng?: number;
-    @Field({ nullable: true })
+    @Field((type) => Float, { nullable: true })
     locationLat?: number;
-    @Field({ nullable: true })
+    @Field((type) => Float, { nullable: true })
     handDrawingNELat?: number;
-    @Field({ nullable: true })
+    @Field((type) => Float, { nullable: true })
     handDrawingNELng?: number;
-    @Field({ nullable: true })
+    @Field((type) => Float, { nullable: true })
     handDrawingSWLat?: number;
-    @Field({ nullable: true })
+    @Field((type) => Float, { nullable: true })
     handDrawingSWLng?: number;
     @Field({ nullable: true })
     maxZoom?: number;
