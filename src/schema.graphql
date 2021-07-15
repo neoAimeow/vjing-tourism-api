@@ -151,8 +151,8 @@ type Query {
   scenicRegionByLang(id: String!, lang: String!): ScenicRegionDTO!
   scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
   scenicRegionInfos(scenicRegionId: String!): ScenicRegionInfoDTO!
-  scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, skip: Int): ScenicRegionConnection!
-  scenicRegionsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder, skip: Int): ScenicRegionConnection!
+  scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder): ScenicRegionConnection!
+  scenicRegionsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder): ScenicRegionConnection!
   scenicSpot(id: String!): ScenicSpotDTO!
   scenicSpotByLang(id: String!, lang: String!): ScenicSpotDTO!
   scenicSpotInfo(id: String!): ScenicSpotInfoDTO!
@@ -161,9 +161,9 @@ type Query {
   scenicSpotTypeByLang(id: String!, lang: String!): ScenicSpotTypeDTO!
   scenicSpotTypeInfo(id: String!): ScenicSpotTypeInfoDTO!
   scenicSpotTypeInfos(scenicSpotTypeId: String!): ScenicSpotTypeInfoDTO!
-  scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
-  scenicSpotsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, skip: Int): ScenicSpotConnection!
-  users(after: String, before: String, first: Int, last: Int, orderBy: UserOrder, skip: Int): UserConnection!
+  scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder): ScenicSpotConnection!
+  scenicSpotsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder): ScenicSpotConnection!
+  users(after: String, before: String, first: Int, last: Int, orderBy: UserOrder): UserConnection!
 }
 
 """User role"""

@@ -133,7 +133,7 @@ export class AuthService {
     }
 
     async queryUsers(
-        { skip, after, before, first, last }: PaginationArgs,
+        { after, before, first, last }: PaginationArgs,
         orderBy: UserOrder
     ): Promise<UserConnection> {
         const orderByDefault: UserOrder = {

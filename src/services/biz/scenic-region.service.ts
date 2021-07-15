@@ -220,7 +220,7 @@ export class ScenicRegionService {
     }
 
     async queryScenicRegions(
-        { skip, after, before, first, last }: PaginationArgs,
+        { after, before, first, last }: PaginationArgs,
         orderBy: ScenicRegionOrder
     ): Promise<ScenicRegionConnection> {
         const orderByDefault: ScenicRegionOrder = {

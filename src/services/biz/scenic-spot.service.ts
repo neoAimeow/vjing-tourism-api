@@ -199,7 +199,7 @@ export class ScenicSpotService {
     }
 
     async queryScenicSpots(
-        { skip, after, before, first, last }: PaginationArgs,
+        { after, before, first, last }: PaginationArgs,
         orderBy: ScenicSpotOrder
     ): Promise<ScenicSpotConnection> {
         const orderByDefault: ScenicSpotOrder = {
