@@ -19,7 +19,7 @@ input ChangePasswordInput {
 input CreateScenicRegionInfoInput {
   handDrawingUri: String
   layer: String
-  layerDisplayName: String
+  layersDisplayName: String
   name: String!
   ticketUrl: String
   title: String
@@ -109,7 +109,7 @@ type Mutation {
   createTouringRouteInfoWithLang(input: CreateTouringRouteInfoInput!, lang: String!, touringRouteId: String!): TouringRouteInfoDTO!
   createUser(data: SignupInput!): UserDTO!
   deleteScenicRegion(id: String!): Result!
-  deleteScenicRegionInfo(id: String!): Boolean!
+  deleteScenicRegionInfo(id: String!): Result!
   deleteScenicSpot(id: String!): Boolean!
   deleteScenicSpotInfo(id: String!): Boolean!
   deleteScenicSpotType(id: String!): Boolean!
@@ -359,7 +359,7 @@ type TouringRouteInfoDTO {
 input UpdateScenicRegionInfoInput {
   handDrawingUri: String
   layer: String
-  layerDisplayName: String
+  layersDisplayName: String
   name: String
   ticketUrl: String
   title: String

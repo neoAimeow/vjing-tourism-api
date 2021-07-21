@@ -201,7 +201,7 @@ export class ScenicRegionService {
             const result = await this.prisma.scenicRegionInfo.delete({
                 where: { id },
             });
-            return result === null;
+            return result !== null;
         } catch (ex) {
             throw new BadRequestException(ex);
         }

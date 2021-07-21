@@ -112,9 +112,13 @@ export class ScenicRegionResolver {
     }
 
     // @UseGuards(GqlAuthGuard)
-    @Mutation((returns) => Boolean)
-    async deleteScenicRegionInfo(@Args('id') id: string): Promise<boolean> {
-        return await this.scenicRegionService.deleteScenicRegionInfo(id);
+    @Mutation((returns) => Result)
+    async deleteScenicRegionInfo(@Args('id') id: string): Promise<Result> {
+        return {
+            isSuccess: await this.scenicRegionService.deleteScenicRegionInfo(
+                id
+            ),
+        };
     }
 
     @Query((returns) => ScenicRegionDTO)
