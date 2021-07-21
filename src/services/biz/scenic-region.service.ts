@@ -106,7 +106,7 @@ export class ScenicRegionService {
                     ticketUrl: input.ticketUrl || '',
                     title: input.title || '',
                     layer: input.layer || '',
-                    layersDisplayName: input.layerDisplayName || '',
+                    layersDisplayName: input.layersDisplayName || '',
                     lang: lang,
                 },
             });
@@ -165,7 +165,7 @@ export class ScenicRegionService {
                     ticketUrl: regionInfoInput.ticketUrl || '',
                     title: regionInfoInput.title || '',
                     layer: regionInfoInput.layer || '',
-                    layersDisplayName: regionInfoInput.layerDisplayName || '',
+                    layersDisplayName: regionInfoInput.layersDisplayName || '',
                 },
             });
 
