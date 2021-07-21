@@ -45,5 +45,5 @@ export class UpdateScenicRegionInfoInput {
     @Field({ nullable: true })
     layer?: string;
     @Field({ nullable: true })
-    layerDisplayName?: string;
+    layersDisplayName?: string;
 }
