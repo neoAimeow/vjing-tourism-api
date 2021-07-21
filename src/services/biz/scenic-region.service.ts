@@ -9,7 +9,7 @@ import {
     ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
-import { Language, ScenicRegion, ScenicRegionInfo } from '@prisma/client';
+import { Language, SliceState } from '@prisma/client';
 import {
     ScenicRegionDTO,
     ScenicRegionInfoDTO,
@@ -35,7 +35,7 @@ export class ScenicRegionService {
     async createScenicRegion(
         regionInput: CreateScenicRegionInput,
         regionInfoInput: CreateScenicRegionInfoInput,
-        lang: Language
+        lang?: Language
     ): Promise<ScenicRegionDTO> {
         try {
             const data = await this.prisma.scenicRegion.create({
@@ -46,21 +46,21 @@ export class ScenicRegionService {
                     maxZoom: regionInput.maxZoom || 15,
                     locationLat: regionInput.locationLat || 0,
                     locationLng: regionInput.locationLng || 0,
-                    handDrawingNELat: regionInput.handDrawingNELat || 0,
-                    handDrawingNELng: regionInput.handDrawingNELng || 0,
-                    handDrawingSWLat: regionInput.handDrawingSWLat || 0,
-                    handDrawingSWLng: regionInput.handDrawingSWLng || 0,
+                    handDrawingNELat: 0,
+                    handDrawingNELng: 0,
+                    handDrawingSWLat: 0,
+                    handDrawingSWLng: 0,
                     enableNavigation: regionInput.enableNavigation || false,
                     enablePoiLanguageSwitch:
                         regionInput.enablePoiLanguageSwitch || false,
-                    sliceState: regionInput.sliceState,
+                    sliceState: SliceState.PENDING,
                 },
             });
             const scenicRegionInfoDto: ScenicRegionInfoDTO =
                 await this.createScenicRegionInfoWithLang(
                     data.id,
                     regionInfoInput,
-                    lang
+                    lang || Language.CHINESE
                 );
 
             return {
@@ -68,7 +68,7 @@ export class ScenicRegionService {
                 scenicRegionInfoDtos: [scenicRegionInfoDto],
             };
         } catch (ex) {
-            throw new ConflictException(ex);
+            throw new BadRequestException(ex);
         }
     }
 
@@ -78,19 +78,20 @@ export class ScenicRegionService {
         lang: Language
     ): Promise<ScenicRegionInfoDTO> {
         try {
-            const hasDataResult = await this.getScenicRegionById(
-                scenicRegionId
-            );
+            const hasDataResult = await this.prisma.scenicRegion.findUnique({
+                where: { id: scenicRegionId },
+            });
+
             if (!hasDataResult) {
                 throw new BadRequestException(
                     'scenicRegionId错误，不存在该景区'
                 );
             }
 
-            const hasLangResult = await this.getScenicRegionInfoByIdAndLang(
-                scenicRegionId,
-                lang
-            );
+            const hasLangResult = await this.prisma.scenicRegionInfo.findFirst({
+                where: { scenicRegionId, lang },
+            });
+
             if (hasLangResult) {
                 throw new BadRequestException('该景区已经存在这个语言的信息');
             }
@@ -113,7 +114,7 @@ export class ScenicRegionService {
             //如果该语种不存在就创建国际化数据。
             return { ...data };
         } catch (ex) {
-            throw new ConflictException(ex);
+            throw new BadRequestException(ex);
         }
     }
 
@@ -146,31 +147,31 @@ export class ScenicRegionService {
 
             return { ...data };
         } catch (ex) {
-            return null;
+            throw new BadRequestException(ex);
         }
     }
 
     async updateScenicRegionInfo(
         id: string,
-        regionInput: UpdateScenicRegionInfoInput
+        regionInfoInput: UpdateScenicRegionInfoInput
     ): Promise<ScenicRegionInfoDTO> {
         try {
             const data = await this.prisma.scenicRegionInfo.update({
                 where: { id },
                 data: {
-                    name: regionInput.name,
-                    handDrawingUri: regionInput.handDrawingUri || '',
-                    vrUrl: regionInput.vrUrl || '',
-                    ticketUrl: regionInput.ticketUrl || '',
-                    title: regionInput.title || '',
-                    layer: regionInput.layer || '',
-                    layersDisplayName: regionInput.layerDisplayName || '',
+                    name: regionInfoInput.name,
+                    handDrawingUri: regionInfoInput.handDrawingUri || '',
+                    vrUrl: regionInfoInput.vrUrl || '',
+                    ticketUrl: regionInfoInput.ticketUrl || '',
+                    title: regionInfoInput.title || '',
+                    layer: regionInfoInput.layer || '',
+                    layersDisplayName: regionInfoInput.layerDisplayName || '',
                 },
             });
 
             return { ...data };
         } catch (ex) {
-            return null;
+            throw new BadRequestException(ex);
         }
     }
 
@@ -191,8 +192,7 @@ export class ScenicRegionService {
             ]);
             return result !== null;
         } catch (ex) {
-            console.warn(ex);
-            throw new ConflictException(ex);
+            throw new BadRequestException(ex);
         }
     }
 
@@ -203,31 +203,16 @@ export class ScenicRegionService {
             });
             return result === null;
         } catch (ex) {
-            throw new ConflictException(ex);
+            throw new BadRequestException(ex);
         }
     }
 
     /********************************************  query ScenicRegion  *******************************************************************/
 
-    async queryScenicRegionInfoById(id: string): Promise<ScenicRegionInfoDTO> {
-        return { ...(await this.getScenicRegionInfoById(id)) };
-    }
-
-    async queryScenicRegionByLang(
-        id: string,
-        lang: Language
-    ): Promise<ScenicRegionDTO> {
-        const info: ScenicRegionInfo =
-            await this.getScenicRegionInfoByIdAndLang(id, lang);
-        if (!info) {
-            throw new BadRequestException('没有查询到该景点详情');
-        }
-
-        const base: ScenicRegion = await this.getScenicRegionById(id);
-        if (!base) {
-            throw new BadRequestException('没有查询到该景点');
-        }
-        return this.combineScenicRegion(base, [info]);
+    queryScenicRegionInfoById(id: string): Promise<ScenicRegionInfoDTO> {
+        return this.prisma.scenicRegionInfo.findUnique({
+            where: { id },
+        });
     }
 
     async queryScenicRegions(
@@ -236,7 +221,7 @@ export class ScenicRegionService {
     ): Promise<ScenicRegionConnection> {
         const orderByDefault: ScenicRegionOrder = {
             field: ScenicRegionOrderField.createdAt,
-            direction: OrderDirection.asc,
+            direction: OrderDirection.desc,
         };
 
         const a = await findManyCursorConnection(
@@ -253,101 +238,23 @@ export class ScenicRegionService {
         return a;
     }
 
-    async queryScenicRegionsHasAllInfo(
-        args: PaginationArgs,
-        orderBy: ScenicRegionOrder
-    ): Promise<ScenicRegionConnection> {
-        const scenicRegionConnection: ScenicRegionConnection =
-            await this.queryScenicRegions(args, orderBy);
-        const { edges } = scenicRegionConnection || {};
-        await Promise.all(
-            edges.map(async (item) => {
-                const { node } = item;
-                const { id } = node;
-                const arrays: ScenicRegionInfoDTO[] =
-                    await this.queryScenicRegionInfosByScenicRegionId(id);
-                node.scenicRegionInfoDtos = arrays;
-            })
-        );
-        return scenicRegionConnection;
-    }
-
     /********************************************  query ScenicRegionInfo  *******************************************************************/
 
-    async queryScenicRegionById(id: string): Promise<ScenicRegionDTO> {
-        const infos = await this.getScenicRegionInfosByScenicRegionId(id);
-        const base = await this.getScenicRegionById(id);
-        if (!base) {
-            throw new BadRequestException('没有查询到该景点');
-        }
-        return this.combineScenicRegion(base, infos);
+    queryScenicRegionById(id: string): Promise<ScenicRegionDTO> {
+        return this.prisma.scenicRegion.findUnique({ where: { id } });
     }
 
     async queryScenicRegionInfosByScenicRegionId(
         scenicRegionId: string
     ): Promise<ScenicRegionInfoDTO[]> {
         const result: ScenicRegionInfoDTO[] = [];
-        const array = await this.getScenicRegionInfosByScenicRegionId(
-            scenicRegionId
-        );
+        const array = await this.prisma.scenicRegionInfo.findMany({
+            where: { scenicRegionId },
+        });
         array.forEach((element) => {
             const data: ScenicRegionInfoDTO = { ...element };
             result.push(data);
         });
         return result;
-    }
-
-    async queryScenicRegionInfoByScenicRegionIdAndLang(
-        scenicRegionId: string,
-        lang: Language
-    ): Promise<ScenicRegionInfoDTO> {
-        return {
-            ...(await this.getScenicRegionInfoByIdAndLang(
-                scenicRegionId,
-                lang
-            )),
-        };
-    }
-
-    /********************************************  private methods  *******************************************************************/
-
-    private async getScenicRegionById(id: string): Promise<ScenicRegion> {
-        return this.prisma.scenicRegion.findUnique({ where: { id } });
-    }
-
-    private getScenicRegionInfoById(id: string): Promise<ScenicRegionInfo> {
-        return this.prisma.scenicRegionInfo.findUnique({
-            where: { id },
-        });
-    }
-
-    private getScenicRegionInfosByScenicRegionId(
-        scenicRegionId: string
-    ): Promise<ScenicRegionInfo[]> {
-        return this.prisma.scenicRegionInfo.findMany({
-            where: { scenicRegionId },
-        });
-    }
-
-    private getScenicRegionInfoByIdAndLang(
-        scenicRegionId: string,
-        lang: Language
-    ): Promise<ScenicRegionInfo> {
-        return this.prisma.scenicRegionInfo.findFirst({
-            where: { scenicRegionId, lang },
-        });
-    }
-
-    private combineScenicRegion(
-        base: ScenicRegion,
-        scenicRegionInfos: ScenicRegionInfo[]
-    ): ScenicRegionDTO {
-        const scenicRegionInfoDtos: ScenicRegionInfoDTO[] = [];
-
-        scenicRegionInfos.forEach((item) => {
-            scenicRegionInfoDtos.push({ ...item });
-        });
-        const data: ScenicRegionDTO = { ...base, scenicRegionInfoDtos };
-        return data;
     }
 }

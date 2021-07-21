@@ -44,7 +44,7 @@ export class ScenicRegionResolver {
     async createScenicRegion(
         @Args('regionInput') regionInput: CreateScenicRegionInput,
         @Args('regionInfoInput') regionInfoInput: CreateScenicRegionInfoInput,
-        @Args('lang') lang: Language
+        @Args({ name: 'lang', nullable: true }) lang?: Language
     ): Promise<ScenicRegionDTO> {
         return await this.scenicRegionService.createScenicRegion(
             regionInput,
@@ -71,11 +71,23 @@ export class ScenicRegionResolver {
     @Mutation((returns) => ScenicRegionDTO)
     async updateScenicRegion(
         @Args('id') id: string,
-        @Args('regionInfoInput') regionInput: UpdateScenicRegionInput
+        @Args('regionInput') regionInput: UpdateScenicRegionInput
     ): Promise<ScenicRegionDTO> {
         return await this.scenicRegionService.updateScenicRegion(
             id,
             regionInput
+        );
+    }
+
+    // @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => ScenicRegionInfoDTO)
+    async updateScenicRegionInfo(
+        @Args('id') id: string,
+        @Args('regionInfoInput') regionInfoInput: UpdateScenicRegionInfoInput
+    ): Promise<ScenicRegionInfoDTO> {
+        return await this.scenicRegionService.updateScenicRegionInfo(
+            id,
+            regionInfoInput
         );
     }
 
@@ -112,14 +124,6 @@ export class ScenicRegionResolver {
         return this.scenicRegionService.queryScenicRegionById(id);
     }
 
-    @Query((returns) => ScenicRegionDTO)
-    async scenicRegionByLang(
-        @Args('id', { type: () => String }) id: string,
-        @Args('lang') lang: Language
-    ): Promise<ScenicRegionDTO> {
-        return this.scenicRegionService.queryScenicRegionByLang(id, lang);
-    }
-
     @Query((returns) => ScenicRegionConnection)
     async scenicRegions(
         @Args() args: PaginationArgs,
@@ -133,35 +137,18 @@ export class ScenicRegionResolver {
         return this.scenicRegionService.queryScenicRegions(args, orderBy);
     }
 
-    @Query((returns) => ScenicRegionConnection)
-    async scenicRegionsHasAllInfo(
-        @Args() args: PaginationArgs,
-        @Args({
-            name: 'orderBy',
-            type: () => ScenicRegionOrder,
-            nullable: true,
-        })
-        orderBy: ScenicRegionOrder
-    ): Promise<ScenicRegionConnection> {
-        return this.scenicRegionService.queryScenicRegionsHasAllInfo(
-            args,
-            orderBy
+    @ResolveField('scenicRegionInfoDtos', (returns) => [ScenicRegionInfoDTO])
+    async getScenicRegionInfos(@Parent() scenicRegion: ScenicRegionDTO) {
+        const { id } = scenicRegion;
+        return this.scenicRegionService.queryScenicRegionInfosByScenicRegionId(
+            id
         );
     }
 
     @Query((returns) => ScenicRegionInfoDTO)
     async scenicRegionInfo(
         @Args('id', { type: () => String }) id: string
-    ): Promise<ScenicRegionDTO> {
-        return this.scenicRegionService.queryScenicRegionById(id);
-    }
-
-    @Query((returns) => ScenicRegionInfoDTO)
-    async scenicRegionInfos(
-        @Args('scenicRegionId', { type: () => String }) scenicRegionId: string
-    ): Promise<ScenicRegionInfoDTO[]> {
-        return this.scenicRegionService.queryScenicRegionInfosByScenicRegionId(
-            scenicRegionId
-        );
+    ): Promise<ScenicRegionInfoDTO> {
+        return this.scenicRegionService.queryScenicRegionInfoById(id);
     }
 }

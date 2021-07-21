@@ -12,8 +12,7 @@ import {
     ScenicSpotTypeDTO,
     ScenicSpotTypeInfoDTO,
 } from 'src/models/scenic-spot-type.model';
-import { Language, ScenicSpotType, ScenicSpotTypeInfo } from '@prisma/client';
-import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
+import { Language } from '@prisma/client';
 
 @Injectable()
 export class ScenicSpotTypeService {
@@ -57,19 +56,20 @@ export class ScenicSpotTypeService {
         lang: Language
     ): Promise<ScenicSpotTypeInfoDTO> {
         try {
-            const hasDataResult = await this.getScenicSpotTypeById(
-                scenicSpotTypeId
-            );
+            const hasDataResult = await this.prisma.scenicSpotType.findUnique({
+                where: { id: scenicSpotTypeId },
+            });
             if (!hasDataResult) {
                 throw new BadRequestException(
                     'scenicSpotTypeId错误，不存在该分类'
                 );
             }
 
-            const hasLangResult = await this.getScenicSpotTypeInfoByIdAndLang(
-                scenicSpotTypeId,
-                lang
-            );
+            const hasLangResult =
+                await this.prisma.scenicSpotTypeInfo.findFirst({
+                    where: { scenicSpotTypeId, lang },
+                });
+
             if (hasLangResult) {
                 throw new BadRequestException('该分类已经存在这个语言的信息');
             }
@@ -161,105 +161,29 @@ export class ScenicSpotTypeService {
 
     /********************************************  query ScenicSpotType  *******************************************************************/
 
-    async queryScenicSpotTypeInfoById(
-        id: string
-    ): Promise<ScenicSpotTypeInfoDTO> {
-        return { ...(await this.getScenicSpotTypeInfoById(id)) };
-    }
-
-    async queryScenicSpotTypeByLang(
-        id: string,
-        lang: Language
-    ): Promise<ScenicSpotTypeDTO> {
-        const info: ScenicSpotTypeInfo =
-            await this.getScenicSpotTypeInfoByIdAndLang(id, lang);
-        if (!info) {
-            throw new BadRequestException('没有查询到该景点详情');
-        }
-
-        const base: ScenicSpotType = await this.getScenicSpotTypeById(id);
-        if (!base) {
-            throw new BadRequestException('没有查询到该景点');
-        }
-        return this.combineScenicSpotType(base, [info]);
+    queryScenicSpotTypeInfoById(id: string): Promise<ScenicSpotTypeInfoDTO> {
+        return this.prisma.scenicSpotTypeInfo.findUnique({
+            where: { id },
+        });
     }
 
     /********************************************  query ScenicSpotTypeInfo  *******************************************************************/
 
-    async queryScenicSpotTypeById(id: string): Promise<ScenicSpotTypeDTO> {
-        const infos = await this.getScenicSpotTypeInfosByScenicSpotTypeId(id);
-        const base = await this.getScenicSpotTypeById(id);
-        if (!base) {
-            throw new BadRequestException('没有查询到该景点');
-        }
-        return this.combineScenicSpotType(base, infos);
+    queryScenicSpotTypeById(id: string): Promise<ScenicSpotTypeDTO> {
+        return this.prisma.scenicSpotType.findUnique({ where: { id } });
     }
 
     async queryScenicSpotTypeInfosByScenicSpotTypeId(
         scenicSpotTypeId: string
     ): Promise<ScenicSpotTypeInfoDTO[]> {
         const result: ScenicSpotTypeInfoDTO[] = [];
-        const array = await this.getScenicSpotTypeInfosByScenicSpotTypeId(
-            scenicSpotTypeId
-        );
+        const array = await this.prisma.scenicSpotTypeInfo.findMany({
+            where: { scenicSpotTypeId },
+        });
         array.forEach((element) => {
             const data: ScenicSpotTypeInfoDTO = { ...element };
             result.push(data);
         });
         return result;
-    }
-
-    async queryScenicSpotTypeInfoByScenicSpotTypeIdAndLang(
-        scenicSpotTypeId: string,
-        lang: Language
-    ): Promise<ScenicSpotTypeInfoDTO> {
-        return {
-            ...(await this.getScenicSpotTypeInfoByIdAndLang(
-                scenicSpotTypeId,
-                lang
-            )),
-        };
-    }
-
-    /********************************************  private methods  *******************************************************************/
-
-    private async getScenicSpotTypeById(id: string): Promise<ScenicSpotType> {
-        return this.prisma.scenicSpotType.findUnique({ where: { id } });
-    }
-
-    private getScenicSpotTypeInfoById(id: string): Promise<ScenicSpotTypeInfo> {
-        return this.prisma.scenicSpotTypeInfo.findUnique({
-            where: { id },
-        });
-    }
-
-    private getScenicSpotTypeInfosByScenicSpotTypeId(
-        scenicSpotTypeId: string
-    ): Promise<ScenicSpotTypeInfo[]> {
-        return this.prisma.scenicSpotTypeInfo.findMany({
-            where: { scenicSpotTypeId },
-        });
-    }
-
-    private getScenicSpotTypeInfoByIdAndLang(
-        scenicSpotTypeId: string,
-        lang: Language
-    ): Promise<ScenicSpotTypeInfo> {
-        return this.prisma.scenicSpotTypeInfo.findFirst({
-            where: { scenicSpotTypeId, lang },
-        });
-    }
-
-    private combineScenicSpotType(
-        base: ScenicSpotType,
-        scenicSpotTypeInfos: ScenicSpotTypeInfo[]
-    ): ScenicSpotTypeDTO {
-        const scenicSpotTypeInfoDtos: ScenicSpotTypeInfoDTO[] = [];
-
-        scenicSpotTypeInfos.forEach((item) => {
-            scenicSpotTypeInfoDtos.push({ ...item });
-        });
-        const data: ScenicSpotTypeDTO = { ...base, scenicSpotTypeInfoDtos };
-        return data;
     }
 }

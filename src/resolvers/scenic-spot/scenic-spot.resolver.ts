@@ -39,14 +39,14 @@ export class ScenicSpotResolver {
     @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotDTO)
     async createScenicSpot(
-        @Args('scenicSpotId') scenicSpotId: string,
+        @Args('scenicRegionId') scenicRegionId: string,
         @Args('scenicSpotTypeId') scenicSpotTypeId: string,
         @Args('input') SpotInput: CreateScenicSpotInput,
         @Args('infoInput') SpotInfoInput: CreateScenicSpotInfoInput,
         @Args('lang') lang: Language
     ): Promise<ScenicSpotDTO> {
         return this.scenicSpotService.createScenicSpot(
-            scenicSpotId,
+            scenicRegionId,
             scenicSpotTypeId,
             SpotInput,
             SpotInfoInput,
@@ -113,16 +113,9 @@ export class ScenicSpotResolver {
         return this.scenicSpotService.queryScenicSpotById(id);
     }
 
-    @Query((returns) => ScenicSpotDTO)
-    async scenicSpotByLang(
-        @Args('id', { type: () => String }) id: string,
-        @Args('lang') lang: Language
-    ): Promise<ScenicSpotDTO> {
-        return this.scenicSpotService.queryScenicSpotByLang(id, lang);
-    }
-
     @Query((returns) => ScenicSpotConnection)
     async scenicSpots(
+        @Args('scenicRegionId', { type: () => String }) scenicRegionId: string,
         @Args() args: PaginationArgs,
         @Args({
             name: 'orderBy',
@@ -131,35 +124,23 @@ export class ScenicSpotResolver {
         })
         orderBy: ScenicSpotOrder
     ): Promise<ScenicSpotConnection> {
-        return this.scenicSpotService.queryScenicSpots(args, orderBy);
-    }
-
-    @Query((returns) => ScenicSpotConnection)
-    async scenicSpotsHasAllInfo(
-        @Args() args: PaginationArgs,
-        @Args({
-            name: 'orderBy',
-            type: () => ScenicSpotOrder,
-            nullable: true,
-        })
-        orderBy: ScenicSpotOrder
-    ): Promise<ScenicSpotConnection> {
-        return this.scenicSpotService.queryScenicSpotsHasAllInfo(args, orderBy);
+        return this.scenicSpotService.queryScenicSpots(
+            scenicRegionId,
+            args,
+            orderBy
+        );
     }
 
     @Query((returns) => ScenicSpotInfoDTO)
     async scenicSpotInfo(
         @Args('id', { type: () => String }) id: string
-    ): Promise<ScenicSpotDTO> {
-        return this.scenicSpotService.queryScenicSpotById(id);
+    ): Promise<ScenicSpotInfoDTO> {
+        return this.scenicSpotService.queryScenicSpotInfoById(id);
     }
 
-    @Query((returns) => ScenicSpotInfoDTO)
-    async scenicSpotInfos(
-        @Args('scenicSpotId', { type: () => String }) scenicSpotId: string
-    ): Promise<ScenicSpotInfoDTO[]> {
-        return this.scenicSpotService.queryScenicSpotInfosByScenicSpotId(
-            scenicSpotId
-        );
+    @ResolveField('scenicSpotInfoDtos', (returns) => [ScenicSpotInfoDTO])
+    async getScenicSpotInfos(@Parent() scenicSpot: ScenicSpotDTO) {
+        const { id } = scenicSpot;
+        return this.scenicSpotService.queryScenicSpotInfosByScenicSpotId(id);
     }
 }

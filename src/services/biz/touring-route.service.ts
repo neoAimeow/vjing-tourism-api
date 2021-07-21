@@ -55,19 +55,18 @@ export class TouringRouteService {
         lang: Language
     ): Promise<TouringRouteInfoDTO> {
         try {
-            const hasDataResult = await this.getTouringRouteById(
-                touringRouteId
-            );
+            const hasDataResult = this.prisma.touringRoute.findUnique({
+                where: { id: touringRouteId },
+            });
             if (!hasDataResult) {
                 throw new BadRequestException(
                     'TouringRouteId错误，不存在该分类'
                 );
             }
 
-            const hasLangResult = await this.getTouringRouteInfoByIdAndLang(
-                touringRouteId,
-                lang
-            );
+            const hasLangResult = await this.prisma.touringRouteInfo.findFirst({
+                where: { touringRouteId, lang },
+            });
             if (hasLangResult) {
                 throw new BadRequestException('该分类已经存在这个语言的信息');
             }
@@ -160,103 +159,29 @@ export class TouringRouteService {
 
     /********************************************  query TouringRoute  *******************************************************************/
 
-    async queryTouringRouteInfoById(id: string): Promise<TouringRouteInfoDTO> {
-        return { ...(await this.getTouringRouteInfoById(id)) };
-    }
-
-    async queryTouringRouteByLang(
-        id: string,
-        lang: Language
-    ): Promise<TouringRouteDTO> {
-        const info: TouringRouteInfo =
-            await this.getTouringRouteInfoByIdAndLang(id, lang);
-        if (!info) {
-            throw new BadRequestException('没有查询到该景点详情');
-        }
-
-        const base: TouringRoute = await this.getTouringRouteById(id);
-        if (!base) {
-            throw new BadRequestException('没有查询到该景点');
-        }
-        return this.combineTouringRoute(base, [info]);
-    }
-
-    /********************************************  query TouringRouteInfo  *******************************************************************/
-
-    async queryTouringRouteById(id: string): Promise<TouringRouteDTO> {
-        const infos = await this.getTouringRouteInfosByTouringRouteId(id);
-        const base = await this.getTouringRouteById(id);
-        if (!base) {
-            throw new BadRequestException('没有查询到该景点');
-        }
-        return this.combineTouringRoute(base, infos);
-    }
-
-    async queryTouringRouteInfosByTouringRouteId(
-        TouringRouteId: string
-    ): Promise<TouringRouteInfoDTO[]> {
-        const result: TouringRouteInfoDTO[] = [];
-        const array = await this.getTouringRouteInfosByTouringRouteId(
-            TouringRouteId
-        );
-        array.forEach((element) => {
-            const data: TouringRouteInfoDTO = { ...element };
-            result.push(data);
-        });
-        return result;
-    }
-
-    async queryTouringRouteInfoByTouringRouteIdAndLang(
-        TouringRouteId: string,
-        lang: Language
-    ): Promise<TouringRouteInfoDTO> {
-        return {
-            ...(await this.getTouringRouteInfoByIdAndLang(
-                TouringRouteId,
-                lang
-            )),
-        };
-    }
-
-    /********************************************  private methods  *******************************************************************/
-
-    private async getTouringRouteById(id: string): Promise<TouringRoute> {
-        return this.prisma.touringRoute.findUnique({ where: { id } });
-    }
-
-    private getTouringRouteInfoById(id: string): Promise<TouringRouteInfo> {
+    queryTouringRouteInfoById(id: string): Promise<TouringRouteInfoDTO> {
         return this.prisma.touringRouteInfo.findUnique({
             where: { id },
         });
     }
 
-    private getTouringRouteInfosByTouringRouteId(
+    /********************************************  query TouringRouteInfo  *******************************************************************/
+
+    queryTouringRouteById(id: string): Promise<TouringRouteDTO> {
+        return this.prisma.touringRoute.findUnique({ where: { id } });
+    }
+
+    async queryTouringRouteInfosByTouringRouteId(
         touringRouteId: string
-    ): Promise<TouringRouteInfo[]> {
-        return this.prisma.touringRouteInfo.findMany({
+    ): Promise<TouringRouteInfoDTO[]> {
+        const result: TouringRouteInfoDTO[] = [];
+        const array = await this.prisma.touringRouteInfo.findMany({
             where: { touringRouteId },
         });
-    }
-
-    private getTouringRouteInfoByIdAndLang(
-        touringRouteId: string,
-        lang: Language
-    ): Promise<TouringRouteInfo> {
-        return this.prisma.touringRouteInfo.findFirst({
-            where: { touringRouteId, lang },
+        array.forEach((element) => {
+            const data: TouringRouteInfoDTO = { ...element };
+            result.push(data);
         });
-    }
-
-    private combineTouringRoute(
-        base: TouringRoute,
-        touringRouteInfos: TouringRouteInfo[]
-    ): TouringRouteDTO {
-        const touringRouteInfoDtos: TouringRouteInfoDTO[] = [];
-
-        touringRouteInfos.forEach((item) => {
-            touringRouteInfoDtos.push({ ...item });
-        });
-        const data: TouringRouteDTO = { ...base, touringRouteInfoDtos };
-        return data;
+        return result;
     }
 }

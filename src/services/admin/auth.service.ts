@@ -138,7 +138,7 @@ export class AuthService {
     ): Promise<UserConnection> {
         const orderByDefault: UserOrder = {
             field: UserOrderField.createdAt,
-            direction: OrderDirection.asc,
+            direction: OrderDirection.desc,
         };
 
         const a = await findManyCursorConnection(

@@ -17,20 +17,10 @@ export class CreateScenicRegionInput {
     locationLng?: number;
     @Field((type) => Float, { nullable: true })
     locationLat?: number;
-    @Field((type) => Float, { nullable: true })
-    handDrawingNELat?: number;
-    @Field((type) => Float, { nullable: true })
-    handDrawingNELng?: number;
-    @Field((type) => Float, { nullable: true })
-    handDrawingSWLat?: number;
-    @Field((type) => Float, { nullable: true })
-    handDrawingSWLng?: number;
     @Field({ nullable: true })
     enableNavigation?: boolean;
     @Field({ nullable: true })
     enablePoiLanguageSwitch?: boolean;
-    @Field({ nullable: true })
-    sliceState?: SliceState;
 }
 
 @InputType()

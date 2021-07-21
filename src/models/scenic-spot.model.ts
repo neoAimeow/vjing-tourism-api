@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ScenicSpotTypeDTO } from './scenic-spot-type.model';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { BaseModel } from './base.model';
 import { Language } from '@prisma/client';
 
@@ -12,6 +12,8 @@ export class ScenicSpotDTO extends BaseModel {
     displayName: string;
     @Field()
     scenicSpotTypeId: string;
+    @Field((type) => Float) locationLat: number;
+    @Field((type) => Float) locationLng: number;
     @Field()
     hidden?: boolean;
     @Field((type) => [ScenicSpotInfoDTO], {

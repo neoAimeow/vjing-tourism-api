@@ -107,14 +107,6 @@ export class TouringRouteResolver {
         return this.touringRouteService.queryTouringRouteById(id);
     }
 
-    @Query((returns) => TouringRouteDTO)
-    async TouringRouteByLang(
-        @Args('id', { type: () => String }) id: string,
-        @Args('lang') lang: Language
-    ): Promise<TouringRouteDTO> {
-        return this.touringRouteService.queryTouringRouteByLang(id, lang);
-    }
-
     @Query((returns) => TouringRouteInfoDTO)
     async TouringRouteInfo(
         @Args('id', { type: () => String }) id: string
@@ -122,13 +114,11 @@ export class TouringRouteResolver {
         return this.touringRouteService.queryTouringRouteById(id);
     }
 
-    @Query((returns) => TouringRouteInfoDTO)
-    async TouringRouteInfos(
-        @Args('TouringRouteId', { type: () => String })
-        TouringRouteId: string
-    ): Promise<TouringRouteInfoDTO[]> {
+    @ResolveField('touringRouteInfoDtos', (returns) => [TouringRouteInfoDTO])
+    async getTouringRouteInfos(@Parent() touringRoute: TouringRouteDTO) {
+        const { id } = touringRoute;
         return this.touringRouteService.queryTouringRouteInfosByTouringRouteId(
-            TouringRouteId
+            id
         );
     }
 }

@@ -4,7 +4,14 @@ import {
     ScenicSpotTypeInfoDTO,
 } from './../../models/scenic-spot-type.model';
 import { PrismaService } from '../../services/common/prisma.service';
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import {
+    Resolver,
+    Query,
+    Args,
+    Mutation,
+    ResolveField,
+    Parent,
+} from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/guards/gql-auth.guard';
 import { ScenicSpotTypeService } from 'src/services/biz/scenic-spot-type.service';
@@ -102,14 +109,6 @@ export class ScenicSpotTypeResolver {
         return this.scenicSpotTypeService.queryScenicSpotTypeById(id);
     }
 
-    @Query((returns) => ScenicSpotTypeDTO)
-    async scenicSpotTypeByLang(
-        @Args('id', { type: () => String }) id: string,
-        @Args('lang') lang: Language
-    ): Promise<ScenicSpotTypeDTO> {
-        return this.scenicSpotTypeService.queryScenicSpotTypeByLang(id, lang);
-    }
-
     @Query((returns) => ScenicSpotTypeInfoDTO)
     async scenicSpotTypeInfo(
         @Args('id', { type: () => String }) id: string
@@ -117,13 +116,13 @@ export class ScenicSpotTypeResolver {
         return this.scenicSpotTypeService.queryScenicSpotTypeById(id);
     }
 
-    @Query((returns) => ScenicSpotTypeInfoDTO)
-    async scenicSpotTypeInfos(
-        @Args('scenicSpotTypeId', { type: () => String })
-        scenicSpotTypeId: string
-    ): Promise<ScenicSpotTypeInfoDTO[]> {
+    @ResolveField('scenicSpotTypeInfoDtos', (returns) => [
+        ScenicSpotTypeInfoDTO,
+    ])
+    async getScenicSpotInfos(@Parent() scenicSpotType: ScenicSpotTypeDTO) {
+        const { id } = scenicSpotType;
         return this.scenicSpotTypeService.queryScenicSpotTypeInfosByScenicSpotTypeId(
-            scenicSpotTypeId
+            id
         );
     }
 }

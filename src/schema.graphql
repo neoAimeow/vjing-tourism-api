@@ -30,15 +30,10 @@ input CreateScenicRegionInput {
   displayName: String!
   enableNavigation: Boolean
   enablePoiLanguageSwitch: Boolean
-  handDrawingNELat: Float
-  handDrawingNELng: Float
-  handDrawingSWLat: Float
-  handDrawingSWLng: Float
   locationLat: Float
   locationLng: Float
   maxZoom: Int
   minZoom: Int
-  sliceState: String
   zoom: Int
 }
 
@@ -54,6 +49,8 @@ input CreateScenicSpotInfoInput {
 input CreateScenicSpotInput {
   displayName: String!
   hidden: Boolean
+  locationLat: Float
+  locationLng: Float
   scenicRegionId: String!
   scenicSpotTypeId: String!
 }
@@ -102,9 +99,9 @@ type Mutation {
   UpdateScenicSpotTypeInfoInput(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
   UpdateTouringRouteInfoInput(id: String!, infoInput: UpdateTouringRouteInfoInput!): TouringRouteInfoDTO!
   changePassword(data: ChangePasswordInput!): UserDTO!
-  createScenicRegion(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
+  createScenicRegion(lang: String, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
-  createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, lang: String!, scenicSpotId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
+  createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, lang: String!, scenicRegionId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
   createScenicSpotInfoWithLang(lang: String!, scenicSpotId: String!, spotInfoInput: CreateScenicSpotInfoInput!): ScenicSpotInfoDTO!
   createScenicSpotType(lang: String!, scenicRegionId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!, spotTypeInput: CreateScenicSpotTypeInput!): ScenicSpotTypeDTO!
   createScenicSpotTypeInfoWithLang(lang: String!, scenicSpotTypeId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
@@ -122,7 +119,8 @@ type Mutation {
   deleteUser(id: String!): UserDTO!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
-  updateScenicRegion(id: String!, regionInfoInput: UpdateScenicRegionInput!): ScenicRegionDTO!
+  updateScenicRegion(id: String!, regionInput: UpdateScenicRegionInput!): ScenicRegionDTO!
+  updateScenicRegionInfo(id: String!, regionInfoInput: UpdateScenicRegionInfoInput!): ScenicRegionInfoDTO!
   updateScenicSpot(id: String!, scenicSpotTypeId: String!, spotInfoInput: UpdateScenicSpotInput!): ScenicSpotDTO!
   updateScenicSpotType(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInput!): ScenicSpotTypeDTO!
   updateTouringRoute(id: String!, input: UpdateTouringRouteInput!): TouringRouteDTO!
@@ -146,26 +144,16 @@ type PageInfo {
 
 type Query {
   TouringRoute(id: String!): TouringRouteDTO!
-  TouringRouteByLang(id: String!, lang: String!): TouringRouteDTO!
   TouringRouteInfo(id: String!): TouringRouteInfoDTO!
-  TouringRouteInfos(TouringRouteId: String!): TouringRouteInfoDTO!
   me: UserDTO!
   scenicRegion(id: String!): ScenicRegionDTO!
-  scenicRegionByLang(id: String!, lang: String!): ScenicRegionDTO!
   scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
-  scenicRegionInfos(scenicRegionId: String!): ScenicRegionInfoDTO!
   scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder): ScenicRegionConnection!
-  scenicRegionsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder): ScenicRegionConnection!
   scenicSpot(id: String!): ScenicSpotDTO!
-  scenicSpotByLang(id: String!, lang: String!): ScenicSpotDTO!
   scenicSpotInfo(id: String!): ScenicSpotInfoDTO!
-  scenicSpotInfos(scenicSpotId: String!): ScenicSpotInfoDTO!
   scenicSpotType(id: String!): ScenicSpotTypeDTO!
-  scenicSpotTypeByLang(id: String!, lang: String!): ScenicSpotTypeDTO!
   scenicSpotTypeInfo(id: String!): ScenicSpotTypeInfoDTO!
-  scenicSpotTypeInfos(scenicSpotTypeId: String!): ScenicSpotTypeInfoDTO!
-  scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder): ScenicSpotConnection!
-  scenicSpotsHasAllInfo(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder): ScenicSpotConnection!
+  scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, scenicRegionId: String!): ScenicSpotConnection!
   users(after: String, before: String, first: Int, last: Int, orderBy: UserOrder): UserConnection!
 }
 
@@ -201,7 +189,7 @@ type ScenicRegionDTO {
   locationLng: Float!
   maxZoom: Int!
   minZoom: Int!
-  scenicRegionInfoDtos: [ScenicRegionInfoDTO]
+  scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
   sliceState: String!
 
   """Identifies the date and time when the object was last updated."""
@@ -258,8 +246,10 @@ type ScenicSpotDTO {
   displayName: String!
   hidden: Boolean
   id: ID!
+  locationLat: Float!
+  locationLng: Float!
   scenicRegionId: String!
-  scenicSpotInfoDtos: [ScenicSpotInfoDTO]
+  scenicSpotInfoDtos: [ScenicSpotInfoDTO!]!
   scenicSpotTypeId: String!
 
   """Identifies the date and time when the object was last updated."""
@@ -307,7 +297,7 @@ type ScenicSpotTypeDTO {
   id: ID!
   rank: Int!
   scenicRegionId: String!
-  scenicSpotTypeInfoDtos: [ScenicSpotTypeInfoDTO]
+  scenicSpotTypeInfoDtos: [ScenicSpotTypeInfoDTO!]!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
@@ -346,7 +336,7 @@ type TouringRouteDTO {
   displayName: String!
   id: ID!
   scenicRegionId: String!
-  touringRouteInfoDtos: [TouringRouteInfoDTO]
+  touringRouteInfoDtos: [TouringRouteInfoDTO!]!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
@@ -404,6 +394,8 @@ input UpdateScenicSpotInfoInput {
 input UpdateScenicSpotInput {
   displayName: String!
   hidden: Boolean!
+  locationLat: Float
+  locationLng: Float
   scenicRegionId: String!
   scenicSpotTypeId: String!
 }

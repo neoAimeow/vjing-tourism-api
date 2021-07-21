@@ -84,6 +84,8 @@ model ScenicSpot {
   updatedAt        DateTime         @updatedAt
   scenicRegionId   String
   scenicSpotTypeId String
+  locationLat      Float            @db.DoublePrecision
+  locationLng      Float            @db.DoublePrecision
   displayName      String
   hidden           Boolean
   scenicRegion     ScenicRegion     @relation(fields: [scenicRegionId], references: [id])

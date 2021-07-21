@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Float } from '@nestjs/graphql';
 import { Language } from '@prisma/client';
 @InputType()
 export class UpdateScenicSpotInput {
@@ -9,6 +9,10 @@ export class UpdateScenicSpotInput {
     displayName: string;
     @Field()
     scenicSpotTypeId: string;
+    @Field((type) => Float, { nullable: true })
+    locationLng?: number;
+    @Field((type) => Float, { nullable: true })
+    locationLat?: number;
     @Field()
     hidden: boolean;
 }
