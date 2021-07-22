@@ -36,7 +36,6 @@ model ScenicRegion {
   sliceState              SliceState         @default(PENDING)
   scenicRegionInfos       ScenicRegionInfo[]
   scenicSpots             ScenicSpot[]
-  scenicSpotTypes         ScenicSpotType[]
   touringRoutes           TouringRoute[]
 }
 
@@ -62,9 +61,6 @@ model ScenicSpotType {
   updatedAt           DateTime             @updatedAt
   displayName         String               @db.VarChar(32)
   rank                Int
-  scenicRegionId      String?
-  ScenicRegion        ScenicRegion?        @relation(fields: [scenicRegionId], references: [id])
-  scenicSpots         ScenicSpot[]
   scenicSpotTypeInfos ScenicSpotTypeInfo[]
 }
 
@@ -89,7 +85,6 @@ model ScenicSpot {
   displayName      String
   hidden           Boolean
   scenicRegion     ScenicRegion     @relation(fields: [scenicRegionId], references: [id])
-  scenicSpotType   ScenicSpotType   @relation(fields: [scenicSpotTypeId], references: [id])
   scenicSpotInfos  ScenicSpotInfo[]
 }
 

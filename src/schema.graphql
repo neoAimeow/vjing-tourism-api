@@ -190,7 +190,7 @@ type ScenicRegionDTO {
   maxZoom: Int!
   minZoom: Int!
   scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
-  scenicSpotTypes: [ScenicSpotTypeDTO!]!
+  scenicSpotTypes: [ScenicSpotTypeDTO]
   sliceState: String!
 
   """Identifies the date and time when the object was last updated."""

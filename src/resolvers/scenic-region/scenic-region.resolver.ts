@@ -151,13 +151,14 @@ export class ScenicRegionResolver {
             id
         );
     }
-    @ResolveField('scenicSpotTypes', (returns) => [ScenicSpotTypeDTO])
-    async getScenicSpotTypes(@Parent() scenicRegion: ScenicRegionDTO) {
-        const { id } = scenicRegion;
-        // return this.scenicRegionService.queryScenicRegionInfosByScenicRegionId(
-        //     id
-        // );
-    }
+    // @ResolveField('scenicSpotTypes', (returns) => [ScenicSpotTypeDTO])
+    // async getScenicSpotTypes(@Parent() scenicRegion: ScenicRegionDTO) {
+    //     const { id } = scenicRegion;
+    //     return this.scenicSpotTypeService.queryScenicSpotTypeById();
+    //     // return this.scenicRegionService.queryScenicRegionInfosByScenicRegionId(
+    //     //     id
+    //     // );
+    // }
     @Query((returns) => ScenicRegionInfoDTO)
     async scenicRegionInfo(
         @Args('id', { type: () => String }) id: string
