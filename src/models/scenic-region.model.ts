@@ -1,7 +1,8 @@
+import { ScenicSpotTypeDTO } from './scenic-spot-type.model';
 import { Float } from '@nestjs/graphql';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Language, SliceState } from '@prisma/client';
+import { Language, SliceState, ScenicSpotType } from '@prisma/client';
 import { BaseModel } from './base.model';
 
 registerEnumType(SliceState, {
@@ -29,6 +30,11 @@ export class ScenicRegionDTO extends BaseModel {
         defaultValue: [],
     })
     scenicRegionInfoDtos?: ScenicRegionInfoDTO[];
+    @Field((type) => [ScenicSpotTypeDTO], {
+        nullable: 'itemsAndList',
+        defaultValue: [],
+    })
+    scenicSpotTypes?: ScenicSpotTypeDTO[];
 }
 
 @ObjectType()

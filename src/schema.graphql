@@ -62,7 +62,6 @@ input CreateScenicSpotTypeInfoInput {
 input CreateScenicSpotTypeInput {
   displayName: String
   rank: Int
-  scenicRegionId: String!
 }
 
 input CreateTouringRouteInfoInput {
@@ -146,6 +145,7 @@ type Query {
   TouringRoute(id: String!): TouringRouteDTO!
   TouringRouteInfo(id: String!): TouringRouteInfoDTO!
   me: UserDTO!
+  queryScenicSpotTypes: ScenicSpotTypeDTO!
   scenicRegion(id: String!): ScenicRegionDTO!
   scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
   scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder): ScenicRegionConnection!
@@ -190,6 +190,7 @@ type ScenicRegionDTO {
   maxZoom: Int!
   minZoom: Int!
   scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
+  scenicSpotTypes: [ScenicSpotTypeDTO!]!
   sliceState: String!
 
   """Identifies the date and time when the object was last updated."""
@@ -296,7 +297,6 @@ type ScenicSpotTypeDTO {
   displayName: String!
   id: ID!
   rank: Int!
-  scenicRegionId: String!
   scenicSpotTypeInfoDtos: [ScenicSpotTypeInfoDTO!]!
 
   """Identifies the date and time when the object was last updated."""

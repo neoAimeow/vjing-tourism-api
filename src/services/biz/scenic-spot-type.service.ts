@@ -161,6 +161,14 @@ export class ScenicSpotTypeService {
 
     /********************************************  query ScenicSpotType  *******************************************************************/
 
+    queryScenicSpotTypes(scenicRegionId: string): Promise<ScenicSpotTypeDTO[]> {
+        return this.prisma.scenicSpotType.findMany({
+            where: {
+                scenicRegionId,
+            },
+        });
+    }
+
     queryScenicSpotTypeInfoById(id: string): Promise<ScenicSpotTypeInfoDTO> {
         return this.prisma.scenicSpotTypeInfo.findUnique({
             where: { id },

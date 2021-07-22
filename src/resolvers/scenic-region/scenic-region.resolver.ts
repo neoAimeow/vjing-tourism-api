@@ -1,3 +1,5 @@
+import { ScenicSpotTypeService } from 'src/services/biz/scenic-spot-type.service';
+import { ScenicSpotTypeDTO } from './../../models/scenic-spot-type.model';
 import { ScenicRegionOrder } from './../../models/inputs/scenic-region-order.input';
 import { ScenicRegionConnection } from './../../models/pagination/scenic-region-connection.model';
 import { CreateScenicSpotInfoInput } from './../scenic-spot/dto/create-scenic-spot.input';
@@ -36,7 +38,8 @@ import { Result } from 'src/models/common/result.model';
 export class ScenicRegionResolver {
     constructor(
         private prisma: PrismaService,
-        private readonly scenicRegionService: ScenicRegionService
+        private readonly scenicRegionService: ScenicRegionService,
+        private readonly scenicSpotTypeService: ScenicSpotTypeService
     ) {}
 
     // @UseGuards(GqlAuthGuard)
@@ -148,7 +151,13 @@ export class ScenicRegionResolver {
             id
         );
     }
-
+    @ResolveField('scenicSpotTypes', (returns) => [ScenicSpotTypeDTO])
+    async getScenicSpotTypes(@Parent() scenicRegion: ScenicRegionDTO) {
+        const { id } = scenicRegion;
+        // return this.scenicRegionService.queryScenicRegionInfosByScenicRegionId(
+        //     id
+        // );
+    }
     @Query((returns) => ScenicRegionInfoDTO)
     async scenicRegionInfo(
         @Args('id', { type: () => String }) id: string

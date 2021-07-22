@@ -6,8 +6,6 @@ import { Language } from '@prisma/client';
 @ObjectType()
 export class ScenicSpotTypeDTO extends BaseModel {
     @Field()
-    scenicRegionId: string;
-    @Field()
     displayName: string;
     @Field()
     rank: number;
