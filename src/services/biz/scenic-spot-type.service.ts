@@ -21,7 +21,6 @@ export class ScenicSpotTypeService {
     /********************************************  create ScenicSpotType  *******************************************************************/
 
     async createScenicSpotType(
-        scenicRegionId: string,
         spotTypeInput: CreateScenicSpotTypeInput,
         spotTypeInfoInput: CreateScenicSpotTypeInfoInput,
         lang: Language
@@ -29,9 +28,8 @@ export class ScenicSpotTypeService {
         try {
             const data = await this.prisma.scenicSpotType.create({
                 data: {
-                    scenicRegionId,
                     displayName: spotTypeInput.displayName,
-                    rank: spotTypeInput.rank || 0,
+                    icon: spotTypeInput.icon,
                 },
             });
             const scenicSpotTypeInfoDto: ScenicSpotTypeInfoDTO =
@@ -99,7 +97,7 @@ export class ScenicSpotTypeService {
                 where: { id },
                 data: {
                     displayName: spotTypeInput.displayName,
-                    rank: spotTypeInput.rank || 0,
+                    icon: spotTypeInput.icon,
                 },
             });
 
@@ -161,12 +159,8 @@ export class ScenicSpotTypeService {
 
     /********************************************  query ScenicSpotType  *******************************************************************/
 
-    queryScenicSpotTypes(scenicRegionId: string): Promise<ScenicSpotTypeDTO[]> {
-        return this.prisma.scenicSpotType.findMany({
-            where: {
-                scenicRegionId,
-            },
-        });
+    queryScenicSpotTypes(): Promise<ScenicSpotTypeDTO[]> {
+        return this.prisma.scenicSpotType.findMany({});
     }
 
     queryScenicSpotTypeInfoById(id: string): Promise<ScenicSpotTypeInfoDTO> {

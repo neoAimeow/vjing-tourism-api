@@ -8,7 +8,7 @@ export class ScenicSpotTypeDTO extends BaseModel {
     @Field()
     displayName: string;
     @Field()
-    rank: number;
+    icon: string;
     @Field((type) => [ScenicSpotTypeInfoDTO], {
         nullable: 'itemsAndList',
         defaultValue: [],

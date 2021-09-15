@@ -3,461 +3,601 @@
 # ------------------------------------------------------
 
 type Auth {
-  """JWT access token"""
-  accessToken: String!
+    """
+    JWT access token
+    """
+    accessToken: String!
 
-  """JWT refresh token"""
-  refreshToken: String!
-  user: UserDTO!
+    """
+    JWT refresh token
+    """
+    refreshToken: String!
+    user: UserDTO!
 }
 
 input ChangePasswordInput {
-  newPassword: String!
-  oldPassword: String!
+    newPassword: String!
+    oldPassword: String!
 }
 
 input CreateScenicRegionInfoInput {
-  handDrawingUri: String
-  layer: String
-  layersDisplayName: String
-  name: String!
-  ticketUrl: String
-  title: String
-  vrUrl: String
+    handDrawingUri: String
+    layer: String
+    layersDisplayName: String
+    name: String!
+    ticketUrl: String
+    title: String
+    vrUrl: String
 }
 
 input CreateScenicRegionInput {
-  displayName: String!
-  enableNavigation: Boolean
-  enablePoiLanguageSwitch: Boolean
-  locationLat: Float
-  locationLng: Float
-  maxZoom: Int
-  minZoom: Int
-  zoom: Int
+    displayName: String!
+    enableNavigation: Boolean
+    enablePoiLanguageSwitch: Boolean
+    locationLat: Float
+    locationLng: Float
+    maxZoom: Int
+    minZoom: Int
+    zoom: Int
 }
 
 input CreateScenicSpotInfoInput {
-  audioUri: String
-  iconUri: String
-  imageUri: String
-  introduction: String
-  name: String!
-  scenicSpotId: String!
+    audioUri: String
+    iconUri: String
+    imageUri: String
+    introduction: String
+    name: String!
+    scenicSpotId: String!
 }
 
 input CreateScenicSpotInput {
-  displayName: String!
-  hidden: Boolean
-  locationLat: Float
-  locationLng: Float
-  scenicRegionId: String!
-  scenicSpotTypeId: String!
+    displayName: String!
+    hidden: Boolean
+    locationLat: Float
+    locationLng: Float
+    scenicRegionId: String!
+    scenicSpotTypeId: String!
 }
 
 input CreateScenicSpotTypeInfoInput {
-  name: String
+    name: String
 }
 
 input CreateScenicSpotTypeInput {
-  displayName: String
-  rank: Int
+    displayName: String
+    icon: String
 }
 
 input CreateTouringRouteInfoInput {
-  content: String!
-  lang: Language!
-  title: String!
-  touringRouteId: String!
+    content: String!
+    lang: Language!
+    title: String!
+    touringRouteId: String!
 }
 
 input CreateTouringRouteInput {
-  displayName: String!
-  scenicRegionId: String!
+    displayName: String!
+    scenicRegionId: String!
 }
 
-"""Date custom scalar type"""
+"""
+Date custom scalar type
+"""
 scalar Date
 
-"""Language"""
+"""
+Language
+"""
 enum Language {
-  CHINESE
-  ENGLISH
-  JAPANESE
-  KOREAN
+    CHINESE
+    ENGLISH
+    JAPANESE
+    KOREAN
 }
 
 input LoginInput {
-  email: String!
-  password: String!
+    email: String!
+    password: String!
 }
 
 type Mutation {
-  UpdateScenicRegionInfoInput(id: String!, regionInfoInput: UpdateScenicRegionInfoInput!): ScenicRegionInfoDTO!
-  UpdateScenicSpotInfoInput(id: String!, spotInfoInput: UpdateScenicSpotInfoInput!): ScenicSpotInfoDTO!
-  UpdateScenicSpotTypeInfoInput(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
-  UpdateTouringRouteInfoInput(id: String!, infoInput: UpdateTouringRouteInfoInput!): TouringRouteInfoDTO!
-  changePassword(data: ChangePasswordInput!): UserDTO!
-  createScenicRegion(lang: String, regionInfoInput: CreateScenicRegionInfoInput!, regionInput: CreateScenicRegionInput!): ScenicRegionDTO!
-  createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
-  createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, lang: String!, scenicRegionId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
-  createScenicSpotInfoWithLang(lang: String!, scenicSpotId: String!, spotInfoInput: CreateScenicSpotInfoInput!): ScenicSpotInfoDTO!
-  createScenicSpotType(lang: String!, scenicRegionId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!, spotTypeInput: CreateScenicSpotTypeInput!): ScenicSpotTypeDTO!
-  createScenicSpotTypeInfoWithLang(lang: String!, scenicSpotTypeId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
-  createTouringRoute(infoInput: CreateTouringRouteInfoInput!, input: CreateTouringRouteInput!, lang: String!, scenicRegionId: String!): TouringRouteDTO!
-  createTouringRouteInfoWithLang(input: CreateTouringRouteInfoInput!, lang: String!, touringRouteId: String!): TouringRouteInfoDTO!
-  createUser(data: SignupInput!): UserDTO!
-  deleteScenicRegion(id: String!): Result!
-  deleteScenicRegionInfo(id: String!): Result!
-  deleteScenicSpot(id: String!): Boolean!
-  deleteScenicSpotInfo(id: String!): Boolean!
-  deleteScenicSpotType(id: String!): Boolean!
-  deleteScenicSpotTypeInfo(id: String!): Boolean!
-  deleteTouringRoute(id: String!): Boolean!
-  deleteTouringRouteInfo(id: String!): Boolean!
-  deleteUser(id: String!): UserDTO!
-  login(data: LoginInput!): Auth!
-  refreshToken(token: String!): Token!
-  updateScenicRegion(id: String!, regionInput: UpdateScenicRegionInput!): ScenicRegionDTO!
-  updateScenicRegionInfo(id: String!, regionInfoInput: UpdateScenicRegionInfoInput!): ScenicRegionInfoDTO!
-  updateScenicSpot(id: String!, scenicSpotTypeId: String!, spotInfoInput: UpdateScenicSpotInput!): ScenicSpotDTO!
-  updateScenicSpotType(id: String!, spotTypeInfoInput: UpdateScenicSpotTypeInput!): ScenicSpotTypeDTO!
-  updateTouringRoute(id: String!, input: UpdateTouringRouteInput!): TouringRouteDTO!
-  updateUser(data: UpdateUserInput!): UserDTO!
+    UpdateScenicRegionInfoInput(
+        id: String!
+        regionInfoInput: UpdateScenicRegionInfoInput!
+    ): ScenicRegionInfoDTO!
+    UpdateScenicSpotInfoInput(
+        id: String!
+        spotInfoInput: UpdateScenicSpotInfoInput!
+    ): ScenicSpotInfoDTO!
+    UpdateTouringRouteInfoInput(
+        id: String!
+        infoInput: UpdateTouringRouteInfoInput!
+    ): TouringRouteInfoDTO!
+    changePassword(data: ChangePasswordInput!): UserDTO!
+    createScenicRegion(
+        lang: String
+        regionInfoInput: CreateScenicRegionInfoInput!
+        regionInput: CreateScenicRegionInput!
+    ): ScenicRegionDTO!
+    createScenicRegionInfoWithLang(
+        lang: String!
+        regionInfoInput: CreateScenicRegionInfoInput!
+        scenicRegionId: String!
+    ): ScenicRegionInfoDTO!
+    createScenicSpot(
+        infoInput: CreateScenicSpotInfoInput!
+        input: CreateScenicSpotInput!
+        lang: String!
+        scenicRegionId: String!
+        scenicSpotTypeId: String!
+    ): ScenicSpotDTO!
+    createScenicSpotInfoWithLang(
+        lang: String!
+        scenicSpotId: String!
+        spotInfoInput: CreateScenicSpotInfoInput!
+    ): ScenicSpotInfoDTO!
+    createScenicSpotType(
+        lang: String!
+        spotTypeInfoInput: CreateScenicSpotTypeInfoInput!
+        spotTypeInput: CreateScenicSpotTypeInput!
+    ): ScenicSpotTypeDTO!
+    createScenicSpotTypeInfoWithLang(
+        lang: String!
+        scenicSpotTypeId: String!
+        spotTypeInfoInput: CreateScenicSpotTypeInfoInput!
+    ): ScenicSpotTypeInfoDTO!
+    createTouringRoute(
+        infoInput: CreateTouringRouteInfoInput!
+        input: CreateTouringRouteInput!
+        lang: String!
+        scenicRegionId: String!
+    ): TouringRouteDTO!
+    createTouringRouteInfoWithLang(
+        input: CreateTouringRouteInfoInput!
+        lang: String!
+        touringRouteId: String!
+    ): TouringRouteInfoDTO!
+    createUser(data: SignupInput!): UserDTO!
+    deleteScenicRegion(id: String!): Result!
+    deleteScenicRegionInfo(id: String!): Result!
+    deleteScenicSpot(id: String!): Boolean!
+    deleteScenicSpotInfo(id: String!): Boolean!
+    deleteScenicSpotType(id: String!): Boolean!
+    deleteScenicSpotTypeInfo(id: String!): Boolean!
+    deleteTouringRoute(id: String!): Boolean!
+    deleteTouringRouteInfo(id: String!): Boolean!
+    deleteUser(id: String!): UserDTO!
+    login(data: LoginInput!): Auth!
+    refreshToken(token: String!): Token!
+    updateScenicRegion(
+        id: String!
+        regionInput: UpdateScenicRegionInput!
+    ): ScenicRegionDTO!
+    updateScenicRegionInfo(
+        id: String!
+        regionInfoInput: UpdateScenicRegionInfoInput!
+    ): ScenicRegionInfoDTO!
+    updateScenicSpot(
+        id: String!
+        scenicSpotTypeId: String!
+        spotInfoInput: UpdateScenicSpotInput!
+    ): ScenicSpotDTO!
+    updateScenicSpotType(
+        id: String!
+        spotTypeInfoInput: UpdateScenicSpotTypeInput!
+    ): ScenicSpotTypeDTO!
+    updateScenicSpotTypeInfo(
+        id: String!
+        spotTypeInfoInput: UpdateScenicSpotTypeInfoInput!
+    ): ScenicSpotTypeInfoDTO!
+    updateTouringRoute(
+        id: String!
+        input: UpdateTouringRouteInput!
+    ): TouringRouteDTO!
+    updateUser(data: UpdateUserInput!): UserDTO!
 }
 
 """
 Possible directions in which to order a list of items when provided an `orderBy` argument.
 """
 enum OrderDirection {
-  asc
-  desc
+    asc
+    desc
 }
 
 type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
+    endCursor: String
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
 }
 
 type Query {
-  TouringRoute(id: String!): TouringRouteDTO!
-  TouringRouteInfo(id: String!): TouringRouteInfoDTO!
-  me: UserDTO!
-  queryScenicSpotTypes: ScenicSpotTypeDTO!
-  scenicRegion(id: String!): ScenicRegionDTO!
-  scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
-  scenicRegions(after: String, before: String, first: Int, last: Int, orderBy: ScenicRegionOrder): ScenicRegionConnection!
-  scenicSpot(id: String!): ScenicSpotDTO!
-  scenicSpotInfo(id: String!): ScenicSpotInfoDTO!
-  scenicSpotType(id: String!): ScenicSpotTypeDTO!
-  scenicSpotTypeInfo(id: String!): ScenicSpotTypeInfoDTO!
-  scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, scenicRegionId: String!): ScenicSpotConnection!
-  users(after: String, before: String, first: Int, last: Int, orderBy: UserOrder): UserConnection!
+    TouringRoute(id: String!): TouringRouteDTO!
+    TouringRouteInfo(id: String!): TouringRouteInfoDTO!
+    me: UserDTO!
+    scenicRegion(id: String!): ScenicRegionDTO!
+    scenicRegionInfo(id: String!): ScenicRegionInfoDTO!
+    scenicRegions(
+        after: String
+        before: String
+        first: Int
+        last: Int
+        orderBy: ScenicRegionOrder
+    ): ScenicRegionConnection!
+    scenicSpot(id: String!): ScenicSpotDTO!
+    scenicSpotInfo(id: String!): ScenicSpotInfoDTO!
+    scenicSpotType(id: String!): ScenicSpotTypeDTO!
+    scenicSpotTypeInfo(id: String!): ScenicSpotTypeInfoDTO!
+    scenicSpotTypes: ScenicSpotTypeDTO!
+    scenicSpots(
+        after: String
+        before: String
+        first: Int
+        last: Int
+        orderBy: ScenicSpotOrder
+        scenicRegionId: String!
+    ): ScenicSpotConnection!
+    users(
+        after: String
+        before: String
+        first: Int
+        last: Int
+        orderBy: UserOrder
+    ): UserConnection!
 }
 
 type Result {
-  """是否成功"""
-  isSuccess: Boolean
+    """
+    是否成功
+    """
+    isSuccess: Boolean
 }
 
-"""User role"""
+"""
+User role
+"""
 enum Role {
-  ADMIN
-  USER
+    ADMIN
+    USER
 }
 
 type ScenicRegionConnection {
-  edges: [ScenicRegionDTOEdge!]
-  pageInfo: PageInfo!
-  totalCount: Int!
+    edges: [ScenicRegionDTOEdge!]
+    pageInfo: PageInfo!
+    totalCount: Int!
 }
 
 type ScenicRegionDTO {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  displayName: String!
-  enableNavigation: Boolean!
-  enablePoiLanguageSwitch: Boolean!
-  handDrawingNELat: Float!
-  handDrawingNELng: Float!
-  handDrawingSWLat: Float!
-  handDrawingSWLng: Float!
-  id: ID!
-  locationLat: Float!
-  locationLng: Float!
-  maxZoom: Int!
-  minZoom: Int!
-  scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
-  scenicSpotTypes: [ScenicSpotTypeDTO]
-  sliceState: String!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    displayName: String!
+    enableNavigation: Boolean!
+    enablePoiLanguageSwitch: Boolean!
+    handDrawingNELat: Float!
+    handDrawingNELng: Float!
+    handDrawingSWLat: Float!
+    handDrawingSWLng: Float!
+    id: ID!
+    locationLat: Float!
+    locationLng: Float!
+    maxZoom: Int!
+    minZoom: Int!
+    scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
+    scenicSpotTypes: [ScenicSpotTypeDTO]
+    sliceState: String!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-  zoom: Int!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+    zoom: Int!
 }
 
 type ScenicRegionDTOEdge {
-  cursor: String!
-  node: ScenicRegionDTO!
+    cursor: String!
+    node: ScenicRegionDTO!
 }
 
 type ScenicRegionInfoDTO {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  handDrawingUri: String!
-  id: ID!
-  lang: Language!
-  layer: String!
-  layersDisplayName: String!
-  name: String!
-  scenicRegion: ScenicRegionDTO
-  scenicRegionId: String!
-  ticketUrl: String!
-  title: String!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    handDrawingUri: String!
+    id: ID!
+    lang: Language!
+    layer: String!
+    layersDisplayName: String!
+    name: String!
+    scenicRegion: ScenicRegionDTO
+    scenicRegionId: String!
+    ticketUrl: String!
+    title: String!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-  vrUrl: String!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
+    vrUrl: String!
 }
 
 input ScenicRegionOrder {
-  direction: OrderDirection!
-  field: ScenicRegionOrderField!
+    direction: OrderDirection!
+    field: ScenicRegionOrderField!
 }
 
-"""Properties by which post connections can be ordered."""
+"""
+Properties by which post connections can be ordered.
+"""
 enum ScenicRegionOrderField {
-  createdAt
-  id
-  name
-  updatedAt
+    createdAt
+    id
+    name
+    updatedAt
 }
 
 type ScenicSpotConnection {
-  edges: [ScenicSpotDTOEdge!]
-  pageInfo: PageInfo!
-  totalCount: Int!
+    edges: [ScenicSpotDTOEdge!]
+    pageInfo: PageInfo!
+    totalCount: Int!
 }
 
 type ScenicSpotDTO {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  displayName: String!
-  hidden: Boolean
-  id: ID!
-  locationLat: Float!
-  locationLng: Float!
-  scenicRegionId: String!
-  scenicSpotInfoDtos: [ScenicSpotInfoDTO!]!
-  scenicSpotTypeId: String!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    displayName: String!
+    hidden: Boolean
+    id: ID!
+    locationLat: Float!
+    locationLng: Float!
+    scenicRegionId: String!
+    scenicSpotInfoDtos: [ScenicSpotInfoDTO!]!
+    scenicSpotTypeId: String!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 type ScenicSpotDTOEdge {
-  cursor: String!
-  node: ScenicSpotDTO!
+    cursor: String!
+    node: ScenicSpotDTO!
 }
 
 type ScenicSpotInfoDTO {
-  audioUri: String
+    audioUri: String
 
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  iconUri: String
-  id: ID!
-  imageUri: String
-  introduction: String
-  lang: Language!
-  name: String
-  scenicSpotId: String!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    iconUri: String
+    id: ID!
+    imageUri: String
+    introduction: String
+    lang: Language!
+    name: String
+    scenicSpotId: String!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 input ScenicSpotOrder {
-  direction: OrderDirection!
-  field: ScenicSpotOrderField!
+    direction: OrderDirection!
+    field: ScenicSpotOrderField!
 }
 
-"""Properties by which post connections can be ordered."""
+"""
+Properties by which post connections can be ordered.
+"""
 enum ScenicSpotOrderField {
-  createdAt
-  id
-  updatedAt
+    createdAt
+    id
+    updatedAt
 }
 
 type ScenicSpotTypeDTO {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  displayName: String!
-  id: ID!
-  rank: Int!
-  scenicSpotTypeInfoDtos: [ScenicSpotTypeInfoDTO!]!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    displayName: String!
+    icon: String!
+    id: ID!
+    scenicSpotTypeInfoDtos: [ScenicSpotTypeInfoDTO!]!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 type ScenicSpotTypeInfoDTO {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  lang: Language!
-  name: String!
-  scenicSpotTypeId: String!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    id: ID!
+    lang: Language!
+    name: String!
+    scenicSpotTypeId: String!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 input SignupInput {
-  email: String!
-  name: String!
-  password: String!
-  role: Role
+    email: String!
+    name: String!
+    password: String!
+    role: Role
 }
 
 type Token {
-  """JWT access token"""
-  accessToken: String!
+    """
+    JWT access token
+    """
+    accessToken: String!
 
-  """JWT refresh token"""
-  refreshToken: String!
+    """
+    JWT refresh token
+    """
+    refreshToken: String!
 }
 
 type TouringRouteDTO {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  displayName: String!
-  id: ID!
-  scenicRegionId: String!
-  touringRouteInfoDtos: [TouringRouteInfoDTO!]!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    displayName: String!
+    id: ID!
+    scenicRegionId: String!
+    touringRouteInfoDtos: [TouringRouteInfoDTO!]!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 type TouringRouteInfoDTO {
-  content: String!
+    content: String!
 
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  lang: Language!
-  title: String!
-  touringRouteId: String!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    id: ID!
+    lang: Language!
+    title: String!
+    touringRouteId: String!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 input UpdateScenicRegionInfoInput {
-  handDrawingUri: String
-  layer: String
-  layersDisplayName: String
-  name: String
-  ticketUrl: String
-  title: String
-  vrUrl: String
+    handDrawingUri: String
+    layer: String
+    layersDisplayName: String
+    name: String
+    ticketUrl: String
+    title: String
+    vrUrl: String
 }
 
 input UpdateScenicRegionInput {
-  displayName: String
-  enableNavigation: Boolean
-  enablePoiLanguageSwitch: Boolean
-  handDrawingNELat: Float
-  handDrawingNELng: Float
-  handDrawingSWLat: Float
-  handDrawingSWLng: Float
-  locationLat: Float
-  locationLng: Float
-  maxZoom: Int
-  minZoom: Int
-  sliceState: String
-  zoom: Int
+    displayName: String
+    enableNavigation: Boolean
+    enablePoiLanguageSwitch: Boolean
+    handDrawingNELat: Float
+    handDrawingNELng: Float
+    handDrawingSWLat: Float
+    handDrawingSWLng: Float
+    locationLat: Float
+    locationLng: Float
+    maxZoom: Int
+    minZoom: Int
+    sliceState: String
+    zoom: Int
 }
 
 input UpdateScenicSpotInfoInput {
-  audioUri: String!
-  iconUri: String!
-  imageUri: String!
-  introduction: String!
-  name: String!
-  scenicSpotId: String!
+    audioUri: String!
+    iconUri: String!
+    imageUri: String!
+    introduction: String!
+    name: String!
+    scenicSpotId: String!
 }
 
 input UpdateScenicSpotInput {
-  displayName: String!
-  hidden: Boolean!
-  locationLat: Float
-  locationLng: Float
-  scenicRegionId: String!
-  scenicSpotTypeId: String!
+    displayName: String!
+    hidden: Boolean!
+    locationLat: Float
+    locationLng: Float
+    scenicRegionId: String!
+    scenicSpotTypeId: String!
 }
 
 input UpdateScenicSpotTypeInfoInput {
-  name: String
+    name: String
 }
 
 input UpdateScenicSpotTypeInput {
-  displayName: String
-  rank: Int
+    displayName: String
+    icon: String
 }
 
 input UpdateTouringRouteInfoInput {
-  content: String!
-  lang: Language!
-  title: String!
+    content: String!
+    lang: Language!
+    title: String!
 }
 
 input UpdateTouringRouteInput {
-  displayName: String!
-  scenicRegionId: String!
+    displayName: String!
+    scenicRegionId: String!
 }
 
 input UpdateUserInput {
-  name: String
-  role: Role
+    name: String
+    role: Role
 }
 
 type UserConnection {
-  edges: [UserDTOEdge!]
-  pageInfo: PageInfo!
-  totalCount: Int!
+    edges: [UserDTOEdge!]
+    pageInfo: PageInfo!
+    totalCount: Int!
 }
 
 type UserDTO {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  email: String!
-  id: ID!
-  name: String!
-  role: Role!
+    """
+    Identifies the date and time when the object was created.
+    """
+    createdAt: Date!
+    email: String!
+    id: ID!
+    name: String!
+    role: Role!
 
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+    """
+    Identifies the date and time when the object was last updated.
+    """
+    updatedAt: Date!
 }
 
 type UserDTOEdge {
-  cursor: String!
-  node: UserDTO!
+    cursor: String!
+    node: UserDTO!
 }
 
 input UserOrder {
-  direction: OrderDirection!
-  field: UserOrderField!
+    direction: OrderDirection!
+    field: UserOrderField!
 }
 
-"""Properties by which post connections can be ordered."""
+"""
+Properties by which post connections can be ordered.
+"""
 enum UserOrderField {
-  createdAt
-  email
-  id
-  name
-  updatedAt
+    createdAt
+    email
+    id
+    name
+    updatedAt
 }

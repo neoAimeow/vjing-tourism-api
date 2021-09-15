@@ -36,14 +36,12 @@ export class ScenicSpotTypeResolver {
     @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotTypeDTO)
     async createScenicSpotType(
-        @Args('scenicRegionId') scenicRegionId: string,
         @Args('spotTypeInput') spotTypeInput: CreateScenicSpotTypeInput,
         @Args('spotTypeInfoInput')
         spotTypeInfoInput: CreateScenicSpotTypeInfoInput,
         @Args('lang') lang: Language
     ): Promise<ScenicSpotTypeDTO> {
         return await this.scenicSpotTypeService.createScenicSpotType(
-            scenicRegionId,
             spotTypeInput,
             spotTypeInfoInput,
             lang
@@ -79,7 +77,7 @@ export class ScenicSpotTypeResolver {
 
     @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotTypeInfoDTO)
-    async UpdateScenicSpotTypeInfoInput(
+    async updateScenicSpotTypeInfo(
         @Args('id') id: string,
         @Args('spotTypeInfoInput')
         spotTypeInfoInput: UpdateScenicSpotTypeInfoInput
@@ -102,12 +100,8 @@ export class ScenicSpotTypeResolver {
         return await this.scenicSpotTypeService.deleteScenicSpotTypeInfo(id);
     }
     @Query((returns) => ScenicSpotTypeDTO)
-    async queryScenicSpotTypes(
-        scenicRegionId: string
-    ): Promise<ScenicSpotTypeDTO[]> {
-        return await this.scenicSpotTypeService.queryScenicSpotTypes(
-            scenicRegionId
-        );
+    async scenicSpotTypes(): Promise<ScenicSpotTypeDTO[]> {
+        return await this.scenicSpotTypeService.queryScenicSpotTypes();
     }
 
     @Query((returns) => ScenicSpotTypeDTO)
