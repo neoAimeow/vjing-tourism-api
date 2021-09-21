@@ -13,4 +13,4 @@ jobs:
             - uses: actions/checkout@v2
             - run: echo "Print Branchg $GITHUB_REF"
             - name: Build the Docker image
-              run: docker build . --file Dockerfile --tag vjing-api:{{$GITHUB_RUN_NUMBER}}
+              run: docker build . --file Dockerfile --tag vjing-api:$GITHUB_RUN_NUMBER
