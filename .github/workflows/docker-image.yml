@@ -7,8 +7,8 @@ on:
         branches: [develop, releases/**, master]
 
 jobs:
-    if: ${{ github.ref == 'refs/heads/develop' }}
     build:
+        if: ${{ github.ref == 'refs/heads/develop' }}
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -16,9 +16,8 @@ jobs:
             - name: Build the Docker image
               run: docker build . --file Dockerfile --tag vjing-api-test:$GITHUB_RUN_NUMBER
 
-    if: ${{ github.ref == 'refs/heads/master' }}
-    build:
-        runs-on: ubuntu-latest
+        if: ${{ github.ref == 'refs/heads/master' }}
+        runs-on: ubuntu-latestg
         steps:
             - uses: actions/checkout@v2
             - run: echo "Print master Branchg $GITHUB_REF"
