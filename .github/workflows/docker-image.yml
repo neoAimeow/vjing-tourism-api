@@ -9,8 +9,8 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-
         steps:
             - uses: actions/checkout@v2
+            - run: echo "Print Branch $GITHUB_REF"
             - name: Build the Docker image
               run: docker build . --file Dockerfile --tag vjing-api:$(date +%s)
