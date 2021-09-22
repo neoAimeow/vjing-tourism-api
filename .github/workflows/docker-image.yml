@@ -12,10 +12,10 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - run: echo "Print develop Branchg $GITHUB_REF"
+            - run: echo "Print develop Branch"
               if: ${{ github.ref == 'refs/heads/develop' }}
 
-            - run: echo "Print production Branchg $GITHUB_REF"
+            - run: echo "Print production Branch"
               if: ${{ github.ref == 'refs/heads/master' }}
 
             - name: Build the Developer Docker image
