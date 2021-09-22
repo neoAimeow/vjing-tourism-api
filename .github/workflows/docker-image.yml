@@ -16,12 +16,13 @@ jobs:
               if: ${{ github.ref == 'refs/heads/develop' }}
 
             - run: echo "Print production Branchg $GITHUB_REF"
-              if: ${{ github.ref == 'refs/heads/masterg' }}
+              if: ${{ github.ref == 'refs/heads/master' }}
 
-            - name: Build the Production Docker image
+            - name: Build the Developer Docker image
               run: docker build . --file Dockerfile --tag vjing-api-test:$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/develop' }}
 
-            - name: Build the Develop Docker image
+            - name: Build the Production Docker image
               run: docker build . --file Dockerfile --tag vjing-api:$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/master' }}
+g
