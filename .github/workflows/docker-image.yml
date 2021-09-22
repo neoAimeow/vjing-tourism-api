@@ -19,9 +19,9 @@ jobs:
               if: ${{ github.ref == 'refs/heads/master' }}
 
             - name: Build the Developer Docker image
-              run: docker build . --file Dockerfile --tag vjing-api-test:0.${{$GITHUB_RUN_NUMBER/10}}.${{$GITHUB_RUN_NUMBER%10}}
+              run: docker build . --file Dockerfile --tag vjing-api-test:0.0.$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/develop' }}
 
             - name: Build the Production Docker image
-              run: docker build . --file Dockerfile --tag vjing-api:0.${{$GITHUB_RUN_NUMBER/10}}.${{$GITHUB_RUN_NUMBER%10}}
+              run: docker build . --file Dockerfile --tag vjing-api:0.0.$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/master' }}
