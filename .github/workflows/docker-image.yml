@@ -9,16 +9,16 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        if: ${{ github.ref == 'refs/heads/develop' }}
         steps:
             - uses: actions/checkout@v2
             - run: echo "Print develop Branchg $GITHUB_REF"
             - name: Build the Docker image
               run: docker build . --file Dockerfile --tag vjing-api-test:$GITHUB_RUN_NUMBER
+              if: ${{ github.ref == 'refs/heads/develop' }}
 
-        if: ${{ github.ref == 'refs/heads/master' }}
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v2gs
             - run: echo "Print master Branchg $GITHUB_REF"
             - name: Build the Docker image
               run: docker build . --file Dockerfile --tag vjing-api:$GITHUB_RUN_NUMBER
+              if: ${{ github.ref == 'refs/heads/master' }}
