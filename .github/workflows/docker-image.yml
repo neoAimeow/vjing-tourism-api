@@ -25,4 +25,3 @@ jobs:
             - name: Build the Production Docker image
               run: docker build . --file Dockerfile --tag vjing-api:$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/master' }}
-g
