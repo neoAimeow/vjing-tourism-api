@@ -12,16 +12,16 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - run: echo "Print develop Branch"
+            - run: echo "Print develop Branch $GITHUB_REF"
               if: ${{ github.ref == 'refs/heads/develop' }}
 
-            - run: echo "Print production Branch"
+            - run: echo "Print production Branch $GITHUB_REF"
               if: ${{ github.ref == 'refs/heads/master' }}
 
             - name: Build the Developer Docker image
-              run: docker build . --file Dockerfile --tag vjing-api-test:$GITHUB_RUN_NUMBER
+              run: docker build . --file Dockerfile --tag vjing-api-test:0.$GITHUB_RUN_NUMBER/10.$GITHUB_RUN_NUMBER%10
               if: ${{ github.ref == 'refs/heads/develop' }}
 
             - name: Build the Production Docker image
-              run: docker build . --file Dockerfile --tag vjing-api:$GITHUB_RUN_NUMBER
+              run: docker build . --file Dockerfile --tag vjing-api:0.$GITHUB_RUN_NUMBER/10.$GITHUB_RUN_NUMBER%10
               if: ${{ github.ref == 'refs/heads/master' }}
