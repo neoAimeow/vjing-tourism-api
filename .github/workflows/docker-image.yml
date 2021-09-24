@@ -12,16 +12,35 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - run: echo "Print develop Branch $GITHUB_REF"
-              if: ${{ github.ref == 'refs/heads/develop' }}
+            - name: 输出当前分支名
+              run: echo "当前分支为： $GITHUB_REF"
 
-            - run: echo "Print production Branch $GITHUB_REF"
-              if: ${{ github.ref == 'refs/heads/master' }}
+            - name: Login to Docker Hub
+              uses: docker/login-action@v1
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: Set up Docker Buildx
+              id: buildx
+              uses: docker/setup-buildx-action@v1
 
             - name: Build the Developer Docker image
-              run: docker build . --file Dockerfile --tag vjing-api-test:0.0.$GITHUB_RUN_NUMBER
+              id: docker_build
+              uses: docker/build-push-action@v2
+              with:
+                  context: ./
+                  file: ./Dockerfile
+                  push: true
+                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/vjing-api-test:0.0.$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/develop' }}
 
             - name: Build the Production Docker image
-              run: docker build . --file Dockerfile --tag vjing-api:0.0.$GITHUB_RUN_NUMBER
+              id: docker_build
+              uses: docker/build-push-action@v2
+              with:
+                  context: ./
+                  file: ./Dockerfile
+                  push: true
+                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/vjing-api:0.0.$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/master' }}
