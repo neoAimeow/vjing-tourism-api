@@ -32,7 +32,7 @@ jobs:
                   context: ./
                   file: ./Dockerfile
                   push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/vjing-api-test:latest
+                  tags: ${{ secrets.DOCKER_USERNAME }}/vjing-api-test:0.0.$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/develop' }}
 
             - name: Build the Production Docker image
@@ -42,7 +42,7 @@ jobs:
                   context: ./
                   file: ./Dockerfile
                   push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/vjing-api:latest
+                  tags: ${{ secrets.DOCKER_USERNAME }}/vjing-api:0.0.$GITHUB_RUN_NUMBER
               if: ${{ github.ref == 'refs/heads/master' }}
 
             - name: Image digest
