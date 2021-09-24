@@ -44,3 +44,6 @@ jobs:
                   push: true
                   tags: ${{ secrets.DOCKER_USERNAME }}/vjing-api:latest
               if: ${{ github.ref == 'refs/heads/master' }}
+
+            - name: Image digest
+              run: echo ${{ steps.docker_build.outputs.digest }}
