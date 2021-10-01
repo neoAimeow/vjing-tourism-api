@@ -4,6 +4,8 @@ services:
         container_name: vjing-api-test
         image: 'aimeow/vjing-api-test:0.0.${BUILD_VERSION}'
         restart: always
+        env_file:
+            - .env
         networks:
             - traefik-public
         labels:
