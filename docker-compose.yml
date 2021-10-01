@@ -13,7 +13,7 @@ services:
             - 'traefik.http.routers.vjing-api-test.entrypoints=websecure'
             - 'traefik.http.routers.vjing-api-test.tls.certresolver=letsencryptresolver'
             - 'traefik.http.routers.vjing-api-test.service=vjing-api-test'
-            - 'traefik.http.services.vjing-api-test.loadbalancer.server.port=3001'
+            - 'traefik.http.services.vjing-api-test.loadbalancer.server.port=3000'
 
     postgres:
         image: postgres:12

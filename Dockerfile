@@ -1,4 +1,4 @@
-FROM node:12 AS builder
+FROM node:12-alpine AS builder
 
 # Create app directory
 WORKDIR /app
@@ -16,11 +16,11 @@ COPY . .
 
 RUN npm run build
 
-FROM node:12
+FROM node:12-alpine
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 3001
+EXPOSE 3000
 CMD [ "npm", "run", "start:prod" ]

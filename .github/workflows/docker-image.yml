@@ -15,6 +15,9 @@ jobs:
             - name: 输出当前分支名
               run: echo "当前分支为： $GITHUB_REF"
 
+            - name: 准备env文件
+              run: echo "DATABASE_URL=${{secrets.DEV_DATABASE_URL}} \n DEV_JWT_SECRET=${{secrets.DEV_JWT_SECRET}} > .env"
+
             - name: Login to Docker Hub
               uses: docker/login-action@v1
               with:
@@ -64,8 +67,8 @@ jobs:
                       mkdir -p /root/service/vjing-test-api
                   scp: |
                       './docker-compose.yml' => "/root/service/vjing-test-api/"
-                      './run.env' => "/root/service/vjing-test-api/"
+                      './.env' => "/root/service/vjing-test-api"
                   last_ssh: |
                       echo $LASTSSH &&
-                      cp /root/service/vjing-test-api/run.env /root/service/vjing-test-api/.env &&
+                      docker-compose -f /root/service/vjing-test-api/docker-compose.yml down &&
                       BUILD_VERSION="${{github.run_number}}" docker-compose -f /root/service/vjing-test-api/docker-compose.yml up -d
