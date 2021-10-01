@@ -2,7 +2,7 @@ version: '3.7'
 services:
     vjing-api-test:
         container_name: vjing-api-test
-        image: 'aimeow/vjing-api-test:${BUILD_VERSION}'
+        image: 'aimeow/vjing-api-test:0.0.${BUILD_VERSION}'
         restart: always
         networks:
             - traefik-public
