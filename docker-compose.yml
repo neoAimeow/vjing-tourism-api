@@ -16,7 +16,8 @@ services:
             - 'traefik.http.routers.vjing-api-test.tls.certresolver=letsencryptresolver'
             - 'traefik.http.routers.vjing-api-test.service=vjing-api-test'
             - 'traefik.http.services.vjing-api-test.loadbalancer.server.port=3000'
-
+        depends_on:
+            - postgres
     postgres:
         image: postgres:12
         container_name: postgres
