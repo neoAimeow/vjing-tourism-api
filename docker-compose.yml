@@ -18,6 +18,8 @@ services:
             - 'traefik.http.services.vjing-api-test.loadbalancer.server.port=3000'
         depends_on:
             - postgres
+        links:
+            - postgres
     postgres:
         image: postgres:12
         container_name: postgres
