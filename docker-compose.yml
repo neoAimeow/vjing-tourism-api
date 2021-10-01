@@ -6,8 +6,6 @@ services:
         restart: always
         env_file:
             - .env
-        networks:
-            - traefik-public
         labels:
             - 'traefik.enable=true'
             - 'traefik.tcp.routers.vjing-api-test.entrypoints=websecure'
@@ -20,6 +18,8 @@ services:
             - postgres
         links:
             - postgres
+        networks:
+            - traefik-public
 
     postgres:
         image: postgres:12
@@ -33,6 +33,7 @@ services:
             - postgres:/var/lib/postgresql/data
         networks:
             - traefik-public
+        network_mode: 'host'
 
 volumes:
     postgres:
