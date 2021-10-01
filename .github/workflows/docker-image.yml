@@ -15,7 +15,7 @@ jobs:
             - name: 输出当前分支名
               run: echo "当前分支为： $GITHUB_REF"
 
-            - uses: DamianReeves/write-file-action
+            uses: DamianReeves/write-file-action
               with:
                   path: .env
                   contents: |
