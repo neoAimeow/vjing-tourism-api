@@ -64,7 +64,7 @@ jobs:
                       mkdir -p /root/service/vjing-test-api
                   scp: |
                       './docker-compose.yml' => "/root/service/vjing-test-api/"
-                      './env' => "/root/service/vjing-test-api/.env"
+                      './env' => "/root/service/vjing-test-api/"
                   last_ssh: |
                       echo $LASTSSH &&
-                      BUILD_VERSION="${{github.run_number}}" docker-compose -f /root/service/vjing-test-api/docker-compose.yml up -d
+                      BUILD_VERSION="${{github.run_number}}" docker-compose --env-file ./run.env -f /root/service/vjing-test-api/docker-compose.yml up -d
