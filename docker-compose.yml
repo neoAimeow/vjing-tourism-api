@@ -33,6 +33,7 @@ services:
             - postgres:/var/lib/postgresql/data
         networks:
             - traefik-public
+
 volumes:
     postgres:
         name: nest-db
