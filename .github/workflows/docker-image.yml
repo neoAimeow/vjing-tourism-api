@@ -72,6 +72,3 @@ jobs:
                       echo $LASTSSH &&
                       docker-compose -f /root/service/vjing-api-test/docker-compose.yml down &&
                       BUILD_VERSION="${{github.run_number}}" docker-compose -f /root/service/vjing-api-test/docker-compose.yml up -d
-
-            - name: prisma migrate deploy
-              run: npx prisma migrate deploy
