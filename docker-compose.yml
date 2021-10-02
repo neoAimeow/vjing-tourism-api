@@ -21,6 +21,18 @@ services:
         networks:
             - traefik-public
 
+    prisma-migrate:
+        container_name: prisma-migrate
+        env_file:
+            - .env
+        build:
+            context: prisma
+            dockerfile: Dockerfile
+        environment:
+            DATABASE_URL: ${DATABASE_URL}
+        depends_on:
+            - postgres
+
     postgres:
         image: postgres:12
         container_name: postgres
