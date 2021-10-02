@@ -63,12 +63,12 @@ jobs:
                   port: 22
                   connect_timeout: 10s
                   first_ssh: |
-                      rm -rf /root/service/vjing-test-api
-                      mkdir -p /root/service/vjing-test-api
+                      rm -rf /root/service/vjing-api-test
+                      mkdir -p /root/service/vjing-api-test
                   scp: |
-                      './docker-compose.yml' => "/root/service/vjing-test-api/"
-                      './.env' => "/root/service/vjing-test-api"
+                      './docker-compose.yml' => "/root/service/vjing-api-test/"
+                      './.env' => "/root/service/vjing-api-test"
                   last_ssh: |
                       echo $LASTSSH &&
-                      docker-compose -f /root/service/vjing-test-api/docker-compose.yml down &&
-                      BUILD_VERSION="${{github.run_number}}" docker-compose -f /root/service/vjing-test-api/docker-compose.yml up -d
+                      docker-compose -f /root/service/vjing-api-test/docker-compose.yml down &&
+                      BUILD_VERSION="${{github.run_number}}" docker-compose -f /root/service/vjing-api-test/docker-compose.yml up -d
