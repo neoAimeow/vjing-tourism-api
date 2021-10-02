@@ -21,16 +21,11 @@ jobs:
                   content: ${{ secrets.ENV_FILE_DEV }}
                   filename: .env
 
-            - name: 准备prisma目录下的.env
-              uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+            - name: copy file
+              uses: canastro/copy-file-action@master
               with:
-                  host: ${{ secrets.SSH_DEV_HOST }}
-                  user: ${{ secrets.SSH_DEV_USER }}
-                  pass: ${{ secrets.SSH_DEV_PASSWORD }}
-                  port: 22
-                  connect_timeout: 10s
-                  first_ssh: |
-                      cp .env ./prisma/
+                  source: '.env'
+                  target: 'prisma/.env'
 
             - name: Login to Docker Hub
               uses: docker/login-action@v1
