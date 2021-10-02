@@ -12,9 +12,7 @@ COPY prisma ./prisma/
 RUN npm install
 # Required if not done in postinstall
 # RUN npx prisma generate
-
 COPY . .
-
 RUN npm run build
 
 FROM node:14
