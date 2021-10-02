@@ -71,5 +71,4 @@ jobs:
                   last_ssh: |
                       echo $LASTSSH &&
                       docker-compose -f /root/service/vjing-api-test/docker-compose.yml down &&
-                      docker image prune -a -f &&
                       BUILD_VERSION="${{github.run_number}}" docker-compose -f /root/service/vjing-api-test/docker-compose.yml up -d
