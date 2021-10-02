@@ -2,8 +2,6 @@ node_modules/
 dist/
 prisma/*.db
 coverage/
-prisma/migrations/
 .DS_Store
 
-prisma/migrations/dev/
 .env
