@@ -51,9 +51,6 @@ jobs:
                   tags: ${{ secrets.DOCKER_USERNAME }}/vjing-api:0.0.${{github.run_number}}
               if: ${{ github.ref == 'refs/heads/master' }}
 
-            - name: Image digest
-              run: echo ${{ steps.docker_build.outputs.digest }}
-
             - name: ssh scp ssh pipelines
               uses: cross-the-world/ssh-scp-ssh-pipelines@latest
               env:
