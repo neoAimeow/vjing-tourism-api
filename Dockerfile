@@ -6,6 +6,8 @@ WORKDIR /app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 COPY prisma ./prisma/
+COPY .env ./
+COPY .env ./prisma/
 
 
 # Install app dependencies
