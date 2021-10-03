@@ -23,7 +23,7 @@ export class ScenicSpotTypeService {
     async createScenicSpotType(
         spotTypeInput: CreateScenicSpotTypeInput,
         spotTypeInfoInput: CreateScenicSpotTypeInfoInput,
-        lang: Language
+        lang?: Language
     ): Promise<ScenicSpotTypeDTO> {
         try {
             const data = await this.prisma.scenicSpotType.create({
@@ -36,7 +36,7 @@ export class ScenicSpotTypeService {
                 await this.createScenicSpotTypeInfoWithLang(
                     data.id,
                     spotTypeInfoInput,
-                    lang
+                    lang || Language.CHINESE
                 );
 
             return {
