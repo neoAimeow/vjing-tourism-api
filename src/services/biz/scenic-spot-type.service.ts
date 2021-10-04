@@ -159,8 +159,8 @@ export class ScenicSpotTypeService {
 
     /********************************************  query ScenicSpotType  *******************************************************************/
 
-    queryScenicSpotTypes(): Promise<ScenicSpotTypeDTO[]> {
-        return this.prisma.scenicSpotType.findMany({});
+    async queryScenicSpotTypes(): Promise<ScenicSpotTypeDTO[]> {
+        return await this.prisma.scenicSpotType.findMany({});
     }
 
     queryScenicSpotTypeInfoById(id: string): Promise<ScenicSpotTypeInfoDTO> {

@@ -101,7 +101,7 @@ type Mutation {
   createScenicRegionInfoWithLang(lang: String!, regionInfoInput: CreateScenicRegionInfoInput!, scenicRegionId: String!): ScenicRegionInfoDTO!
   createScenicSpot(infoInput: CreateScenicSpotInfoInput!, input: CreateScenicSpotInput!, lang: String!, scenicRegionId: String!, scenicSpotTypeId: String!): ScenicSpotDTO!
   createScenicSpotInfoWithLang(lang: String!, scenicSpotId: String!, spotInfoInput: CreateScenicSpotInfoInput!): ScenicSpotInfoDTO!
-  createScenicSpotType(lang: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!, spotTypeInput: CreateScenicSpotTypeInput!): ScenicSpotTypeDTO!
+  createScenicSpotType(lang: String, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!, spotTypeInput: CreateScenicSpotTypeInput!): ScenicSpotTypeDTO!
   createScenicSpotTypeInfoWithLang(lang: String!, scenicSpotTypeId: String!, spotTypeInfoInput: CreateScenicSpotTypeInfoInput!): ScenicSpotTypeInfoDTO!
   createTouringRoute(infoInput: CreateTouringRouteInfoInput!, input: CreateTouringRouteInput!, lang: String!, scenicRegionId: String!): TouringRouteDTO!
   createTouringRouteInfoWithLang(input: CreateTouringRouteInfoInput!, lang: String!, touringRouteId: String!): TouringRouteInfoDTO!
@@ -152,7 +152,7 @@ type Query {
   scenicSpotInfo(id: String!): ScenicSpotInfoDTO!
   scenicSpotType(id: String!): ScenicSpotTypeDTO!
   scenicSpotTypeInfo(id: String!): ScenicSpotTypeInfoDTO!
-  scenicSpotTypes: ScenicSpotTypeDTO!
+  scenicSpotTypes: [ScenicSpotTypeDTO!]!
   scenicSpots(after: String, before: String, first: Int, last: Int, orderBy: ScenicSpotOrder, scenicRegionId: String!): ScenicSpotConnection!
   users(after: String, before: String, first: Int, last: Int, orderBy: UserOrder): UserConnection!
 }

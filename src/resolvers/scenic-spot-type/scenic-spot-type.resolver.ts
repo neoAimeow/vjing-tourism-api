@@ -99,9 +99,12 @@ export class ScenicSpotTypeResolver {
     async deleteScenicSpotTypeInfo(@Args('id') id: string): Promise<boolean> {
         return await this.scenicSpotTypeService.deleteScenicSpotTypeInfo(id);
     }
-    @Query((returns) => ScenicSpotTypeDTO)
+
+    @Query((returns) => [ScenicSpotTypeDTO])
     async scenicSpotTypes(): Promise<ScenicSpotTypeDTO[]> {
-        return await this.scenicSpotTypeService.queryScenicSpotTypes();
+        const data = await this.scenicSpotTypeService.queryScenicSpotTypes();
+        console.error(123123123123123, data);
+        return data;
     }
 
     @Query((returns) => ScenicSpotTypeDTO)
