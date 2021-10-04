@@ -26,20 +26,20 @@ import {
 } from './dto/update-scenic-spot-type.input';
 
 @Resolver((of) => ScenicSpotTypeDTO)
-@UseGuards(GqlAuthGuard)
+// @UseGuards(GqlAuthGuard)
 export class ScenicSpotTypeResolver {
     constructor(
         private prisma: PrismaService,
         private readonly scenicSpotTypeService: ScenicSpotTypeService
     ) {}
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotTypeDTO)
     async createScenicSpotType(
         @Args('spotTypeInput') spotTypeInput: CreateScenicSpotTypeInput,
         @Args('spotTypeInfoInput')
         spotTypeInfoInput: CreateScenicSpotTypeInfoInput,
-        @Args('lang') lang: Language
+        @Args({ name: 'lang', nullable: true }) lang?: Language
     ): Promise<ScenicSpotTypeDTO> {
         return await this.scenicSpotTypeService.createScenicSpotType(
             spotTypeInput,
