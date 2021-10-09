@@ -30,11 +30,6 @@ export class ScenicRegionDTO extends BaseModel {
         defaultValue: [],
     })
     scenicRegionInfoDtos?: ScenicRegionInfoDTO[];
-    @Field((type) => [ScenicSpotTypeDTO], {
-        nullable: 'itemsAndList',
-        defaultValue: [],
-    })
-    scenicSpotTypes?: ScenicSpotTypeDTO[];
 }
 
 @ObjectType()

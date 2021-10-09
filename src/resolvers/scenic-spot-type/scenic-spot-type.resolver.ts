@@ -24,6 +24,7 @@ import {
     UpdateScenicSpotTypeInput,
     UpdateScenicSpotTypeInfoInput,
 } from './dto/update-scenic-spot-type.input';
+import { Result } from 'src/models/common/result.model';
 
 @Resolver((of) => ScenicSpotTypeDTO)
 // @UseGuards(GqlAuthGuard)
@@ -88,22 +89,28 @@ export class ScenicSpotTypeResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
-    @Mutation((returns) => Boolean)
-    async deleteScenicSpotType(@Args('id') id: string): Promise<boolean> {
-        return await this.scenicSpotTypeService.deleteScenicSpotType(id);
+    // @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => Result)
+    async deleteScenicSpotType(@Args('id') id: string): Promise<Result> {
+        return {
+            isSuccess: await this.scenicSpotTypeService.deleteScenicSpotType(
+                id
+            ),
+        };
     }
 
-    @UseGuards(GqlAuthGuard)
-    @Mutation((returns) => Boolean)
-    async deleteScenicSpotTypeInfo(@Args('id') id: string): Promise<boolean> {
-        return await this.scenicSpotTypeService.deleteScenicSpotTypeInfo(id);
+    // @UseGuards(GqlAuthGuard)
+    @Mutation((returns) => Result)
+    async deleteScenicSpotTypeInfo(@Args('id') id: string): Promise<Result> {
+        return {
+            isSuccess:
+                await this.scenicSpotTypeService.deleteScenicSpotTypeInfo(id),
+        };
     }
 
     @Query((returns) => [ScenicSpotTypeDTO])
     async scenicSpotTypes(): Promise<ScenicSpotTypeDTO[]> {
         const data = await this.scenicSpotTypeService.queryScenicSpotTypes();
-        console.error(123123123123123, data);
         return data;
     }
 

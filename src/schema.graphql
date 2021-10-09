@@ -110,8 +110,8 @@ type Mutation {
   deleteScenicRegionInfo(id: String!): Result!
   deleteScenicSpot(id: String!): Boolean!
   deleteScenicSpotInfo(id: String!): Boolean!
-  deleteScenicSpotType(id: String!): Boolean!
-  deleteScenicSpotTypeInfo(id: String!): Boolean!
+  deleteScenicSpotType(id: String!): Result!
+  deleteScenicSpotTypeInfo(id: String!): Result!
   deleteTouringRoute(id: String!): Boolean!
   deleteTouringRouteInfo(id: String!): Boolean!
   deleteUser(id: String!): UserDTO!
@@ -190,7 +190,6 @@ type ScenicRegionDTO {
   maxZoom: Int!
   minZoom: Int!
   scenicRegionInfoDtos: [ScenicRegionInfoDTO!]!
-  scenicSpotTypes: [ScenicSpotTypeDTO]
   sliceState: String!
 
   """Identifies the date and time when the object was last updated."""

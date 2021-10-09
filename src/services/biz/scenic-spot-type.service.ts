@@ -135,13 +135,15 @@ export class ScenicSpotTypeService {
             const deleteChildren = this.prisma.scenicSpotTypeInfo.deleteMany({
                 where: { scenicSpotTypeId: id },
             });
-            //add transaction，avoid delete failed
+            // add transaction，avoid delete failed
+            // father must be front
             const result = await this.prisma.$transaction([
-                deleteFather,
                 deleteChildren,
+                deleteFather,
             ]);
             return result === null;
         } catch (ex) {
+            console.error(111, ex);
             return null;
         }
     }
