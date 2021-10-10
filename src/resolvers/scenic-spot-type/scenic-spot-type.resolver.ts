@@ -49,7 +49,7 @@ export class ScenicSpotTypeResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotTypeInfoDTO)
     async createScenicSpotTypeInfoWithLang(
         @Args('scenicSpotTypeId') scenicSpotTypeId: string,
@@ -64,7 +64,7 @@ export class ScenicSpotTypeResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotTypeDTO)
     async updateScenicSpotType(
         @Args('id') id: string,
@@ -76,7 +76,7 @@ export class ScenicSpotTypeResolver {
         );
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation((returns) => ScenicSpotTypeInfoDTO)
     async updateScenicSpotTypeInfo(
         @Args('id') id: string,

@@ -68,21 +68,26 @@ export class ScenicSpotTypeService {
                     where: { scenicSpotTypeId, lang },
                 });
 
+            console.error(1111, hasLangResult, scenicSpotTypeId, lang);
+
             if (hasLangResult) {
+                console.error(2222);
                 throw new BadRequestException('该分类已经存在这个语言的信息');
             }
+            console.error(3333);
 
             const data = await this.prisma.scenicSpotTypeInfo.create({
                 data: {
                     scenicSpotTypeId,
                     name: input.name,
+                    lang,
                 },
             });
 
             //如果该语种不存在就创建国际化数据。
             return { ...data };
         } catch (ex) {
-            return null;
+            throw ex;
         }
     }
 
@@ -136,7 +141,7 @@ export class ScenicSpotTypeService {
                 where: { scenicSpotTypeId: id },
             });
             // add transaction，avoid delete failed
-            // father must be front
+            // children must be front
             const result = await this.prisma.$transaction([
                 deleteChildren,
                 deleteFather,

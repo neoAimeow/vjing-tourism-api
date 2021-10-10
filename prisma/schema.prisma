@@ -61,6 +61,7 @@ model ScenicSpotType {
   updatedAt           DateTime             @updatedAt
   displayName         String               @db.VarChar(32)
   icon                String
+  state               ScenicSpotTypeState  @default(ENABLE)
   scenicSpotTypeInfos ScenicSpotTypeInfo[]
 }
 
@@ -139,4 +140,9 @@ enum Language {
   ENGLISH
   JAPANESE
   KOREAN
+}
+
+enum ScenicSpotTypeState {
+  ENABLE
+  DISABLE
 }
